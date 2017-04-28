@@ -1317,7 +1317,7 @@
 									"containerExtending": false,
 									"left": 338,
 									"top": 51.5,
-									"width": 163.13720703125,
+									"width": 162,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -1632,7 +1632,7 @@
 									"containerExtending": false,
 									"left": 463.5,
 									"top": 132.5,
-									"width": 113.29541015625,
+									"width": 113,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -1947,7 +1947,7 @@
 									"containerExtending": false,
 									"left": 288.5,
 									"top": 132.5,
-									"width": 116.91357421875,
+									"width": 116,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -2969,7 +2969,7 @@
 									"containerExtending": false,
 									"left": 127,
 									"top": 116.5,
-									"width": 111.1435546875,
+									"width": 111,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -3427,7 +3427,7 @@
 									"containerExtending": false,
 									"left": 552,
 									"top": 220.5,
-									"width": 75.00634765625,
+									"width": 74,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -3742,7 +3742,7 @@
 									"containerExtending": false,
 									"left": 408,
 									"top": 220.5,
-									"width": 77.18359375,
+									"width": 77,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -4343,7 +4343,7 @@
 									"containerExtending": false,
 									"left": 440,
 									"top": 564.5,
-									"width": 115.47265625,
+									"width": 115,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -4658,7 +4658,7 @@
 									"containerExtending": false,
 									"left": 480.5,
 									"top": 324.5,
-									"width": 116.18994140625,
+									"width": 115,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -4973,7 +4973,7 @@
 									"containerExtending": false,
 									"left": 264,
 									"top": 292.5,
-									"width": 75.76806640625,
+									"width": 75,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -5709,7 +5709,7 @@
 									"containerExtending": false,
 									"left": 784,
 									"top": 500.5,
-									"width": 75.736328125,
+									"width": 75,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -6024,7 +6024,7 @@
 									"containerExtending": false,
 									"left": 757,
 									"top": 423.5,
-									"width": 139.30810546875,
+									"width": 139,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -6654,7 +6654,7 @@
 									"containerExtending": false,
 									"left": 322.5,
 									"top": 516.5,
-									"width": 89.45361328125,
+									"width": 89,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -7829,7 +7829,7 @@
 									"containerExtending": false,
 									"left": 492.5,
 									"top": 436.5,
-									"width": 176.10546875,
+									"width": 176,
 									"height": 25,
 									"autoResize": false,
 									"stereotypeLabel": {
@@ -10511,7 +10511,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFbQpHEhaUR0xY="
 									},
-									"name": "Trafic simulation",
+									"name": "sequence diagram",
 									"visible": true,
 									"defaultDiagram": false,
 									"ownedViews": [
@@ -10542,11 +10542,11 @@
 													"containerExtending": false,
 													"left": 75.97900390625,
 													"top": 10,
-													"width": 95.63720703125,
+													"width": 107.9580078125,
 													"height": 13,
 													"autoResize": false,
 													"underline": false,
-													"text": "Trafic simulation",
+													"text": "sequence diagram",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5,
 													"wordWrap": false
