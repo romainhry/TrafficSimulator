@@ -10,20 +10,21 @@ import javafx.stage.StageStyle;
  *
  * @author hp
  */
-public class Lunch extends Application {
-    public Stage stage;
+public class Main extends Application {
+    public static Stage stage;
     @Override
     public void start(Stage stage) throws Exception {
-       stage= new Stage();
        //StageStyle.UNDECORATED
         Parent root = FXMLLoader.load(getClass().getResource("../GUI/Vue.fxml"));
-        
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMaxHeight(800);
-        stage.setMaxWidth(1080);
-        stage.setResizable(false);
+        //stage.setMaxHeight(800);
+        //stage.setMaxWidth(1080);
+        stage.sizeToScene();
+        
+        stage.setResizable(true);
         stage.show();
+        this.stage = stage;
     }
     
     public static void main(String[] args) {

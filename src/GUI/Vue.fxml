@@ -6,35 +6,40 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.Pane?>
+<Group fx:id="group" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
+   	<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children><Pane fx:id="PaneAcceuil" layoutX="-1.0" layoutY="-1.0" prefHeight="603.0" prefWidth="761.0">
+	<children><ImageView fitHeight="605.0" fitWidth="758.0" layoutY="1.0" opacity="0.73" pickOnBounds="true">
+	<image>
+	<Image url="@../../Images/3d-teaser.jpg" />
+	</image></ImageView><ImageView disable="true" fitHeight="150.0" fitWidth="200.0" layoutX="68.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+	<image>
+	<Image url="@../../Images/Utbm.png" />
+	</image></ImageView><Pane fx:id="PaneBtnAcceuil" layoutX="-3.0" layoutY="151.0" prefHeight="454.0" prefWidth="762.0">
+	<children>
+	<Button layoutX="516.0" layoutY="126.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="170.0" style="-fx-background-color: #50b9f1;" text="Description" textAlignment="CENTER" textFill="WHITE">
+	<font>
+	<Font name="System Bold Italic" size="20.0" />
+	</font>
+	</Button>
+	<Button fx:id="btnStart" defaultButton="true" layoutX="291.0" layoutY="275.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="170.0" style="-fx-background-color: #50b9f1;" onAction="#start" text="Start" textAlignment="CENTER" textFill="WHITE">
+	<font>
+	<Font name="System Bold Italic" size="20.0" />
+	</font>
+	<opaqueInsets>
+	<Insets />
+	</opaqueInsets>
+	</Button>
+	<Button layoutX="53.0" layoutY="131.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="170.0" style="-fx-background-color: #50b9f1;" text="Video" textAlignment="CENTER" textFill="WHITE">
+	<font>
+	<Font name="System Bold Italic" size="20.0" />
+	</font>
+	</Button>
+	</children></Pane>
+	</children></Pane>
+	</children></AnchorPane>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<children><Pane fx:id="PaneAcceuil" layoutX="-1.0" layoutY="-1.0" prefHeight="603.0" prefWidth="761.0">
-<children><ImageView fitHeight="605.0" fitWidth="758.0" layoutY="1.0" opacity="0.73" pickOnBounds="true">
-<image>
-<Image url="@../../Images/3d-teaser.jpg" />
-</image></ImageView><ImageView disable="true" fitHeight="150.0" fitWidth="200.0" layoutX="68.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
-<image>
-<Image url="@../../Images/Utbm.png" />
-</image></ImageView><Pane fx:id="PaneBtnAcceuil" layoutX="-3.0" layoutY="151.0" prefHeight="454.0" prefWidth="762.0">
-<children>
-<Button layoutX="516.0" layoutY="126.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="170.0" style="-fx-background-color: #50b9f1;" text="Description" textAlignment="CENTER" textFill="WHITE">
-<font>
-<Font name="System Bold Italic" size="20.0" />
-</font>
-</Button>
-<Button defaultButton="true" layoutX="291.0" layoutY="275.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="170.0" style="-fx-background-color: #50b9f1;" text="Start" textAlignment="CENTER" textFill="WHITE">
-<font>
-<Font name="System Bold Italic" size="20.0" />
-</font>
-<opaqueInsets>
-<Insets />
-</opaqueInsets>
-</Button>
-<Button layoutX="53.0" layoutY="131.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="170.0" style="-fx-background-color: #50b9f1;" text="Video" textAlignment="CENTER" textFill="WHITE">
-<font>
-<Font name="System Bold Italic" size="20.0" />
-</font>
-</Button>
-</children></Pane>
-</children></Pane>
-</children></AnchorPane>
+</Group>
+
