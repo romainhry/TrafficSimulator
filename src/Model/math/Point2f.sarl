@@ -1,0 +1,34 @@
+package Model.math
+
+import static extension java.lang.Math.*
+
+
+class Point2f {
+
+	 var x :int
+	 var y : int 
+	def distanceSquared(p1 : Point2f) : float {
+	      var dx = this.x - p1.x  
+	      var dy = this.y - p1.y
+	      return dx * dx + dy * dy
+	}
+
+    
+	def distance(p1 : Point2f) : float {
+	      var dx = this.x - p1.x  
+	      var dy = this.y - p1.y
+	      return (dx * dx + dy * dy).sqrt as float
+	}
+
+	
+	def distanceL1(p1 : Point2f) : float {
+	      (this.x - p1.x).abs + (this.y - p1.y).abs
+	}
+
+	def distanceLinf(p1 : Point2f) : float {
+	      max( (this.x - p1.x).abs, (this.y - p1.y).abs )
+	}
+
+	
+
+}

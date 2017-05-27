@@ -17,7 +17,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.sun.j3d.loaders.Scene;
 
 import static java.lang.Math.abs;
 
@@ -30,7 +29,7 @@ public class Controller implements Initializable {
     private Group group;
 
     @FXML
-    private Pane pane;
+    private Pane PaneHome,PaneVid,PaneDesc;
     
     private Button btnStart;
 
@@ -47,10 +46,18 @@ public class Controller implements Initializable {
     }
     
     public void start ( ActionEvent e ){
+    	/*
+    	 *Start spawn the boot agent or let this be the boo agent who's spawning the envAgent
+    	 *the car agents    	
+    	 */
+    	
     	group.getChildren().clear();
     	group.getChildren().add(drawing);
         group.getChildren().add(drawingTrain);
-        
+        /*
+         * And add the cars imgs
+         */
+        //group.getChildren().add(e);
 
         // River :
         Polyline river = new Polyline(
@@ -96,10 +103,26 @@ public class Controller implements Initializable {
         borderRiver.setStrokeWidth(31);
 
         group.getChildren().add(borderRiver);
-        
+      
         Main.stage.setWidth(1200);
         Main.stage.setX(-30);
         
     	
     }
+    public void Desc ( ActionEvent e ){
+    	PaneHome.setVisible(false);
+    	PaneDesc.setVisible(true);    	
+    }
+    public void Video ( ActionEvent e ){
+    	PaneHome.setVisible(false);
+    	PaneVid.setVisible(true);
+    }
+    public void ReturnHome ( ActionEvent e ){
+    	PaneHome.setVisible(true);
+    	PaneVid.setVisible(false);
+    	PaneDesc.setVisible(false);
+    	group.getChildren().remove(drawingTrain);
+    	group.getChildren().remove(drawingTrain);
+    }
+   
 }

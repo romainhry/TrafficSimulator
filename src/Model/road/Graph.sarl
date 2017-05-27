@@ -1,0 +1,8 @@
+package Model
+
+import java.util.List
+import java.util.ArrayList
+
+class Graph {
+	var nodes : ArrayList<GraphNode>
+}

@@ -1,0 +1,24 @@
+package Model.Car
+
+import java.io.Serializable
+import java.lang.ref.WeakReference
+import model.math.Point2i
+import Model.Graph
+import model.EnvObjects
+
+abstract class PacmanObject implements Serializable {
+
+	val position : Point2i
+	
+	transient val road : WeakReference<EnvObjects> 
+	
+	new (x : int, y : int, road : Graph) {
+		this.position = new Point2i(x, y)
+		this.road = new WeakReference(road)
+	}
+
+	new (position : Point2i, road : Graph) {
+		this(position.x, position.y, road)
+	}
+	
+}

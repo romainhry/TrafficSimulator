@@ -1,0 +1,47 @@
+package Model.Car
+
+import java.util.UUID
+import Model.math.Point2i
+import Model.road.Graph
+
+abstract class AgentBody implements Comparable<AgentBody> {
+
+	val agentId : UUID
+	val perceptionDistance : int
+
+	new (x : int, y : int, graph : Graph, agentId : UUID, perceptionDistance : int) {
+		this.agentId = agentId
+		this.perceptionDistance = perceptionDistance
+	}
+
+	new (position : Point2i, graph : Graph, agentId : UUID, perceptionDistance : int) {
+		this.agentId = agentId
+		this.perceptionDistance = perceptionDistance
+	}
+
+	@Pure
+	def getPerceptionDistance : int {
+		this.perceptionDistance
+	}
+
+	@Pure
+	final def getAgentId : UUID {
+		this.agentId
+	}
+
+	@Pure
+	final def isOccluder : boolean {
+		false
+	}
+
+	def compareTo(o : AgentBody) : int {
+		if (o === this) {
+			return 0
+		}
+		if (o === null) {
+			return Integer::MAX_VALUE
+		}
+		return this.agentId.compareTo(o.agentId)
+	}
+
+}

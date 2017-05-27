@@ -1,0 +1,5 @@
+package Road
+
+class EnvObjects {
+	var length : float
+}

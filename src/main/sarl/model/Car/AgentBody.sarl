@@ -1,0 +1,12 @@
+package model.Car
+
+
+import model.PositionedObjects
+
+class AgentBody extends PositionedObjects {
+	var frustum : float
+	
+	def getFrustum : float {
+		return this.frustum
+	}
+}
