@@ -1,0 +1,9 @@
+package model
+
+class AgentBody extends PositionedObjects {
+	var frustum : float
+	
+	def getFrustum : float {
+		return this.frustum
+	}
+}
