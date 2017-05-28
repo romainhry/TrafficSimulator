@@ -32,12 +32,6 @@ public class Controller implements Initializable {
     private Pane PaneHome,PaneVid,PaneDesc;
     
     private Button btnStart;
-
-    double x,y,middleX,middleY,x2,y2;
-    int config,config2;
-    Polyline drawing = new Polyline(0,0,0,0,0,0) , drawing2 = new Polyline(0,0,0,0,0,0,0,0,0,0) ;
-    Polygon drawingTrain = new Polygon(0,0,0,0,0,0,0,0,0,0,0,0);
-    Polygon drawingWagon = new Polygon(0,0,0,0,0,0,0,0,0,0);
     
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -52,12 +46,7 @@ public class Controller implements Initializable {
     	 */
     	
     	group.getChildren().clear();
-    	group.getChildren().add(drawing);
-        group.getChildren().add(drawingTrain);
-        /*
-         * And add the cars imgs
-         */
-        //group.getChildren().add(e);
+        
 
         // River :
         Polyline river = new Polyline(

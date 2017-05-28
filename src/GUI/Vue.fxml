@@ -17,8 +17,8 @@
 	<Image url="@../../Images/3d-teaser.jpg" />
 	</image></ImageView><ImageView disable="true" fitHeight="45.0" fitWidth="99.0" layoutX="8.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
 	<image>
-	<Image url="@../../Images/Utbm.png" />
-	</image></ImageView><Pane fx:id="PaneHome" layoutX="-3.0" layoutY="24.0" prefHeight="585.0" prefWidth="773.0">
+	<Image url="@../../Images/Utbm.jpg" />
+	</image></ImageView><Pane fx:id="PaneBtnAcceuil" layoutX="-3.0" layoutY="151.0" prefHeight="454.0" prefWidth="762.0">
 	<children>
 	<Button layoutX="334.0" layoutY="48.0" mnemonicParsing="false" onAction="#Desc" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 100;" text="Description" textAlignment="CENTER" textFill="WHITE">
 	<font>
