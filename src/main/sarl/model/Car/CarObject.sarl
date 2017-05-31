@@ -6,7 +6,7 @@ import model.math.Point2i
 import model.Graph
 import model.EnvObjects
 
-abstract class PacmanObject implements Serializable {
+abstract class CarObject implements Serializable {
 
 	val position : Point2i
 	

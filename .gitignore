@@ -2,6 +2,8 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+target/
+.classpath
 src/main/generated-sources/
 # Package Files #
 *.jar
