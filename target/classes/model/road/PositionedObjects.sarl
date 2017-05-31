@@ -5,7 +5,9 @@ import model.math.Point2f
 class PositionedObjects extends EnvObjects {
 	var position : Point2f // where x is the position than the graph node and y is the lateral desviation
 	var influence : Point2f // it's the positioned object's desire of new position
-	var wantToTurn = false //It's the desired of turn
+	var turnTo = 0 //It's the desired of turn
+	
+	
 	def getPosition() : Point2f {
 		return this.position
 	}
@@ -16,10 +18,10 @@ class PositionedObjects extends EnvObjects {
 	def setPosition(pos : Point2f) {
 		this.position = pos
 	}
-	def getWantToTurn : boolean {
-		this.wantToTurn
+	def getTurnTo : int {
+		this.turnTo
 	}
-	def setWantToTurn(b : boolean) {
-		this.wantToTurn = b
+	def setTurnTo(b : int) {
+		this.turnTo = b
 	}
 }

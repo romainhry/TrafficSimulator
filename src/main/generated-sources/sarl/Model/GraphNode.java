@@ -98,13 +98,13 @@ public class GraphNode {
   public Boolean isEmptyAt(final float x, final float len) {
     for (final PositionedObjects o : this.posObj) {
       {
-        if ((((o.getPosition() + o.getLength()) < (x + len)) && ((o.getPosition() + o.getLength()) > (x - len)))) {
+        if ((((o.getPosition().getX() + o.getLength()) < (x + len)) && ((o.getPosition().getX() + o.getLength()) > (x - len)))) {
           return Boolean.valueOf(false);
         }
-        if ((((o.getPosition() - o.getLength()) < (x + len)) && ((o.getPosition() - o.getLength()) > (x - len)))) {
+        if ((((o.getPosition().getX() - o.getLength()) < (x + len)) && ((o.getPosition().getX() - o.getLength()) > (x - len)))) {
           return Boolean.valueOf(false);
         }
-        if ((((o.getPosition() + o.getLength()) > (x + len)) && ((o.getPosition() - o.getLength()) < (x - len)))) {
+        if ((((o.getPosition().getX() + o.getLength()) > (x + len)) && ((o.getPosition().getX() - o.getLength()) < (x - len)))) {
           return Boolean.valueOf(false);
         }
         return Boolean.valueOf(true);
@@ -115,7 +115,7 @@ public class GraphNode {
   
   public PositionedObjects objectAt(final float x) {
     for (final PositionedObjects o : this.posObj) {
-      if ((((o.getPosition() - o.getLength()) <= x) && (x <= (o.getPosition() + o.getPosition())))) {
+      if ((((o.getPosition().getX() - o.getLength()) <= x) && (x <= (o.getPosition().getX() + o.getPosition().getX())))) {
         return o;
       }
     }
@@ -140,6 +140,10 @@ public class GraphNode {
   @Pure
   public ArrayList<GraphNode> getBackNeighbourNodes() {
     return this.backNeighbourNodes;
+  }
+  
+  public GraphNode nextNode(final int n) {
+    return this.frontNeighbourNodes.get(n);
   }
   
   @SyntheticMember

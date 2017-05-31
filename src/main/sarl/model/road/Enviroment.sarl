@@ -116,14 +116,13 @@ agent Enviroment {
 		/*This function will take an object knowing the node where it is and then,
 		 * will give the position on the graph where it wants to go
 		 */
-		//TODO
-		if (posObj.position.x + posObj.influence.x > currentNode.length && posObj.wantToTurn) {
-			//it turn
-	} else if(posObj.position.x+posObj.influence.x > currentNode.length && !posObj.wantToTurn) {
-		//go straight
-	} else {
-		return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
-		
-	}
+		/*While the object doesn't go out of the node, his position will change but his node, not. */
+		if (posObj.position.x + posObj.influence.x <= currentNode.length) {
+			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
+		}
+		/*Otherwise it will change to the position 0 of the next node */
+		else {
+			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(posObj.turnTo))
+			 }
 	}
 }

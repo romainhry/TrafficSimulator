@@ -107,5 +107,7 @@ class GraphNode {
 	def getBackNeighbourNodes : ArrayList<GraphNode> {
 		return this.backNeighbourNodes
 	}
-	
+	def nextNode(n : int) : GraphNode{
+		return this.frontNeighbourNodes.get(n)
+	}
 }

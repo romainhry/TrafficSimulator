@@ -17,6 +17,9 @@ import model.Car.TimeStep;
 import model.Graph;
 import model.GraphNode;
 import model.PositionedObjects;
+import model.math.Point2f;
+import model.road.PositionOnTheGraph;
+import org.eclipse.xtext.xbase.lib.Inline;
 
 @SarlSpecification("0.5")
 @SuppressWarnings("all")
@@ -32,6 +35,7 @@ public class Enviroment extends Agent {
   @SyntheticMember
   private void $behaviorUnit$TimeStep$1(final TimeStep occurrence) {
     this.percieve();
+    this.applyInfluences();
   }
   
   protected TreeMap<AgentBody, List<PositionedObjects>> percieve() {
@@ -46,18 +50,18 @@ public class Enviroment extends Agent {
           List<PositionedObjects> li = null;
           if ((o instanceof AgentBody)) {
             for (i = (((AgentBody)o).getLength() + 1); (i < ((AgentBody)o).getFrustum()); i++) {
-              float _position = ((AgentBody)o).getPosition();
-              float _plus = (i + _position);
+              float _x = ((AgentBody)o).getPosition().getX();
+              float _plus = (i + _x);
               float _length = gn.getLength();
               boolean _lessEqualsThan = (_plus <= _length);
               if (_lessEqualsThan) {
-                float _position_1 = ((AgentBody)o).getPosition();
-                float _plus_1 = (i + _position_1);
+                float _x_1 = ((AgentBody)o).getPosition().getX();
+                float _plus_1 = (i + _x_1);
                 Boolean _isEmptyAt = gn.isEmptyAt(_plus_1, 0);
                 boolean _not = (!(_isEmptyAt).booleanValue());
                 if (_not) {
-                  float _position_2 = ((AgentBody)o).getPosition();
-                  float _plus_2 = (i + _position_2);
+                  float _x_2 = ((AgentBody)o).getPosition().getX();
+                  float _plus_2 = (i + _x_2);
                   PositionedObjects _objectAt = gn.objectAt(_plus_2);
                   li.add(_objectAt);
                   break;
@@ -78,17 +82,17 @@ public class Enviroment extends Agent {
               }
             }
             for (i = (((AgentBody)o).getLength() + 1); (i < ((AgentBody)o).getFrustum()); i++) {
-              float _position = ((AgentBody)o).getPosition();
-              float _minus = (_position - i);
+              float _x = ((AgentBody)o).getPosition().getX();
+              float _minus = (_x - i);
               boolean _greaterEqualsThan = (_minus >= 0);
               if (_greaterEqualsThan) {
-                float _position_1 = ((AgentBody)o).getPosition();
-                float _minus_1 = (_position_1 - i);
+                float _x_1 = ((AgentBody)o).getPosition().getX();
+                float _minus_1 = (_x_1 - i);
                 Boolean _isEmptyAt = gn.isEmptyAt(_minus_1, 0);
                 boolean _not = (!(_isEmptyAt).booleanValue());
                 if (_not) {
-                  float _position_2 = ((AgentBody)o).getPosition();
-                  float _minus_2 = (_position_2 - i);
+                  float _x_2 = ((AgentBody)o).getPosition().getX();
+                  float _minus_2 = (_x_2 - i);
                   PositionedObjects _objectAt = gn.objectAt(_minus_2);
                   li.add(_objectAt);
                   break;
@@ -114,6 +118,41 @@ public class Enviroment extends Agent {
       }
     }
     return map;
+  }
+  
+  protected void applyInfluences() {
+    ArrayList<GraphNode> _nodes = this.graph.getNodes();
+    for (final GraphNode gn : _nodes) {
+      ArrayList<PositionedObjects> _posObj = gn.getPosObj();
+      for (final PositionedObjects o : _posObj) {
+        boolean _collision = true;
+        boolean _not = (!_collision);
+        if (_not) {
+          o.setPosition(this.desiredPosition(o, gn).getPosition());
+        }
+      }
+    }
+  }
+  
+  @Inline(value = "true", constantExpression = true)
+  protected boolean collision(final PositionedObjects object, final PositionOnTheGraph newPosition) {
+    return true;
+  }
+  
+  protected PositionOnTheGraph desiredPosition(final PositionedObjects posObj, final GraphNode currentNode) {
+    float _x = posObj.getPosition().getX();
+    float _x_1 = posObj.getInfluence().getX();
+    float _plus = (_x + _x_1);
+    float _length = currentNode.getLength();
+    boolean _lessEqualsThan = (_plus <= _length);
+    if (_lessEqualsThan) {
+      Point2f _add = posObj.getPosition().add(posObj.getInfluence());
+      return new PositionOnTheGraph(_add, currentNode);
+    } else {
+      Point2f _point2f = new Point2f(0f, 0f);
+      GraphNode _nextNode = currentNode.nextNode(posObj.getTurnTo());
+      return new PositionOnTheGraph(_point2f, _nextNode);
+    }
   }
   
   @SyntheticMember
