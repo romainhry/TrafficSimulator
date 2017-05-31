@@ -1,0 +1,79 @@
+package model.road
+
+import model.PositionedObjects
+import model.math.Point2f
+
+class TrafficLight extends PositionedObjects {
+	var color : LightColor
+	var nextColor : LightColor
+	new(x : float) {
+		this.position = new Point2f(x,0f)
+		this.length = 1f
+		this.color = LightColor.RED
+		this.nextColor = LightColor.YELLOW
+		
+	}
+
+	new(x : float, neighbour : TrafficLight) {
+		this.position = new Point2f(x, 0f)
+		this.length = 1f
+		this.antiSynchr(neighbour)
+	}
+	
+	def getColor : LightColor {
+		this.color
+	}
+	def setColor(c : LightColor) : LightColor {
+		this.color = c
+	}
+
+	def getNextColor : LightColor {
+		this.nextColor
+	}
+
+	def setNextColor(c : LightColor) : LightColor {
+		this.nextColor = c
+	}
+	
+	def synchr(neighbour : TrafficLight) {
+		this.color = neighbour.color
+		this.nextColor = neighbour.nextColor
+	}
+	def antiSynchr(neighbour : TrafficLight) {
+		if (neighbour.color == LightColor.RED) {
+			this.color = LightColor.GREEN
+			this.nextColor = LightColor.YELLOW
+		}
+		else if(neighbour.color == LightColor.GREEN) {
+			this.color = LightColor.RED
+			this.nextColor = LightColor.YELLOW
+		}
+		else {
+			this.color = LightColor.YELLOW
+			if (neighbour.nextColor == LightColor.RED) {
+				this.nextColor = LightColor.GREEN
+			}
+			else {
+				this.nextColor = LightColor.RED
+			}
+		}
+	}
+	def colorChange() {
+		if (this.color == LightColor.RED) {
+			this.color = this.nextColor
+			this.nextColor = LightColor.GREEN
+		}
+		else if (this.color == LightColor.GREEN) {
+			this.color = this.nextColor
+			this.nextColor = LightColor.RED
+		}
+		else {
+			this.color = this.nextColor
+			this.nextColor = LightColor.YELLOW
+		}
+	}
+}
+
+enum LightColor {
+	RED, YELLOW, GREEN
+}
