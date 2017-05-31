@@ -3,6 +3,8 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 src/main/generated-sources/
+target/
+.classpath
 # Package Files #
 *.jar
 *.war
