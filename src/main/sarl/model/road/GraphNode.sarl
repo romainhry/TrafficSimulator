@@ -72,13 +72,13 @@ class GraphNode {
 			 * and with his proximities (len)
 			 */
 		for (o : posObj) {
-			if (o.position + o.length < x + len && o.position + o.length > x - len) {
+			if (o.position.x + o.length < x + len && o.position.x + o.length > x - len) {
 				return false
 			}
-			if (o.position - o.length < x + len && o.position - o.length > x - len) {
+			if (o.position.x - o.length < x + len && o.position.x - o.length > x - len) {
 				return false
 			}
-			if (o.position + o.length > x + len && o.position - o.length < x - len) {
+			if (o.position.x + o.length > x + len && o.position.x - o.length < x - len) {
 				return false
 			}
 			return true
@@ -87,7 +87,7 @@ class GraphNode {
 	def objectAt(x : float) : PositionedObjects { /*We need to know if there is an object
 	 * at a given position*/
 		for (o : posObj) {
-			if (o.position - o.length <= x && x <= o.position + o.position) {
+			if (o.position.x - o.length <= x && x <= o.position.x + o.position.x) {
 				return o
 			}
 		}
@@ -107,5 +107,7 @@ class GraphNode {
 	def getBackNeighbourNodes : ArrayList<GraphNode> {
 		return this.backNeighbourNodes
 	}
-	
+	def nextNode(n : int) : GraphNode{
+		return this.frontNeighbourNodes.get(n)
+	}
 }
