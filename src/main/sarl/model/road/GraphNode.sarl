@@ -3,7 +3,8 @@ import java.util.ArrayList
 
 class GraphNode {
 	var neighbourNodes : ArrayList<GraphNode> // Nodes where i can move to
-	var conflictNodes : ArrayList<GraphNode>
+	var conflictNodesInFront : ArrayList<GraphNode>
+	var conflictNodesInBack : ArrayList<GraphNode>
 	/* Nodes that may cause a problem, so i need to have a perception of them
 	 */
 	var frontNeighbourNodes : ArrayList<GraphNode> //Neighbours in front of this node
@@ -29,8 +30,16 @@ class GraphNode {
 		}
 	}
 
-	def itHasConflictNodes() {
-		if (conflictNodes.empty) {
+	def itHasConflictNodesInFront() {
+		if (conflictNodesInFront.empty) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	def itHasConflictNodesInBack() {
+		if (conflictNodesInBack.empty) {
 			return true
 		} else {
 			return false
@@ -106,6 +115,14 @@ class GraphNode {
 
 	def getBackNeighbourNodes : ArrayList<GraphNode> {
 		return this.backNeighbourNodes
+	}
+
+	def getConflictNodesInFront : ArrayList<GraphNode> {
+		return this.conflictNodesInFront
+	}
+
+	def getConflictNodesInBack : ArrayList<GraphNode> {
+		return this.conflictNodesInBack
 	}
 	def nextNode(n : int) : GraphNode{
 		return this.frontNeighbourNodes.get(n)

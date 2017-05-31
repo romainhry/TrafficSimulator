@@ -67,6 +67,16 @@ agent Enviroment {
 								}
 							}
 						}
+							for (cfnn : gn.frontNeighbourNodes) { // we look into each front conflict node
+								for (j = 0; j < o.frustum - i; j++) // from 0 to the remaining frustum length
+								{
+									if (!cfnn.isEmptyAt(j, 0)) {
+										li += cfnn.objectAt(j)
+										break
+									}
+								}
+						}
+						
 					}
 				}
 				for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
@@ -84,6 +94,14 @@ agent Enviroment {
 								}
 							}
 						}
+								for (cbnn : gn.conflictNodesInBack) {
+									for (j = cbnn.length; j < o.frustum - i; j++) {
+										if (!cbnn.isEmptyAt(j, 0)) {
+											li += cbnn.objectAt(j)
+											break
+										}
+									}
+								}
 					}
 				}
 			}
