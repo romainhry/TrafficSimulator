@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.UUID;
 import javax.inject.Inject;
-import model.AgentBody;
+import model.Car.AgentBody;
+import model.Car.TimeStep;
 import model.Graph;
 import model.GraphNode;
 import model.PositionedObjects;
-import model.TimeStep;
 
 @SarlSpecification("0.5")
 @SuppressWarnings("all")

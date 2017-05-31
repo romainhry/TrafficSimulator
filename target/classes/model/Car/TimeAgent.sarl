@@ -1,0 +1,9 @@
+package model.Car
+
+/*Here, we should have an agent that send events of time steps to the other agents */
+agent Time {
+	
+}
+event TimeStep {
+	
+}

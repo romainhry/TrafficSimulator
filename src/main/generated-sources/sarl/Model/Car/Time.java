@@ -1,4 +1,4 @@
-package model;
+package model.Car;
 
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
