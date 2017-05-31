@@ -1,13 +1,25 @@
 package model
 
+import model.math.Point2f
 
 class PositionedObjects extends EnvObjects {
-	var position : float
-	//var envObj : EnvObjects
-	def getPosition() {
+	var position : Point2f // where x is the position than the graph node and y is the lateral desviation
+	var influence : Point2f // it's the positioned object's desire of new position
+	var wantToTurn = false //It's the desired of turn
+	def getPosition() : Point2f {
 		return this.position
 	}
-	/*def getEnvObjects() {
-		return this.envObj
-	}*/
+
+	def getInfluence : Point2f {
+		this.influence
+	}
+	def setPosition(pos : Point2f) {
+		this.position = pos
+	}
+	def getWantToTurn : boolean {
+		this.wantToTurn
+	}
+	def setWantToTurn(b : boolean) {
+		this.wantToTurn = b
+	}
 }

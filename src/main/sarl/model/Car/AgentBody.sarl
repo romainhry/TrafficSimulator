@@ -2,6 +2,7 @@ package model.Car
 
 
 import model.PositionedObjects
+import model.math.Point2f
 
 class AgentBody extends PositionedObjects {
 	var frustum : float
@@ -9,4 +10,6 @@ class AgentBody extends PositionedObjects {
 	def getFrustum : float {
 		return this.frustum
 	}
+
+	
 }
