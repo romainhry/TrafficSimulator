@@ -36,10 +36,12 @@ agent Enviroment {
 		var map = new TreeMap<AgentBody, List<PositionedObjects>> //returns values
 		var i : float //local variable
 		var j : float //local variable
+		var posDir : int
 		for (gn : graph.nodes) { //we have to go through the Graph
 			for (o : gn.posObj) { //and get the perception for each object in each graph node
 				var li : List<PositionedObjects> //auxiliary variable
 				if (o instanceof AgentBody) { //but we need just the objects that are actually Agents
+					posDir = 0
 					//first, we look in front of the agent and we stop at the first agent we found
 					for (i = o.length + 1; i < o.frustum; i++) { //from his position +1 till the end of his frustum
 						/*We have to cases: the first one is that the frustum
@@ -56,6 +58,7 @@ agent Enviroment {
 							 * one object in our perception frontal, one for each neighbour node)
 							 */
 							for (fnn : gn.frontNeighbourNodes) { //we look into each front neighbour node
+								posDir++
 								for(j=0;j<o.frustum-i;j++) //from 0 to the remaining frustum length
 							{
 								if (!fnn.isEmptyAt(j,0)) {
@@ -85,6 +88,7 @@ agent Enviroment {
 				}
 			}
 			map.put(o, li)
+			o.directionPosibilities = posDir
 		}
 	}
 }
