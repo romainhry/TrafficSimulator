@@ -30,7 +30,6 @@ agent Enviroment {
 	// get perception
 		percieve()
 		applyInfluences()
-		// solve influences
 	}
 
 	def percieve : TreeMap<AgentBody, List<PositionedObjects>> {
@@ -109,8 +108,12 @@ agent Enviroment {
 
 	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
 	/*We are going to test if there's a collision with other objects */	
-	//TODO
-	return true
+	if(newPosition.graphNode.isEmptyAt(newPosition.position.x,object.length)){
+		return false
+	}
+	else {
+		return true
+	}
 	}
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
 		/*This function will take an object knowing the node where it is and then,

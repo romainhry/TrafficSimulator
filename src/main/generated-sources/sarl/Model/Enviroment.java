@@ -19,7 +19,6 @@ import model.GraphNode;
 import model.PositionedObjects;
 import model.math.Point2f;
 import model.road.PositionOnTheGraph;
-import org.eclipse.xtext.xbase.lib.Inline;
 
 @SarlSpecification("0.5")
 @SuppressWarnings("all")
@@ -125,7 +124,7 @@ public class Enviroment extends Agent {
     for (final GraphNode gn : _nodes) {
       ArrayList<PositionedObjects> _posObj = gn.getPosObj();
       for (final PositionedObjects o : _posObj) {
-        boolean _collision = true;
+        boolean _collision = this.collision(o, this.desiredPosition(o, gn));
         boolean _not = (!_collision);
         if (_not) {
           o.setPosition(this.desiredPosition(o, gn).getPosition());
@@ -134,9 +133,13 @@ public class Enviroment extends Agent {
     }
   }
   
-  @Inline(value = "true", constantExpression = true)
   protected boolean collision(final PositionedObjects object, final PositionOnTheGraph newPosition) {
-    return true;
+    Boolean _isEmptyAt = newPosition.getGraphNode().isEmptyAt(newPosition.getPosition().getX(), object.getLength());
+    if ((_isEmptyAt).booleanValue()) {
+      return false;
+    } else {
+      return true;
+    }
   }
   
   protected PositionOnTheGraph desiredPosition(final PositionedObjects posObj, final GraphNode currentNode) {
