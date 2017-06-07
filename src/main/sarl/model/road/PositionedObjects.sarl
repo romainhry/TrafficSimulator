@@ -1,17 +1,15 @@
 package model
-
 import model.math.Point2f
-
 class PositionedObjects extends EnvObjects {
+	var img : String // image of the car
 	var position : Point2f // where x is the position than the graph node and y is the lateral desviation
 	var influence : Point2f // it's the positioned object's desire of new position
-	var turnTo = 0 //It's the desired of turn
-	
-	
+	var turnTo = 0 //It's the desire to turn
+	var static UID :int //ID
+	var direction : int[] // allowed directions
 	def getPosition() : Point2f {
 		return this.position
 	}
-
 	def getInfluence : Point2f {
 		this.influence
 	}
@@ -23,5 +21,8 @@ class PositionedObjects extends EnvObjects {
 	}
 	def setTurnTo(b : int) {
 		this.turnTo = b
+	}
+	def setImg(i : String){
+		this.img = i
 	}
 }

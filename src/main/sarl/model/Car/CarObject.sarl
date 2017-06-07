@@ -1,26 +1,48 @@
 package model.Car
-
 import java.io.Serializable
 import java.lang.ref.WeakReference
 import model.math.Point2i
 import model.Graph
 import model.EnvObjects
+import model.PositionedObjects
+import javax.swing.Icon
+import javax.swing.ImageIcon
 
-abstract class CarObject implements Serializable {
-
+class CarObject implements Serializable extends PositionedObjects {
 	val position : Point2i
-	
-	transient val road : WeakReference<EnvObjects> 
-	
+	var frustum : float
+	var vitesse : float
+	static var CarIcon : Icon
+	transient val road : WeakReference<EnvObjects>
 	new (x : int, y : int, road : Graph) {
 		this.position = new Point2i(x, y)
 		this.road = new WeakReference(road)
+		this.UID = this.UID + 1
+		var url = "../../GUI/Carred.png"
+		//if(url!==null)
+			CarIcon = new ImageIcon(url)
 	}
-
+	new (x : int, y : int) {
+		this.position = new Point2i(x, y)
+		this.UID = this.UID + 1
+		this.road = null // TO DO remove it the agent should be affected to a road 
+	}
 	new (position : Point2i, road : Graph) {
 		this(position.x, position.y, road)
 	}
-	def getPosition : Point2i {
+	def getCarPosition : Point2i {
 		this.position
+	}
+	def getVitesse : float {
+		return this.vitesse
+	}
+	def getFrustum : float{
+		return this.frustum
+	}
+	def setVitesse(v : float) {
+		this.vitesse = v
+	}
+	def getRoad : WeakReference {
+		return this.road
 	}
 }

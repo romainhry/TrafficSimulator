@@ -2,18 +2,20 @@ package agents
 
 import io.sarl.core.Lifecycle
 import java.util.Random
-import com.sun.javafx.scene.traversal.Direction
 import io.sarl.core.Initialize
 import java.util.List
+import model.Car.CarObject
+import model.Car.Direction
 
 agent CarAgent {
 
 	uses Lifecycle
 
-	var previousDirection : Direction
+	var previousDirection : int
+	var CarBody : CarObject
 
 	on Initialize {
-		
+		CarBody = new CarObject(0, 0)
 	}
 
 	on CarAgentIsDead {
@@ -23,15 +25,57 @@ agent CarAgent {
 	}
 
 	on Perception {
+
+		/*var freeDirections = newArrayList
+		freeDirections.addAll(Direction::values)
+		var car : CarObject
+		for (percept : occurrence.objects) {
+			var v = percept.position - occurrence.position
+			if (percept instanceof CarObject) {
+				car = percept
+			}
+		}
+		if (car !== null) {
+			var v = car.position - occurrence.position
+			var direction = car::fromVector(v)
+			direction.memorizeAndMoveTo
+		} else {
+			freeDirections.randomMove
+		}*/
+	
+	}
+	on CarAgentMoving{
+		//GetNodeInfrontofMe
+		//then getTrafficLight
+		//get possible directions
+		//get randomly one of the allowed direction
+		//based on the direction
+		var i : int
+		if(CarBody.getRoad.getTrafficLight==green){
+			if(i==1){//strait
+				if (CarBody.getRoad.getEnvObjectsat(CarBody.position) != 0 & ) {
+					
+				}
+			}else
+				if(i==2){//right
+					turn(Direction.NORTH)
+				}else{
+					turn(Direction.EAST)
+				}
+		}else{
+			CarBody.setVitesse(0.0f)
+		}
 		
 	}
-
-	def memorizeAndMoveTo(direction : Direction) {
+	def memorizeAndMoveTo(direction : int) {
 		this.previousDirection = direction
-		//move(direction)
+		//move(direction)//set le x et le y
 	}
 
-	def randomMove(directions : List<Direction>) {
+	def randomMove(directions : List<Integer>) {
+		
+	}
+	def turn (direction : Direction){
 		
 	}
 
