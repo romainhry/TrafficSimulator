@@ -14,6 +14,7 @@ class TrafficLight extends PositionedObjects {
 		this.length = 1f
 		this.color = LightColor.RED
 		this.nextColor = LightColor.YELLOW
+		activate
 		
 	}
 	/* we have also the possibility of create a traffic light antisynchronized with other */
@@ -21,6 +22,7 @@ class TrafficLight extends PositionedObjects {
 		this.position = new Point2f(x, 0f)
 		this.length = 1f
 		this.antiSynchr(neighbour)
+		activate
 	}
 	
 	def getColor : LightColor {
