@@ -39,7 +39,7 @@ agent Enviroment {
 			for (o : gn.posObj) { //and get the perception for each object in each graph node
 				var li : List<PositionedObjects> //auxiliary variable
 				if (o instanceof CarObject) { // but we need just the objects that are actually Agents
-					//first, we look in front of the agent and we stop at the first agent we found
+					//first, we look in front of the agent
 					for (i = o.length + 1; i < o.frustum; i++) { //from his position +1 till the end of his frustum
 						/*We have to cases: the first one is that the frustum
 						 * ends in the same graph node
@@ -47,12 +47,10 @@ agent Enviroment {
 						if (i + o.position.x <= gn.length) {
 							if (!gn.isEmptyAt(i + o.position.x,0)) {
 								li += gn.objectAt(i + o.position.x)
-								break
 							}
 						} else {
 							/*the other case is that we need to check
-							 * into neighbours nodes (in this case, we might have more that
-							 * one object in our perception frontal, one for each neighbour node)
+							 * into neighbours nodes
 							 */
 							for (fnn : gn.frontNeighbourNodes) { //we look into each front neighbour node
 								posDir++
@@ -60,7 +58,6 @@ agent Enviroment {
 							{
 								if (!fnn.isEmptyAt(j,0)) {
 									li += fnn.objectAt(j)
-									break
 								}
 							}
 						}
@@ -69,7 +66,6 @@ agent Enviroment {
 								{
 									if (!cfnn.isEmptyAt(j, 0)) {
 										li += cfnn.objectAt(j)
-										break
 									}
 								}
 						}
@@ -80,14 +76,12 @@ agent Enviroment {
 					if (o.position.x - i >= 0) {
 						if (!gn.isEmptyAt(o.position.x - i,0)) {
 							li += gn.objectAt(o.position.x - i)
-							break
 						} else {
 							for (bnn : gn.backNeighbourNodes) {
 									for(j=bnn.length;j<o.frustum-i;j++)
 							{
 								if (!bnn.isEmptyAt(j,0)) {
 									li += bnn.objectAt(j)
-									break
 								}
 							}
 						}
@@ -95,7 +89,6 @@ agent Enviroment {
 									for (j = cbnn.length; j < o.frustum - i; j++) {
 										if (!cbnn.isEmptyAt(j, 0)) {
 											li += cbnn.objectAt(j)
-											break
 										}
 									}
 								}

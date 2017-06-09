@@ -2,18 +2,21 @@ package model.road
 
 import model.PositionedObjects
 import model.math.Point2f
+import java.util.TimerTask
+import java.util.Timer
 
 class TrafficLight extends PositionedObjects {
-	var color : LightColor
+	var color : LightColor //enum defined at the end of this file
 	var nextColor : LightColor
+	var timer = new Timer() //We utilize it for control the time of the color change
 	new(x : float) {
-		this.position = new Point2f(x,0f)
+		this.position = new Point2f(x,0f) //it has no lateral deviation
 		this.length = 1f
 		this.color = LightColor.RED
 		this.nextColor = LightColor.YELLOW
 		
 	}
-
+	/* we have also the possibility of create a traffic light antisynchronized with other */
 	new(x : float, neighbour : TrafficLight) {
 		this.position = new Point2f(x, 0f)
 		this.length = 1f
@@ -34,11 +37,12 @@ class TrafficLight extends PositionedObjects {
 	def setNextColor(c : LightColor) : LightColor {
 		this.nextColor = c
 	}
-	
+	/*2 traffic lights that have the same color at the same time */
 	def synchr(neighbour : TrafficLight) {
 		this.color = neighbour.color
 		this.nextColor = neighbour.nextColor
 	}
+	/* 2 traffic lights that have the opposite color at the same time*/
 	def antiSynchr(neighbour : TrafficLight) {
 		if (neighbour.color == LightColor.RED) {
 			this.color = LightColor.GREEN
@@ -71,6 +75,27 @@ class TrafficLight extends PositionedObjects {
 			this.color = this.nextColor
 			this.nextColor = LightColor.YELLOW
 		}
+	}
+
+	def activate {
+		/*each second it will decide if it need to remain in one color
+		 * of it's time for a color change. */
+		var task = new TimerTask() {
+			var contador = 0
+			@Override
+			def run {
+				if (contador < 4) {			//it's in GREEN or RED
+					if (contador == 3) {
+						colorChange
+					}
+				} else {
+					colorChange
+					contador = 0		//It's in YELLOW
+				}
+				contador++
+			}
+		}
+		timer.schedule(task, 0, 1000)
 	}
 }
 
