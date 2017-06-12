@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  *
@@ -24,7 +23,7 @@ public class Main extends Application {
         
         stage.setResizable(true);
         stage.show();
-        this.stage = stage;
+        Main.stage = stage;
     }
     
     public static void main(String[] args) {

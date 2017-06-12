@@ -21,7 +21,7 @@ import model.road.PositionOnTheGraph
 agent Enviroment {
 	var bodies : Collection<CarObject>
 	var graph = new Graph
-
+	
 	on Initialize {
 		// Initialize the graph
 	}
