@@ -14,31 +14,28 @@ import main.Main;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
-import GUI.CarGUI;
+
 
 import java.awt.Button;
+import GUI.CarGUI;
 
 
 public class Controller implements Initializable {
 
     @FXML
-    private static Group group;
+    private Group group;
 
     @FXML
     private Pane PaneHome,PaneVid,PaneDesc;
     
-    private Button btnStart;
     private ArrayList<ImageView> groupeFeux1;
     private ArrayList<ImageView> groupeFeux2;
     
 
     double x,y,middleX,middleY,x2,y2;
     int config,config2;
-    Polyline drawing = new Polyline(0,0,0,0,0,0) , drawing2 = new Polyline(0,0,0,0,0,0,0,0,0,0) ;
-    Polygon drawingTrain = new Polygon(0,0,0,0,0,0,0,0,0,0,0,0);
-    Polygon drawingWagon = new Polygon(0,0,0,0,0,0,0,0,0,0);
+    Polyline drawing = new Polyline(0,0,0,0,0,0);
     
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -53,8 +50,6 @@ public class Controller implements Initializable {
     	 */
     	
     	group.getChildren().clear();
-    	group.getChildren().add(drawing);
-        group.getChildren().add(drawingTrain);
         /*
          * And add the cars imgs
          */
@@ -497,9 +492,10 @@ public class Controller implements Initializable {
     	}	
     }
     
+    /*
     public static void addtoroadgui ( String imgURL , UUID UID ){
     	CarGUI car = new  CarGUI(imgURL, UID);
     	group.getChildren().add(car);
-    }
+    }*/
    
 }
