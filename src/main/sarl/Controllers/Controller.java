@@ -1,24 +1,19 @@
 package Controllers;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.stage.Stage;
 import main.Main;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
-
-import static java.lang.Math.abs;
+import GUI.CarGUI;
 
 import java.awt.Button;
 
@@ -26,7 +21,7 @@ import java.awt.Button;
 public class Controller implements Initializable {
 
     @FXML
-    private Group group;
+    private static Group group;
 
     @FXML
     private Pane PaneHome,PaneVid,PaneDesc;
@@ -123,6 +118,11 @@ public class Controller implements Initializable {
     	PaneDesc.setVisible(false);
     	group.getChildren().remove(drawingTrain);
     	group.getChildren().remove(drawingTrain);
+    }
+    
+    public static void addtoroadgui ( String imgURL , UUID UID ){
+    	CarGUI car = new  CarGUI(imgURL, UID);
+    	group.getChildren().add(car);
     }
    
 }

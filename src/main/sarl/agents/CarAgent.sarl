@@ -6,9 +6,9 @@ import io.sarl.core.Initialize
 import java.util.List
 import model.Car.CarObject
 import model.Car.Direction
+import Controllers.Controller
 
 agent CarAgent {
-
 	uses Lifecycle
 
 	var previousDirection : int
@@ -16,6 +16,7 @@ agent CarAgent {
 
 	on Initialize {
 		CarBody = new CarObject(0, 0)
+		Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
 	}
 
 	on CarAgentIsDead {
