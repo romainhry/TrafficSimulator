@@ -96,7 +96,7 @@ agent Enviroment {
 				}
 			}
 			map.put(o, li)
-			o.directionPosibilities = posDir
+			o.direction = posDir
 		}
 	}
 }
