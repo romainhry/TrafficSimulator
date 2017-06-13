@@ -19,7 +19,7 @@ event Perception {
 	}
 
 }
-
+/* 
 event Action {
 
 	val time : int
@@ -30,7 +30,8 @@ event Action {
 		this.direction = direction
 	}
 
-}
+ * }
+ */
 
 
 event CarAgentIsDead
