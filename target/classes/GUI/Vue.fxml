@@ -12,33 +12,40 @@
 <Group fx:id="group" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
 <children><AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="766.0">
 	<children><Pane layoutX="-1.0" layoutY="-1.0" prefHeight="603.0" prefWidth="751.0">
-	<children><ImageView fitHeight="605.0" fitWidth="767.0" layoutY="1.0" opacity="0.73" pickOnBounds="true">
-	<image>
-	<Image url="@../../Images/3d-teaser.jpg" />
-	</image></ImageView><ImageView disable="true" fitHeight="45.0" fitWidth="99.0" layoutX="8.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
-	<image>
-	<Image url="@../../Images/Utbm.png" />
-	</image></ImageView><Pane fx:id="PaneHome" layoutX="-3.0" layoutY="24.0" prefHeight="585.0" prefWidth="773.0">
 	<children>
-	<Button layoutX="334.0" layoutY="48.0" mnemonicParsing="false" onAction="#Desc" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 100;" text="Description" textAlignment="CENTER" textFill="WHITE">
-	<font>
-	<Font name="System Bold Italic" size="20.0" />
-	</font>
-	</Button>
-	<Button fx:id="btnStart" defaultButton="true" layoutX="377.0" layoutY="347.0" mnemonicParsing="false" onAction="#start" prefHeight="46.0" prefWidth="139.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 100;" text="Start" textAlignment="CENTER" textFill="WHITE">
-	<font>
-	<Font name="System Bold Italic" size="20.0" />
-	</font>
-	<opaqueInsets>
-	<Insets />
-	</opaqueInsets>
-	</Button>
-	<Button layoutX="350.0" layoutY="171.0" mnemonicParsing="false" onAction="#Video" prefHeight="47.0" prefWidth="138.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 100;" text="Video" textAlignment="CENTER" textFill="WHITE">
-	<font>
-	<Font name="System Bold Italic" size="20.0" />
-	</font>
-	</Button>
-	</children></Pane>
+	<ImageView fitHeight="605.0" fitWidth="767.0" layoutY="1.0" opacity="0.73" pickOnBounds="true">
+		<image>
+			<Image url="@../../../Images/3d-teaser.jpg" />
+		</image>
+	</ImageView>
+	<ImageView disable="true" fitHeight="45.0" fitWidth="99.0" layoutX="8.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
+		<image>
+			<Image url="@../../../Images/Utbm.jpg" />
+		</image>
+	</ImageView>
+		<Pane fx:id="PaneHome" layoutX="-3.0" layoutY="24.0" prefHeight="585.0" prefWidth="773.0">
+		<children>
+			<Button layoutX="320.0" layoutY="100.0" mnemonicParsing="false" onAction="#Desc" prefHeight="46.0" prefWidth="155.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 5;" text="Description" textAlignment="CENTER" textFill="WHITE">
+				<font>
+					<Font name="System Bold Italic" size="20.0" />
+				</font>
+			</Button>
+			<Button layoutX="320.0" layoutY="200.0" mnemonicParsing="false" onAction="#Video" prefHeight="46.0" prefWidth="155.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 5;" text="Video" textAlignment="CENTER" textFill="WHITE">
+				<font>
+					<Font name="System Bold Italic" size="20.0" />
+				</font>
+			</Button>
+			<Button fx:id="btnStart" defaultButton="true" layoutX="320.0" layoutY="300.0" mnemonicParsing="false" onAction="#start" prefHeight="46.0" prefWidth="155.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 5;" text="Start" textAlignment="CENTER" textFill="WHITE">
+				<font>
+					<Font name="System Bold Italic" size="20.0" />
+				</font>
+				<opaqueInsets>
+					<Insets />
+				</opaqueInsets>
+			</Button>
+			
+		</children>
+		</Pane>
 <Pane fx:id="PaneDesc" layoutX="7.0" layoutY="34.0" prefHeight="585.0" prefWidth="773.0" visible="false">
 <children>
 <Button fx:id="btn_return_home" layoutX="579.0" layoutY="498.0" mnemonicParsing="false" onAction="#ReturnHome" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #50b9f1; -fx-background-radius: 100;" text="Return" textAlignment="CENTER" textFill="WHITE">
