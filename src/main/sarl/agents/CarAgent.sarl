@@ -7,6 +7,7 @@ import java.util.List
 import model.Car.CarObject
 import model.Car.Direction
 import Controllers.Controller
+import model.road.LightColor
 
 agent CarAgent {
 	uses Lifecycle
@@ -27,7 +28,7 @@ agent CarAgent {
 
 	on Perception {
 
-		/*var freeDirections = newArrayList
+		var freeDirections = newArrayList
 		freeDirections.addAll(Direction::values)
 		var car : CarObject
 		for (percept : occurrence.objects) {
@@ -42,7 +43,7 @@ agent CarAgent {
 			direction.memorizeAndMoveTo
 		} else {
 			freeDirections.randomMove
-		}*/
+		}
 	
 	}
 	on CarAgentMoving{
@@ -54,6 +55,7 @@ agent CarAgent {
 		var i : int
 		/*
 		if(CarBody.getRoad.getTrafficLight==green){
+		/*if(CarBody.getRoad.getTrafficLight==LightColor.GREEN){
 			if(i==1){//strait
 				if (CarBody.getRoad.getEnvObjectsat(CarBody.position) != 0 & ) {
 					
@@ -68,7 +70,9 @@ agent CarAgent {
 			CarBody.setVitesse(0.0f)
 		}
 		* 
-		*/
+
+		}*/
+
 		
 	}
 	def memorizeAndMoveTo(direction : int) {

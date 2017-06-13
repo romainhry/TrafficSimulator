@@ -462,8 +462,8 @@ public class Controller implements Initializable {
     	PaneHome.setVisible(true);
     	PaneVid.setVisible(false);
     	PaneDesc.setVisible(false);
-    	group.getChildren().remove(drawingTrain);
-    	group.getChildren().remove(drawingTrain);
+    	//group.getChildren().remove(drawingTrain);
+    	//group.getChildren().remove(drawingTrain);
     }
     
     public void changeCrossLight1(){

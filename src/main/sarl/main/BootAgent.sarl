@@ -16,6 +16,7 @@ import io.sarl.core.Lifecycle
 import model.Car.CarObject
 import io.sarl.core.DefaultContextInteractions
 import Controllers.Controller
+//import agents.CarAgent
 import GUI.CarGUI
 
 /** 
@@ -29,18 +30,23 @@ agent BootAgent {
 		var args : String[]
 		Main.main(args)
 		info("Start the agent")
-		nbCars = 10 ;
+		/*nbCars = 10 ;
 		for (i : 0 ..< nbCars) {
 			//define a capacity where there's a def createCar
 			//var CarBody = createCar(perceptionDistance)
 			var CarBody = new CarObject(0,0)
 			/* 
 			spawnInContextWithID(typeof(CarAgent), CarBody.UID, defaultContext)
+<<<<<<< Updated upstream
 			Controller.addtoroadgui("../../Images/car.png", CarBody.UID)
 			
-			 */
+			 
 			
 		}
+=======
+			Controller.addtoroadgui("../GUI/Carblue.png", CarBody.UID)
+		}
+>>>>>>> Stashed changes*/
 	}
 	
 	on Destroy {
