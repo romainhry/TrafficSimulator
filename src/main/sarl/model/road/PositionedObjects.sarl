@@ -8,7 +8,7 @@ class PositionedObjects extends EnvObjects {
 	var influence : Point2f // it's the positioned object's desire of new position
 	var turnTo = 0 //It's the desire to turn
 	var static UID : UUID  //ID
-	var direction : int[] // allowed directions
+	var direction : int // allowed directions
 	def getPosition() : Point2f {
 		return this.position
 	}
@@ -26,5 +26,8 @@ class PositionedObjects extends EnvObjects {
 	}
 	def setImg(i : String){
 		this.img = i
+	}
+	def setDirection(i : int) {
+		this.direction = i
 	}
 }
