@@ -16,7 +16,7 @@ agent CarAgent {
 
 	on Initialize {
 		CarBody = new CarObject(0, 0)
-		Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
 	}
 
 	on CarAgentIsDead {
@@ -52,6 +52,7 @@ agent CarAgent {
 		//get randomly one of the allowed direction
 		//based on the direction
 		var i : int
+		/*
 		if(CarBody.getRoad.getTrafficLight==green){
 			if(i==1){//strait
 				if (CarBody.getRoad.getEnvObjectsat(CarBody.position) != 0 & ) {
@@ -66,6 +67,8 @@ agent CarAgent {
 		}else{
 			CarBody.setVitesse(0.0f)
 		}
+		* 
+		*/
 		
 	}
 	def memorizeAndMoveTo(direction : int) {

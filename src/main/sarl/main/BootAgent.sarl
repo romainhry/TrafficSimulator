@@ -34,8 +34,12 @@ agent BootAgent {
 			//define a capacity where there's a def createCar
 			//var CarBody = createCar(perceptionDistance)
 			var CarBody = new CarObject(0,0)
+			/* 
 			spawnInContextWithID(typeof(CarAgent), CarBody.UID, defaultContext)
-			Controller.addtoroadgui("../GUI/Carblue.png", CarBody.UID)
+			Controller.addtoroadgui("../../Images/car.png", CarBody.UID)
+			
+			 */
+			
 		}
 	}
 	
