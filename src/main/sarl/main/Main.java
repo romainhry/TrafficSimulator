@@ -1,8 +1,10 @@
 package main;
+import Controllers.KeyBoardInputs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
@@ -16,6 +18,7 @@ public class Main extends Application {
        //StageStyle.UNDECORATED
         Parent root = FXMLLoader.load(getClass().getResource("../GUI/Vue.fxml"));
         Scene scene = new Scene(root);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,new KeyBoardInputs()); 
         stage.setScene(scene);
         //stage.setMaxHeight(800);
         //stage.setMaxWidth(1080);
