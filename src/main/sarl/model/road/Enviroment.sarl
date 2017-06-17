@@ -30,6 +30,7 @@ agent Enviroment {
 		percieve()
 		applyInfluences()
 	}
+	
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values
 		var i : float //local variable
@@ -104,6 +105,7 @@ agent Enviroment {
 	}
 	def applyInfluences {
 		/*This function will take each object influence and will try to apply it.
+		 * Also will take the influences of the player.
 		 * If it's posible will change its position, if it's not, it will ignore it 
 		 */
 		for (gn : graph.nodes) { //for each graph node on the graph

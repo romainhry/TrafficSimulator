@@ -5,7 +5,7 @@ import java.util.UUID
 class PositionedObjects extends EnvObjects {
 	var img : String // image of the car
 	var position : Point2f // where x is the position than the graph node and y is the lateral desviation
-	var influence : Point2f // it's the positioned object's desire of new position
+	var influence : Point2f // it's the positioned object's desire of new position in reference to itself
 	var turnTo = 0 //It's the desire to turn
 	var static UID : UUID  //ID
 	var direction : int // allowed directions
@@ -15,8 +15,13 @@ class PositionedObjects extends EnvObjects {
 	def getInfluence : Point2f {
 		this.influence
 	}
+<<<<<<< Updated upstream
 	def setInfluence (inf: Point2f) {
 		this.influence = inf
+=======
+	def setInfluence(p:Point2f) {
+		this.influence = p
+>>>>>>> Stashed changes
 	}
 	def setPosition(pos : Point2f) {
 		this.position = pos
