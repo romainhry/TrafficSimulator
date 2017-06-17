@@ -7,9 +7,10 @@ import model.EnvObjects
 import model.PositionedObjects
 import javax.swing.Icon
 import javax.swing.ImageIcon
+import java.util.UUID
 
 class CarObject implements Serializable extends PositionedObjects {
-	val position : Point2i
+	var position : Point2i
 	var frustum : float
 	var vitesse : float
 	var CarIcon : String
@@ -28,6 +29,10 @@ class CarObject implements Serializable extends PositionedObjects {
 	new (position : Point2i, road : Graph) {
 		this(position.x, position.y, road)
 	}
+
+	def setCarPosition(pos : Point2i) {
+		this.position = pos
+	}
 	def getCarPosition : Point2i {
 		this.position
 	}
@@ -45,5 +50,8 @@ class CarObject implements Serializable extends PositionedObjects {
 	}
 	def getCarIcon : String {
 		return this.CarIcon
+	}
+	def getUID : UUID {
+		return this.UID
 	}
 }

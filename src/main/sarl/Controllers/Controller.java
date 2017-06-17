@@ -14,9 +14,7 @@ import main.Main;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-
-
+import java.util.UUID;
 import java.awt.Button;
 import GUI.CarGUI;
 
@@ -24,7 +22,7 @@ import GUI.CarGUI;
 public class Controller implements Initializable {
 
     @FXML
-    private Group group;
+    private static Group group;
 
     @FXML
     private Pane PaneHome,PaneVid,PaneDesc;
@@ -492,10 +490,10 @@ public class Controller implements Initializable {
     	}	
     }
     
-    /*
+    
     public static void addtoroadgui ( String imgURL , UUID UID ){
     	CarGUI car = new  CarGUI(imgURL, UID);
     	group.getChildren().add(car);
-    }*/
+    }
    
 }

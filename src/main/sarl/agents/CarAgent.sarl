@@ -8,16 +8,19 @@ import model.Car.CarObject
 import model.Car.Direction
 import Controllers.Controller
 import model.road.LightColor
+import model.math.Point2i
+import model.math.Point2f
 
 agent CarAgent {
 	uses Lifecycle
 
 	var previousDirection : int
 	var CarBody : CarObject
-
+	val random = new Random
 	on Initialize {
 		CarBody = new CarObject(0, 0)
-		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		CarBody.getDirection().randomMove()
 	}
 
 	on CarAgentIsDead {
@@ -27,36 +30,52 @@ agent CarAgent {
 	}
 
 	on Perception {
-
-		var freeDirections = newArrayList
-		freeDirections.addAll(Direction::values)
+		var freeDirections : int
+		freeDirections = CarBody.getDirection
 		var car : CarObject
 		for (percept : occurrence.objects) {
-			var v = percept.position - occurrence.position
-			if (percept instanceof CarObject) {
+			//var v = percept.position - occurrence.position
+			if(percept instanceof CarObject){
 				car = percept
-			}
+				break;
+				}
 		}
-		if (car !== null) {
-			var v = car.position - occurrence.position
-			var direction = car::fromVector(v)
-			direction.memorizeAndMoveTo
-		} else {
+	if (car !== null) {
+		var direction : int
+		if (CarBody.getTurnTo!==0){
+			if (CarBody.direction == 3){
+				var posdir : int[] = #[0,1,2]
+				direction =posdir.get(random.nextInt(posdir.length))
+				direction.memorizeAndMoveTo
+			} else if (CarBody.direction == 2) {
+					var posdir : int[] = #[0,2]
+					direction = posdir.get(random.nextInt(posdir.length))
+					direction.memorizeAndMoveTo
+				} else if (CarBody.direction == 1) {
+					var posdir : int[] = #[0, 1]
+					direction = posdir.get(random.nextInt(posdir.length))
+					direction.memorizeAndMoveTo
+				} 
+		}else {
 			freeDirections.randomMove
 		}
+			
+	}
 	
 	}
-	on CarAgentMoving{
+
+	/*on CarAgentMove{
 		//GetNodeInfrontofMe
 		//then getTrafficLight
 		//get possible directions
 		//get randomly one of the allowed direction
 		//based on the direction
 		var i : int
+		//i = CarBody.getRoad().get
 		/*
 		if(CarBody.getRoad.getTrafficLight==green){
 		/*if(CarBody.getRoad.getTrafficLight==LightColor.GREEN){
-			if(i==1){//strait
+			if(i==0){//strait
 				if (CarBody.getRoad.getEnvObjectsat(CarBody.position) != 0 & ) {
 					
 				}
@@ -71,20 +90,49 @@ agent CarAgent {
 		}
 		* 
 
-		}*/
+		}
 
 		
-	}
+	}*/
 	def memorizeAndMoveTo(direction : int) {
 		this.previousDirection = direction
-		//move(direction)//set le x et le y
+		move(direction)
 	}
 
-	def randomMove(directions : List<Integer>) {
+	def randomMove(directions : int) {
+		var posdir : int[]
+		var selectedDirection : int
+			if (directions == 0 && directions == this.previousDirection) {
+				selectedDirection = this.previousDirection
+			}
+		if (directions > 0) {
+				if (CarBody.direction == 3){
+				posdir = #[0,1,2]
+			} else if (CarBody.direction == 2) {
+					posdir = #[0,2]
+				} else if (CarBody.direction == 1) {
+					posdir = #[0, 1]
+					}
+				
+				selectedDirection = posdir.get(random.nextInt(posdir.length))
+				
+			}
+		selectedDirection.memorizeAndMoveTo
+	}
+	def turn (direction : int){
 		
 	}
-	def turn (direction : Direction){
+	def move (direction : int){
+		//the +1 is not a correct way to do this 
+		//should know "le pas = 3"
 		
+		if (direction == 0) {
+			CarBody.setInfluence(new Point2f(3, 0))
+		} else if (direction == 1) { // move right
+			CarBody.setInfluence(new Point2f(0, 3))
+		} else if (direction == 2) { // move left
+			CarBody.setInfluence(new Point2f(0, -3))
+		}
 	}
 
 }

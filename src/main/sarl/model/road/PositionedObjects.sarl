@@ -15,6 +15,9 @@ class PositionedObjects extends EnvObjects {
 	def getInfluence : Point2f {
 		this.influence
 	}
+	def setInfluence (inf: Point2f) {
+		this.influence = inf
+	}
 	def setPosition(pos : Point2f) {
 		this.position = pos
 	}
@@ -29,5 +32,8 @@ class PositionedObjects extends EnvObjects {
 	}
 	def setDirection(i : int) {
 		this.direction = i
+	}
+	def getDirection : int {
+		this.direction
 	}
 }
