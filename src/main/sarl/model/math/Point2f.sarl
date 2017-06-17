@@ -10,8 +10,9 @@ class Point2f {
 	var y : float
 
 	new(i : float, j : float) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+ 		x=i
+ 		y=j
+ 	}
 
 	@Pure
 	def distanceSquared(p1 : Point2f) : float {

@@ -9,7 +9,8 @@ class Point2i {
 	var y : int
 	
 	new(i : int, j : int) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		x=i
+		y=j
 	}
 
 	@Pure

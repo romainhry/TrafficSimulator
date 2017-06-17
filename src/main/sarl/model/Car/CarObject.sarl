@@ -8,6 +8,7 @@ import model.PositionedObjects
 import javax.swing.Icon
 import javax.swing.ImageIcon
 import java.util.UUID
+import model.math.Point2f
 
 class CarObject implements Serializable extends PositionedObjects {
 	var position : Point2i

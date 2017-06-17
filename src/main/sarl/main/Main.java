@@ -18,7 +18,8 @@ public class Main extends Application {
        //StageStyle.UNDECORATED
         Parent root = FXMLLoader.load(getClass().getResource("../GUI/Vue.fxml"));
         Scene scene = new Scene(root);
-        scene.addEventHandler(KeyEvent.KEY_PRESSED,new KeyBoardInputs()); 
+        KeyBoardInputs kbi = new KeyBoardInputs();
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,kbi); 
         stage.setScene(scene);
         //stage.setMaxHeight(800);
         //stage.setMaxWidth(1080);
