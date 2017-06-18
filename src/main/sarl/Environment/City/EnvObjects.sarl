@@ -1,0 +1,13 @@
+package Environment.City
+
+
+class EnvObjects{
+	var length : float // this is the length from the center to the ends
+	
+	def getLength() {
+		return this.length
+	}
+	def setLength(x : float) {
+		this.length = x
+	}
+}

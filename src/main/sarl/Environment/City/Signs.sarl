@@ -1,0 +1,6 @@
+package Environment.City
+
+
+class Signs extends PositionedObjects {
+	
+}

@@ -1,7 +1,0 @@
-package model.road
-
-import model.PositionedObjects
-
-class Signs extends PositionedObjects {
-	
-}

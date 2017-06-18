@@ -1,0 +1,5 @@
+package Environment.City
+
+class CrosswalkSign extends Signs {
+	
+}

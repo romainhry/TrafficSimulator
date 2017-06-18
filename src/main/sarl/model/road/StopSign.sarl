@@ -1,5 +1,0 @@
-package model.road
-
-class StopSign extends Signs {
-	
-}

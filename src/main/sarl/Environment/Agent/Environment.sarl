@@ -1,0 +1,143 @@
+package agents
+
+import java.util.Collection
+import io.sarl.core.AgentKilled
+import io.sarl.core.AgentSpawned
+import io.sarl.core.ContextJoined
+import io.sarl.core.ContextLeft
+import io.sarl.core.Destroy
+import io.sarl.core.Initialize
+import io.sarl.core.Logging
+import io.sarl.core.MemberJoined
+import io.sarl.core.MemberLeft
+import java.util.Map
+import java.util.List
+import java.util.TreeMap
+import model.Car.CarObject
+import model.Car.TimeStep
+import model.math.Point2f
+import model.road.PositionOnTheGraph
+
+agent Environment {
+	var bodies : Collection<CarObject>
+	var graph = new Graph
+	
+	on Initialize {
+		// Initialize the graph
+	}
+	on TimeStep { // Every time step, the enviroment have to the following computations
+	// get perception
+		percieve()
+		applyInfluences()
+	}
+	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
+		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values
+		var i : float //local variable
+		var j : float //local variable
+		var posDir : int
+		for (gn : graph.nodes) { //we have to go through the Graph
+			for (o : gn.posObj) { //and get the perception for each object in each graph node
+				var li : List<PositionedObjects> //auxiliary variable
+				if (o instanceof CarObject) { // but we need just the objects that are actually Agents
+					//first, we look in front of the agent
+					for (i = o.length + 1; i < o.frustum; i++) { //from his position +1 till the end of his frustum
+						/*We have two cases: the first one is that the frustum
+						 * ends in the same graph node
+						 */
+						if (i + o.position.x <= gn.length) {
+							if (!gn.isEmptyAt(i + o.position.x,0)) {
+								li += gn.objectAt(i + o.position.x)
+							}
+						} else {
+							/*the other case is that we need to check
+							 * into neighbours nodes
+							 */
+							for (fnn : gn.frontNeighbourNodes) { //we look into each front neighbour node
+								posDir++
+								for(j=0;j<o.frustum-i;j++) //from 0 to the remaining frustum length
+							{
+								if (!fnn.isEmptyAt(j,0)) {
+									li += fnn.objectAt(j)
+								}
+							}
+						}
+							for (cfnn : gn.frontNeighbourNodes) { // we look into each front conflict node
+								for (j = 0; j < o.frustum - i; j++) // from 0 to the remaining frustum length
+								{
+									if (!cfnn.isEmptyAt(j, 0)) {
+										li += cfnn.objectAt(j)
+									}
+								}
+						}
+						
+					}
+				}
+				for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
+					if (o.position.x - i >= 0) {
+						if (!gn.isEmptyAt(o.position.x - i,0)) {
+							li += gn.objectAt(o.position.x - i)
+						} else {
+							for (bnn : gn.backNeighbourNodes) {
+									for(j=bnn.length;j<o.frustum-i;j++)
+							{
+								if (!bnn.isEmptyAt(j,0)) {
+									li += bnn.objectAt(j)
+								}
+							}
+						}
+								for (cbnn : gn.conflictNodesInBack) {
+									for (j = cbnn.length; j < o.frustum - i; j++) {
+										if (!cbnn.isEmptyAt(j, 0)) {
+											li += cbnn.objectAt(j)
+										}
+									}
+								}
+					}
+				}
+			}
+			map.put(o, li)
+			o.direction = posDir
+		}
+	}
+}
+		return map
+	}
+	def applyInfluences {
+		/*This function will take each object influence and will try to apply it.
+		 * If it's posible will change its position, if it's not, it will ignore it 
+		 */
+		for (gn : graph.nodes) { //for each graph node on the graph
+			for(o : gn.posObj){ //will take each agent on it
+				if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
+					o.position = desiredPosition(o,gn).position  //the position of the object get update
+				} // if there's a collision, we will ignore it
+			}
+		}
+	/*BUG ALERT: if the agent change of graph node on an application of its influence,
+	 * its influence may be applyed twice
+	 */	
+	}
+
+	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
+	/*We are going to test if there's a collision with other objects */	
+	if(newPosition.graphNode.isEmptyAt(newPosition.position.x,object.length)){
+		return false
+	}
+	else {
+		return true
+	}
+	}
+	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
+		/*This function will take an object knowing the node where it is and then,
+		 * will give the position on the graph where it wants to go
+		 */
+		/*While the object doesn't go out of the node, his position will change but his node, not. */
+		if (posObj.position.x + posObj.influence.x <= currentNode.length) {
+			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
+		}
+		/*Otherwise it will change to the position 0 of the next node */
+		else {
+			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(posObj.turnTo))
+			 }
+	}
+}

@@ -1,0 +1,59 @@
+package main
+
+import fr.utbm.info.ia51.framework.FrameworkLauncher
+import fr.utbm.info.ia51.framework.environment.AgentBody
+import fr.utbm.info.ia51.framework.gui.BehaviorTypeSelector
+import fr.utbm.info.ia51.framework.util.LocalizedString
+import fr.utbm.info.ia51.framework.util.SpawnMapping
+//import fr.utbm.info.ia51.labwork2.^agent.Rabbit
+import Environment.City.WorldModel
+import GUI.SimulationGUI
+import agents.CarAgent
+import io.sarl.lang.core.Agent
+
+/**
+ * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
+ * @version $Name$ $Revision$ $Date$
+ */
+class MainProgram {
+
+	static val WORLD_SIZE_X = 700f
+	static val WORLD_SIZE_Y = 700f
+	static val NUMBER_RABBITS = 1
+
+	/** Main program.
+	 * 
+	 * @param argv are the command line arguments.
+	 * @throws Exception 
+	 */	
+	static def main(argv : String*) {
+
+		System.out.println(LocalizedString::getString(typeof(MainProgram), "INTRO_MESSAGE")) //$NON-NLS-1$
+
+		var type = BehaviorTypeSelector.open
+		if (type !== null) {
+			var environment = new WorldModel(WORLD_SIZE_X, WORLD_SIZE_Y)
+
+			for (i : 1 .. NUMBER_RABBITS) {
+				environment.createRabbit
+			}
+
+			var gui = new SimulationGUI(WORLD_SIZE_X, WORLD_SIZE_Y, environment.timeManager)
+
+			FrameworkLauncher::launchSimulation(environment, new ApplicationMapping, type, gui)
+		}
+	}
+
+	/**
+	 * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
+	 * @version $Name$ $Revision$ $Date$
+	 */
+	private static class ApplicationMapping extends SpawnMapping {
+
+		override getAgentTypeForBody(body : AgentBody) : Class<? extends Agent> {
+			typeof(CarAgent)
+		}
+
+	}
+
+}

@@ -1,0 +1,68 @@
+package math
+
+import static extension java.lang.Math.*
+
+import org.eclipse.xtext.xbase.lib.Pure
+
+class Point2i {
+	var x : int
+	var y : int
+	
+	new(i : int, j : int) {
+		x=i
+		y=j
+	}
+
+	@Pure
+	def distanceSquared(p1 : Point2i) : float {
+	      var dx : float
+	      var dy : float
+	      dx = this.x - p1.x  
+	      dy = this.y - p1.y
+	      return dx * dx + dy * dy
+	}
+	def getX : int{
+		this.x
+	}
+
+	def getY : int {
+		this.y
+	}
+
+	/**
+	 * Computes the distance between this point and point p1.
+	 * @param p1 the other point
+	 * @return the distance. 
+	 */ 
+	@Pure   
+	def distance(p1 : Point2i) : float {
+	      var dx : float 
+	      var dy : float
+	      dx = this.x - p1.x  
+	      dy = this.y - p1.y
+	      return (dx * dx + dy * dy).sqrt as float
+	}
+
+	/**
+	 * Computes the L-1 (Manhattan) distance between this point and
+	 * point p1.  The L-1 distance is equal to abs(x1-x2) + abs(y1-y2).
+	 * @param p1 the other point
+	 * @return the distance.
+    */
+	@Pure
+	def distanceL1(p1 : Point2i) : float {
+	      (this.x - p1.x).abs + (this.y - p1.y).abs
+	}
+
+	/**
+	 * Computes the L-infinite distance between this point and
+	 * point p1.  The L-infinite distance is equal to 
+	 * MAX[abs(x1-x2), abs(y1-y2)]. 
+	 * @param p1 the other point
+	 * @return the distance.
+	 */
+	@Pure
+	def distanceLinf(p1 : Point2i) : float {
+		max((this.x - p1.x).abs, (this.y - p1.y).abs)
+	}	
+}

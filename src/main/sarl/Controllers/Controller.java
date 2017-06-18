@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.awt.Button;
-import GUI.CarGUI;
+import GUI.SimulationGUI;
 
 
 public class Controller implements Initializable {
@@ -492,7 +492,7 @@ public class Controller implements Initializable {
     
     
     public static void addtoroadgui ( String imgURL , UUID UID ){
-    	CarGUI car = new  CarGUI(imgURL, UID);
+    	SimulationGUI car = new  SimulationGUI(imgURL, UID);
     	group.getChildren().add(car);
     }
    
