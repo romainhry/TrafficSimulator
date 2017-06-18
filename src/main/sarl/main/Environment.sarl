@@ -1,5 +1,10 @@
-package model
+package main
 
+import java.awt.Graphics;
+import java.util.*;
+import java.text.DateFormat;
+import java.applet.Applet;
+import javafx.application.Platform;
 import java.util.Collection
 import io.sarl.core.AgentKilled
 import io.sarl.core.AgentSpawned
@@ -17,14 +22,68 @@ import model.Car.CarObject
 import model.Car.TimeStep
 import model.math.Point2f
 import model.road.PositionOnTheGraph
+import model.Graph
+import Controllers.Controller
+import model.PositionedObjects
+import model.GraphNode
+import io.sarl.core.Lifecycle
+import io.sarl.core.DefaultContextInteractions
+import main.SimulationGUI
+import javafx.application.Application
+import agents.*
+import javafx.concurrent.Task
 
-agent Enviroment {
+agent Environment {
+	uses Lifecycle, DefaultContextInteractions
 	var bodies : Collection<CarObject>
 	var graph = new Graph
+
+	var listener : SimulationGUI
+	
+	var myGui : SimulationGUI
 	
 	on Initialize {
 		// Initialize the graph
+		var width = occurrence.parameters.get(0) as Integer
+		var height = occurrence.parameters.get(1) as Integer
+		var nbGhosts = occurrence.parameters.get(2) as Integer
+		var perceptionDistance = occurrence.parameters.get(3) as Integer
+		for (i : 4 ..< occurrence.parameters.size) {
+			var o = occurrence.parameters.get(i)
+				this.listener = o as SimulationGUI
+		}
+		System.out.println("la")
+		var carBody = new CarObject()
+		spawnInContextWithID(typeof(CarAgent), carBody.getUID, defaultContext)
+		
+		/*setSkill(new DefaultMazeManagerSkill(width, height), typeof(MazeManager))
+		setSkill(new DefaultMazeFrontEndSkill(), typeof(MazeFrontEnd))
+		this.controller = new Controller(defaultSpace, defaultAddress)
+		var pacmanBody = createPacman
+		this.player = new Player(pacmanBody.agentId, Logger::getLogger(ID.toString))
+		for (i : 0 ..< nbGhosts) {
+			var ghostBody = createGhost(perceptionDistance)
+			spawnInContextWithID(typeof(Ghost), ghostBody.agentId, defaultContext)
+		}
+		firePlayerBinding
+		fireControllerBinding
+		fireEnvironmentChange*/
+		// listener.start(null)
+		
+		myGui = SimulationGUI.waitForGui();
+		
+		System.out.println("pas la")
+		
+		
 	}
+	
+	on AddCar {
+		var carBody = new CarObject()
+		
+		Platform.runLater(new Runnable(){ myGui.addtoroadgui(carBody.getUID)})
+     	
+	}
+	
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
 		percieve()

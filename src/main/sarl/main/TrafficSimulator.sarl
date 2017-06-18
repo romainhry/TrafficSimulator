@@ -1,0 +1,81 @@
+package main
+
+
+import io.janusproject.Boot
+import io.janusproject.util.LoggerCreator
+
+import java.util.logging.Level
+import Controllers.Controller
+import javafx.application.Application
+import javafx.stage.Stage
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.fxml.FXMLLoader
+import Controllers.KeyBoardInputs
+import javafx.scene.input.KeyEvent
+
+//import fr.utbm.info.ia51.labwork1.environment.^agent.Environment
+/** 
+ * Launcher of the simulation framework.
+ * 
+ * This launcher needs the {@link http://www.janusproject.io Janus platform}.
+ * 
+ * @author St&eacute;phane GALLAND &lt;stephane.galland@utbm.fr&gt;
+ * @version $Name$ $Revision$ $Date$
+ */
+class TrafficSimulator{
+	
+		/** Width of the world (in number of cells).
+		 */
+	public static val WIDTH = 25
+	/** Height of the world (in number of cells).
+	 */
+	public static val HEIGHT = 25
+
+	/** Number of ghosts at the start-up.
+	 */
+	public static val NB_GHOSTS = 3
+	
+	/** Percpetion distance for the agents (usually the ghosts).
+	 */
+	public static val PERCEPTION_DISTANCE = 5
+	
+	/** The UI will force the environment agent to wait for it.
+	 */
+	public static val WAITING_DURATION = 500
+
+	public static var stage : Stage
+
+	//@Override
+
+//	def start(stage : Stage) throws Exception {
+//       //StageStyle.UNDECORATED
+//        var root = FXMLLoader.load(getClass().getResource("../GUI/Vue.fxml"));
+//        var scene = new Scene(root);
+//        var kbi = new KeyBoardInputs();
+//        scene.addEventHandler(KeyEvent.KEY_PRESSED,kbi); 
+//        stage.setScene(scene);
+//        //stage.setMaxHeight(800);
+//        //stage.setMaxWidth(1080);
+//        stage.sizeToScene();
+//        
+//        stage.setResizable(true);
+//        stage.show();
+//    }
+
+	static def main(args : String[]) : void {
+		var ui = new SimulationGUI()
+
+		//FrameworkLauncher::launchSimulation(null, WIDTH, HEIGHT, NB_GHOSTS, PERCEPTION_DISTANCE, ui)
+		
+		
+		Boot::setOffline(true)
+		Boot::setVerboseLevel(LoggerCreator::toInt(Level::INFO))
+		Boot::showJanusLogo
+		Boot::startJanus(typeof(Environment), WIDTH, HEIGHT, NB_GHOSTS, PERCEPTION_DISTANCE, ui)
+		Application.launch(ui.class)
+	 	
+	 
+	}
+	
+}

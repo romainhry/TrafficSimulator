@@ -10,17 +10,31 @@ import Controllers.Controller
 import model.road.LightColor
 import model.math.Point2i
 import model.math.Point2f
+import java.util.TimerTask
+import java.util.Timer
+import io.sarl.core.DefaultContextInteractions
 
 agent CarAgent {
-	uses Lifecycle
+	uses Lifecycle, DefaultContextInteractions
 
 	var previousDirection : int
 	var CarBody : CarObject
 	val random = new Random
 	on Initialize {
-		CarBody = new CarObject(0, 0)
-		Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
-		CarBody.getDirection().randomMove()
+		//CarBody = new CarObject(0, 0)
+		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		// CarBody.getDirection().randomMove()
+		var timer = new Timer()
+		var task = new TimerTask() {
+			var contador = 0
+
+			@Override
+			def run {
+				emit(new AddCar)
+				System.out.println("emit")
+			}
+		}
+		timer.schedule(task, 4000, 4000)
 	}
 
 	on CarAgentIsDead {
@@ -134,5 +148,7 @@ agent CarAgent {
 			CarBody.setInfluence(new Point2f(0, -3))
 		}
 	}
+}
 
+event AddCar {
 }

@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import main.Main;
+import main.SimulationGUI;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,6 +34,12 @@ public class Controller implements Initializable {
     double x,y,middleX,middleY,x2,y2;
     int config,config2;
     Polyline drawing = new Polyline(0,0,0,0,0,0);
+    
+    long waiting;
+    
+    public Controller(long waitingDuration){
+    	waiting = waitingDuration;
+    }
     
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -443,8 +449,8 @@ public class Controller implements Initializable {
         group.getChildren().add(fountain);
         
         group.getChildren().add(imageVille1);
-        Main.stage.setWidth(1200);
-        Main.stage.setX(-30);
+        SimulationGUI.stage.setWidth(1200);
+        SimulationGUI.stage.setX(0);
         
     	
     }
@@ -491,8 +497,9 @@ public class Controller implements Initializable {
     }
     
     
-    public static void addtoroadgui ( String imgURL , UUID UID ){
-    	CarGUI car = new  CarGUI(imgURL, UID);
+    public void addtoroadgui (UUID UID ){
+    	CarGUI car = new  CarGUI("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/redlight.png", UID);
+
     	group.getChildren().add(car);
     }
    
