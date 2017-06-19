@@ -17,6 +17,7 @@ import model.Car.CarObject
 import model.Car.TimeStep
 import model.math.Point2f
 import model.road.PositionOnTheGraph
+import model.road.GraphCreator
 
 agent Enviroment {
 	var bodies : Collection<CarObject>
@@ -24,6 +25,8 @@ agent Enviroment {
 	
 	on Initialize {
 		// Initialize the graph
+		var graphCreator = new GraphCreator
+		var graphEnviroment = graphCreator.city1
 	}
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
