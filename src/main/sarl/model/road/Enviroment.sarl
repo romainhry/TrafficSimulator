@@ -14,24 +14,31 @@ import java.util.Map
 import java.util.List
 import java.util.TreeMap
 import model.Car.CarObject
-import model.Car.TimeStep
 import model.math.Point2f
 import model.road.PositionOnTheGraph
 import model.road.GraphCreator
+import model.road.TimeStep
+import model.road.TimeAgent
+import io.sarl.core.DefaultContextInteractions
 
 agent Enviroment {
+	uses DefaultContextInteractions
 	var bodies : Collection<CarObject>
-	var graph = new Graph
+	var graph : Graph
 	
 	on Initialize {
 		// Initialize the graph
 		var graphCreator = new GraphCreator
-		var graphEnviroment = graphCreator.city1
+		graph = graphCreator.city1
+		//Initialize the Time Agent
+		spawn(typeof(TimeAgent))
+		
 	}
 	on TimeStep { // Every time step, the enviroment have to the following computations
-	// get perception
+		System.out.println("time step")
 		percieve()
 		applyInfluences()
+		//TODO Update UI
 	}
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values

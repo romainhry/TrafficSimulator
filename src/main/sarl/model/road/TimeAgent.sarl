@@ -1,7 +1,7 @@
 /** 
  * 
  */
-package main
+package model.road
 
 import io.sarl.core.AgentKilled
 import io.sarl.core.AgentSpawned
@@ -12,37 +12,32 @@ import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
-import io.sarl.core.Lifecycle
-import model.Car.CarObject
+import java.util.Timer
+import java.util.TimerTask
 import io.sarl.core.DefaultContextInteractions
-import Controllers.Controller
-//import agents.CarAgent
-import GUI.CarGUI
-import model.road.GraphCreator
-import model.Enviroment
+import io.sarl.lang.core.Event
 
 /** 
  * @author gero_
  * 
  */
+agent TimeAgent {
+	uses Logging, DefaultContextInteractions
+	var timer = new Timer
+	val TIME_STEP =1000
+	
 
-agent BootAgent {
-	uses Logging, Lifecycle, DefaultContextInteractions
-	var nbCars : int //should get it from the env
 	on Initialize {
-		spawn(typeof(Enviroment))
-		/*var args : String[]
-		Main.main(args)*/
-		info("Start the agent")
-		/*nbCars = 10 ;
-		for (i : 0 ..< nbCars) {
-			//define a capacity where there's a def createCar
-			//var CarBody = createCar(perceptionDistance)
-			var CarBody = new CarObject(0,0)
-			spawnInContextWithID(typeof(CarAgent), CarBody.UID, defaultContext)
-			Controller.addtoroadgui("../../Images/car.png", CarBody.UID)
-		}*/
+		var task = new TimerTask() {
+			@Override
+			def run {
+				sendEvent
+			}
+		}
+		timer.schedule(task, 0, TIME_STEP)
+		
 	}
+
 	on Destroy {
 		// Event trigger when the agent is destroyed from the system.
 		// You should put all the resource releasing statements in this block of code.
@@ -52,7 +47,7 @@ agent BootAgent {
 	on AgentSpawned {
 		// A new agent has been spawned in our context.
 	}
-	
+
 	on AgentKilled {
 		// A new agent has been killed in our context.
 	}
@@ -76,4 +71,12 @@ agent BootAgent {
 		// Event trigger when an agent leaves one of our shared super-holons.
 		// Sent to all members of the considered super-holon.
 	}
+	def sendEvent {
+		var e = new TimeStep
+		e.emit
+	}
+}
+
+event TimeStep extends Event {
+	
 }

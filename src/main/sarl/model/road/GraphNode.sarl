@@ -14,17 +14,18 @@ class GraphNode {
 	var maxDesviationRight : float // Max desviation i can have to the right
 	var maxDesviationLeft : float // Max desviation i can have to the left
 	var isFinalNode : boolean //end of the route
-	var isStartPoint = false //begin of the route
 	
 	new (l : float, b : boolean){
 		this.length=l
 		this.isFinalNode=b
+		posObj = new ArrayList<PositionedObjects>
+		neighbourNodes = new ArrayList<GraphNode>
+		conflictNodesInBack = new ArrayList<GraphNode>
+		conflictNodesInFront = new ArrayList<GraphNode>
+		frontNeighbourNodes = new ArrayList<GraphNode>
+		backNeighbourNodes = new ArrayList<GraphNode>
 	}
-	new(l : float, b : boolean, ini : boolean) {
-		this.length = l
-		this.isFinalNode = b
-		this.isStartPoint = b
-	}
+
 
 	def itIsEmptyNode() : Boolean {
 		if (posObj.empty) {
@@ -159,5 +160,8 @@ class GraphNode {
 	}
 	def nextNode(n : int) : GraphNode{
 		return this.frontNeighbourNodes.get(n)
+	}
+	def addObject(o : PositionedObjects) {
+		posObj.add(o)
 	}
 }

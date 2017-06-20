@@ -1,7 +1,11 @@
 package model.road
 
 import model.PositionedObjects
+import model.math.Point2f
 
 class Signs extends PositionedObjects {
-	
+	new (x : float) {
+		position = new Point2f(x,0)
+		length = 1
+	}
 }

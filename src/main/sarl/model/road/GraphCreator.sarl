@@ -2,14 +2,17 @@ package model.road
 
 import model.Graph
 import model.GraphNode
+import model.road.CrosswalkSign
 
 class GraphCreator {
+	
 	
 	def city1 : Graph{
 		var graph = new Graph
 		
-		var node1 = new GraphNode(10,false,true)
+		var node1 = new GraphNode(10,false)
 		graph.add(node1)
+		graph.addSpawnPoint(node1)
 		var node2 = new GraphNode(20,false)
 		graph.add(node2)
 		node1.addFrontNeighbour(node2)
@@ -21,6 +24,8 @@ class GraphCreator {
 		node2.addFrontNeighbour(node4)
 		var node5 = new GraphNode(20, false)
 		graph.add(node5)
+		var giveWay5 = new GiveWaySign(19)
+		node5.addObject(giveWay5)
 		var node6 = new GraphNode(10, false)
 		graph.add(node6)
 		var node7 = new GraphNode(10, false)
@@ -31,14 +36,20 @@ class GraphCreator {
 		graph.add(node9)
 		var node10 = new GraphNode(20, false)
 		graph.add(node10)
+		var giveWay10 = new GiveWaySign(19)
+		node5.addObject(giveWay10)
 		var node11 = new GraphNode(20, false)
 		graph.add(node11)
 		var node12 = new GraphNode(20, false)
 		graph.add(node12)
+		var giveWay12 = new GiveWaySign(19)
+		node5.addObject(giveWay12)
 		var node13 = new GraphNode(20, false)
 		graph.add(node13)
 		var node14 = new GraphNode(20, false)
 		graph.add(node14)
+		var giveWay14 = new GiveWaySign(19)
+		node5.addObject(giveWay14)
 		node5.addFrontNeighbour(node6)
 		node6.addFrontNeighbour(node7)
 		node6.addFrontNeighbour(node10)
@@ -58,13 +69,16 @@ class GraphCreator {
 		var node17 = new GraphNode(10, true)
 		graph.add(node17)
 		node16.addFrontNeighbour(node17)
-		var node18 = new GraphNode(10, false,true)
+		var node18 = new GraphNode(10, false)
 		graph.add(node18)
+		graph.addSpawnPoint(node18)
 		var node19 = new GraphNode(60, false)
 		graph.add(node19)
 		node18.addFrontNeighbour(node19)
 		var node20 = new GraphNode(110, false)
 		graph.add(node20)
+		var stop20 = new StopSign(109)
+		node20.addObject(stop20)
 		var node21 = new GraphNode(180, false)
 		graph.add(node21)
 		node20.addFrontNeighbour(node21)
@@ -101,6 +115,13 @@ class GraphCreator {
 		graph.add(node34)
 		
 		//3 street corner
+		var tl23 = new TrafficLight(19)
+		var tl31 = new TrafficLight(99)
+		var tl34 = new TrafficLight(89)
+		tl23.activate(tl31,tl34)
+		node23.addObject(tl23)
+		node31.addObject(tl31)
+		node34.addObject(tl34)
 		node23.addFrontNeighbour(node25)
 		node23.addFrontNeighbour(node27)
 		node23.addConflictFrontNeighbour(node26)
@@ -167,6 +188,16 @@ class GraphCreator {
 		graph.add(node52)
 		
 		//4 street corner
+		var tl33 = new TrafficLight(89)
+		var tl35 = new TrafficLight(19)
+		var tl38 = new TrafficLight(49)
+		var tl40 = new TrafficLight(49)
+		tl33.activate(tl35,tl38,tl40)
+		node33.addObject(tl33)
+		node35.addObject(tl35)
+		node38.addObject(tl38)
+		node40.addObject(tl40)
+		
 		node33.addFrontNeighbour(node41)
 		node33.addFrontNeighbour(node49)
 		node33.addFrontNeighbour(node46)
@@ -235,8 +266,9 @@ class GraphCreator {
 		graph.add(node54)
 		var node55 = new GraphNode(10, true)
 		graph.add(node55)
-		var node56 = new GraphNode(10, false,true)
+		var node56 = new GraphNode(10, false)
 		graph.add(node56)
+		graph.addSpawnPoint(node56)
 		node56.addFrontNeighbour(node54)
 		node53.addFrontNeighbour(node55)
 		
@@ -255,6 +287,14 @@ class GraphCreator {
 		graph.add(node62)
 		
 		// 3 street corner
+		var tl37 = new TrafficLight(49)
+		var tl39 = new TrafficLight(49)
+		var tl54 = new TrafficLight(19)
+		tl37.activate(tl39, tl54)
+		node37.addObject(tl37)
+		node39.addObject(tl39)
+		node54.addObject(tl54)
+		
 		node37.addFrontNeighbour(node57)
 		node37.addFrontNeighbour(node61)
 		node37.addConflictFrontNeighbour(node58)
@@ -285,9 +325,12 @@ class GraphCreator {
 		
 		
 		var node63 = new GraphNode(160, false)
+		var tf63 = new TrafficLight(159)
+		node63.addObject(tf63)
 		graph.add(node63)
-		var node64 = new GraphNode(10, false,true)
+		var node64 = new GraphNode(10, false)
 		graph.add(node64)
+		graph.addSpawnPoint(node64)
 		node64.addFrontNeighbour(node63)
 		var node74 = new GraphNode(10, false)
 		graph.add(node74)
@@ -298,13 +341,20 @@ class GraphCreator {
 		node75.addFrontNeighbour(node20)
 		node74.addFrontNeighbour(node31)
 
+		
+		var tl68 = new TrafficLight(19)
+		var tl69 = new TrafficLight(79)
+		tl68.activate(tl69)
+		
 		var node66 = new GraphNode(10, false)
 		graph.add(node66)
 		var node67 = new GraphNode(5, false)
 		graph.add(node67)
 		var node68 = new GraphNode(20, false)
+		node68.addObject(tl68)
 		graph.add(node68)
 		var node69 = new GraphNode(80, false)
+		node69.addObject(tl69)
 		graph.add(node69)
 		var node70 = new GraphNode(10, false)
 		graph.add(node70)
@@ -326,6 +376,102 @@ class GraphCreator {
 		node70.addFrontNeighbour(node72)
 		node71.addFrontNeighbour(node72)
 		node72.addFrontNeighbour(node73)
+		
+		/* Cration of the Crosswalks
+		 */
+		var cross53 = new CrosswalkSign(1)
+		node53.addObject(cross53)
+		var cross54 = new CrosswalkSign(19)
+		node54.addObject(cross54)
+		var cross37a = new CrosswalkSign(49)
+		node37.addObject(cross37a)
+		var cross38a = new CrosswalkSign(1)
+		node38.addObject(cross38a)
+		var cross39a = new CrosswalkSign(49)
+		node39.addObject(cross39a)
+		var cross40a = new CrosswalkSign(1)
+		node40.addObject(cross40a)
+		var cross37b = new CrosswalkSign(31)
+		node37.addObject(cross37b)
+		var cross38b = new CrosswalkSign(19)
+		node38.addObject(cross38b)
+		var cross39b = new CrosswalkSign(31)
+		node39.addObject(cross39b)
+		var cross40b = new CrosswalkSign(19)
+		node40.addObject(cross40b)
+		var cross37c = new CrosswalkSign(19)
+		node37.addObject(cross37c)
+		var cross38c = new CrosswalkSign(31)
+		node38.addObject(cross38c)
+		var cross39c = new CrosswalkSign(19)
+		node39.addObject(cross39c)
+		var cross40c = new CrosswalkSign(31)
+		node40.addObject(cross40c)
+		var cross36 = new CrosswalkSign(1)
+		node36.addObject(cross36)
+		var cross35 = new CrosswalkSign(19)
+		node35.addObject(cross35)
+		var cross37d = new CrosswalkSign(1)
+		node37.addObject(cross37d)
+		var cross38d = new CrosswalkSign(49)
+		node38.addObject(cross38d)
+		var cross39d = new CrosswalkSign(1)
+		node39.addObject(cross39d)
+		var cross40d = new CrosswalkSign(49)
+		node40.addObject(cross40d)
+		var cross33a = new CrosswalkSign(89)
+		node33.addObject(cross33a)
+		var cross34a = new CrosswalkSign(1)
+		node34.addObject(cross34a)
+		var cross23 = new CrosswalkSign(19)
+		node23.addObject(cross23)
+		var cross24 = new CrosswalkSign(1)
+		node24.addObject(cross24)
+		var cross33b = new CrosswalkSign(1)
+		node33.addObject(cross33b)
+		var cross34b = new CrosswalkSign(89)
+		node34.addObject(cross34b)
+		var cross31 = new CrosswalkSign(99)
+		node31.addObject(cross31)
+		var cross32a = new CrosswalkSign(1)
+		node32.addObject(cross32a)
+		var cross69 = new CrosswalkSign(79)
+		node69.addObject(cross69)
+		var cross68 = new CrosswalkSign(19)
+		node68.addObject(cross68)
+		var cross32b = new CrosswalkSign(69)
+		node32.addObject(cross32b)
+		var cross63 = new CrosswalkSign(159)
+		node63.addObject(cross63)
+		
+		/*Here we create the Maximum Speed Signs */
+		var max63a = new MaxSpeedSign(21)
+		max63a.maxSpeed = 70
+		node63.addObject(max63a)
+		var max63b = new MaxSpeedSign(100)
+		max63b.maxSpeed = 50
+		node63.addObject(max63b)
+		var max31a = new MaxSpeedSign(5)
+		max31a.maxSpeed = 30
+		node31.addObject(max31a)
+		var max31b = new MaxSpeedSign(70)
+		max31b.maxSpeed = 50
+		node31.addObject(max31b)
+		var max21 = new MaxSpeedSign(20)
+		max21.maxSpeed = 130
+		node21.addObject(max21)
+		var max33 = new MaxSpeedSign(60)
+		max33.maxSpeed = 30
+		node33.addObject(max33)
+		var max5 = new MaxSpeedSign(1)
+		max5.maxSpeed = 50
+		node5.addObject(max5)
+		var max10 = new MaxSpeedSign(1)
+		max10.maxSpeed = 50
+		node10.addObject(max10)
+		var max35 = new MaxSpeedSign(1)
+		max35.maxSpeed = 30
+		node35.addObject(max35)
 		
 		return graph
 	}

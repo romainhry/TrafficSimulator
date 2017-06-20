@@ -4,17 +4,25 @@ import java.util.List
 import java.util.ArrayList
 
 class Graph {
-	var nodes : ArrayList<GraphNode>
-	new {
-		nodes.clear
-	}
-	def add(g : GraphNode) {
+	var nodes = new ArrayList<GraphNode>
+	var spawningPoints = new ArrayList<GraphNode>
+
+	def add(g : GraphNode) : void{
 		nodes.add(g)
 		//this function only add it to the list of nodes in the graph
-		//We also need to relate to an existing node before by the funcion
+		//We also need to relate to an existing node before by the function
+		// "add" of the class GraphNode c
+	}
+
+	/*This are the points in the graph where we can spawn agents */
+	def addSpawnPoint(g : GraphNode) : void {
+		spawningPoints.add(g)
+			// this function only add it to the list of nodes in the graph
+		// We also need to relate to an existing node before by the function
 		// "add" of the class GraphNode c
 	}
 	def getNodes : ArrayList<GraphNode> {
 		return this.nodes
 	}
+	
 }

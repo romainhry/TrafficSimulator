@@ -1,9 +1,11 @@
 package model.road
 
+import model.math.Point2f
+
 class MaxSpeedSign extends Signs {
 	var maxSpeed : float
-	new(s : float) {
-		this.maxSpeed = s
+	def setMaxSpeed(f : float) {
+		maxSpeed = f
 	}
 	def getMaxSpeed : float {
 		this.maxSpeed

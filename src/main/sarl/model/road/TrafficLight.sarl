@@ -6,28 +6,22 @@ import java.util.TimerTask
 import java.util.Timer
 
 class TrafficLight extends PositionedObjects {
-	var color : LightColor //enum defined at the end of this file
+	var color : LightColor // enum defined at the end of this file
 	var nextColor : LightColor
-	var timer = new Timer() //We utilize it for control the time of the color change
+	var length : float
+	var timer = new Timer() // We utilize it for control the time of the color change
+
 	new(x : float) {
-		this.position = new Point2f(x,0f) //it has no lateral deviation
+		this.position = new Point2f(x, 0f) // it has no lateral deviation
 		this.length = 1f
 		this.color = LightColor.RED
 		this.nextColor = LightColor.YELLOW
-		activate
-		
+
 	}
-	/* we have also the possibility of create a traffic light antisynchronized with other */
-	new(x : float, neighbour : TrafficLight) {
-		this.position = new Point2f(x, 0f)
-		this.length = 1f
-		this.antiSynchr(neighbour)
-		activate
-	}
-	
 	def getColor : LightColor {
 		this.color
 	}
+
 	def setColor(c : LightColor) : LightColor {
 		this.color = c
 	}
@@ -39,66 +33,168 @@ class TrafficLight extends PositionedObjects {
 	def setNextColor(c : LightColor) : LightColor {
 		this.nextColor = c
 	}
-	/*2 traffic lights that have the same color at the same time */
+	/* 2 traffic lights that have the same color at the same time
+	 */
 	def synchr(neighbour : TrafficLight) {
 		this.color = neighbour.color
 		this.nextColor = neighbour.nextColor
 	}
-	/* 2 traffic lights that have the opposite color at the same time*/
+	/* 2 traffic lights that have the opposite color at the same time
+	 */
 	def antiSynchr(neighbour : TrafficLight) {
 		if (neighbour.color == LightColor.RED) {
 			this.color = LightColor.GREEN
 			this.nextColor = LightColor.YELLOW
-		}
-		else if(neighbour.color == LightColor.GREEN) {
+		} else if (neighbour.color == LightColor.GREEN) {
 			this.color = LightColor.RED
 			this.nextColor = LightColor.YELLOW
-		}
-		else {
+		} else {
 			this.color = LightColor.YELLOW
 			if (neighbour.nextColor == LightColor.RED) {
 				this.nextColor = LightColor.GREEN
-			}
-			else {
+			} else {
 				this.nextColor = LightColor.RED
 			}
 		}
 	}
+
 	def colorChange() {
 		if (this.color == LightColor.RED) {
 			this.color = this.nextColor
 			this.nextColor = LightColor.GREEN
-		}
-		else if (this.color == LightColor.GREEN) {
+		} else if (this.color == LightColor.GREEN) {
 			this.color = this.nextColor
 			this.nextColor = LightColor.RED
-		}
-		else {
+		} else {
 			this.color = this.nextColor
 			this.nextColor = LightColor.YELLOW
 		}
 	}
 
-	def activate {
-		/*each second it will decide if it need to remain in one color
-		 * of it's time for a color change. */
+	def activate(w : int, dur : int) {
+			/* activate a Traffic Light that work alone
+			 * w it0s the time that it will wait before start,
+			 * dur is the duration of the yellow color
+			 */
 		var task = new TimerTask() {
 			var contador = 0
+
 			@Override
 			def run {
-				if (contador < 4) {			//it's in GREEN or RED
+				if (contador < 4) { // it's in GREEN or RED
 					if (contador == 3) {
 						colorChange
 					}
 				} else {
 					colorChange
-					contador = 0		//It's in YELLOW
+					contador = 0 	// It's in YELLOW
 				}
 				contador++
 			}
 		}
-		timer.schedule(task, 0, 1000)
+		timer.schedule(task, w, dur)
 	}
+
+	def activate(t1 : TrafficLight) {
+			/* activate 2 traffic lights that work together
+			 */
+		this.activate(0, 1000)
+		t1.activate(4000, 1000)
+	}
+
+	def activate3(w : int, dur : int) {
+			/* activation of a traffic light that will work with other 2
+			 */
+		var task = new TimerTask() {
+			var contador = 0
+			var flag = 0
+
+			@Override
+			def run {
+				if (flag == 0) {
+					if (contador < 8) { // it's in RED
+						if (contador == 7) {
+							colorChange
+						}
+					} else {
+						colorChange
+						contador = 0 // It's in YELLOW
+						flag = 1
+					}
+				} else {
+					if (contador < 4) { // it's in GREEN
+						if (contador == 3) {
+							colorChange
+						}
+					} else {
+						colorChange
+						contador = 0 // It's in YELLOW
+						flag = 0
+					}
+				}
+				contador++
+			}
+		}
+		timer.schedule(task, w, dur)
+	}
+
+	def activate(t1 : TrafficLight, t2 : TrafficLight) {
+			/* activation of 3 traffic lights that will work together
+			 */
+		this.activate3(0, 1000)
+		t1.activate3(4000, 1000)
+		t2.activate3(7000, 1000)
+	}
+
+	def activate4(w : int, dur : int) {
+			/* activation of a traffic light that will work with other 3
+			 */
+		var task = new TimerTask() {
+			var contador = 0
+			var flag = 0
+
+			@Override
+			def run {
+				if (flag == 0) {
+					if (contador < 12) { // it's in RED
+						if (contador == 11) {
+							colorChange
+						}
+					} else {
+						colorChange
+						contador = 0 // It's in YELLOW
+						flag = 1
+					}
+				} else {
+					if (contador < 4) { // it's in GREEN
+						if (contador == 3) {
+							colorChange
+						}
+					} else {
+						colorChange
+						contador = 0 // It's in YELLOW
+						flag = 0
+					}
+				}
+				contador++
+			}
+		}
+		timer.schedule(task, w, dur)
+	}
+
+	def activate(
+		t1 : TrafficLight,
+		t2 : TrafficLight,
+		t3 : TrafficLight
+	) {
+			/* activation of 4 traffic lights that will work together
+			 */
+		this.activate4(0, 1000)
+		t1.activate4(4000, 1000)
+		t2.activate4(8000, 1000)
+		t3.activate4(12000,1000)
+	}
+	
 }
 
 enum LightColor {
