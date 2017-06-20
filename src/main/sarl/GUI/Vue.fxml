@@ -9,7 +9,7 @@
 <?import javafx.scene.media.*?>
 <?import javafx.scene.text.*?>
 
-<Group fx:id="group" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controller">
+<Group fx:id="group" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Controleur">
 <children><AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="766.0">
 	<children><Pane layoutX="-1.0" layoutY="-1.0" prefHeight="603.0" prefWidth="751.0">
 	<children>

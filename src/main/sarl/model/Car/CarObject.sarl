@@ -1,14 +1,12 @@
 package model.Car
+
 import java.io.Serializable
 import java.lang.ref.WeakReference
-import model.math.Point2i
-import model.Graph
-import model.EnvObjects
-import model.PositionedObjects
-import javax.swing.Icon
-import javax.swing.ImageIcon
 import java.util.UUID
-import model.math.Point2f
+import model.math.Point2i
+import model.PositionedObjects
+import model.EnvObjects
+import model.Graph
 
 class CarObject implements Serializable extends PositionedObjects {
 	var position : Point2i

@@ -6,7 +6,6 @@ import io.sarl.core.Initialize
 import java.util.List
 import model.Car.CarObject
 import model.Car.Direction
-import Controllers.Controller
 import model.road.LightColor
 import model.math.Point2i
 import model.math.Point2f
@@ -19,7 +18,7 @@ agent CarAgent {
 	val random = new Random
 	on Initialize {
 		CarBody = new CarObject(0, 0)
-		Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
 		CarBody.getDirection().randomMove()
 	}
 
