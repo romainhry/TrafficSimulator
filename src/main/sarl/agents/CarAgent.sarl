@@ -9,13 +9,21 @@ import model.Car.Direction
 import model.road.LightColor
 import model.math.Point2i
 import model.math.Point2f
+import io.sarl.core.*
+import io.sarl.util.Scopes
+import java.util.UUID
+import io.sarl.core.InnerContextAccess
 
 agent CarAgent {
-	uses Lifecycle
+	uses Lifecycle, DefaultContextInteractions, Schedules
 
 	var previousDirection : int
 	var CarBody : CarObject
 	val random = new Random
+	var move : AgentTask
+	var exited : boolean
+	var destroyed : boolean
+	var parentAgent : UUID
 	on Initialize {
 		CarBody = new CarObject(0, 0)
 		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
@@ -23,11 +31,27 @@ agent CarAgent {
 	}
 
 	on CarAgentIsDead {
-		//delete the car image from the gui
-		//kill the agent
+		// To Do : delete the car image from the gui
+		// kill the agent
+		exited = true
+		move.cancel(true)
+		//innerContext.defaultSpace.emit(new Exit)
 		killMe
 	}
+	/* 
+	 * Clean every task
+	 */
+	def cleanBeforeExit() {
+		move.cancel(true)
+		exited = true
+		destroyed = true
+	}
 
+	on Exit [!exited && isFrom(getParentID)] {
+		this.cleanBeforeExit
+		emit(new Exit, Scopes.addresses(defaultSpace.getAddress(parentAgent)))
+		killMe
+	}
 	on Perception {
 		var freeDirections : int
 		freeDirections = CarBody.getDirection

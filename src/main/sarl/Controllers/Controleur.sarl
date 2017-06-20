@@ -20,8 +20,11 @@ import java.util.UUID;
 import java.awt.Button;
 import GUI.CarGUI;
 import io.sarl.lang.core.Event
+import io.sarl.util.OpenEventSpace
+import agents.Exit
+import agents.SetupSettings
 
-public class Controleur implements Initializable,  EventListener {
+public class Controleur implements EventListener {
 
     @FXML
     private var group : Group;
@@ -33,8 +36,13 @@ public class Controleur implements Initializable,  EventListener {
 	private var PaneDesc :Pane;
     //*******************************************************
     private var groupeFeux1 :ArrayList<ImageView> ;
-    private var groupeFeux2 :ArrayList<ImageView>;
-	//****************************************************	
+    private var groupeFeux2 : ArrayList<ImageView>;
+	//********************* Agent related*******************************
+	private var ispace : OpenEventSpace;
+	private var launched : boolean = false;
+	private var roadcreated : boolean = false;
+	private val id : UUID = UUID.randomUUID();
+	//***************************************************	
     var x : double
     var y : double
     var middleX : double
@@ -45,16 +53,6 @@ public class Controleur implements Initializable,  EventListener {
     var config2 : int
     var drawing = new Polyline(0,0,0,0,0,0);
     
-    @Override // This method is called by the FXMLLoader when initialization is complete
-	override initialize(arg0 : URL, arg1 : ResourceBundle) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
-	@Override
-	override receiveEvent(^event : Event) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-		}
-
 	@Override
 	override getID : UUID {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
@@ -465,8 +463,23 @@ public class Controleur implements Initializable,  EventListener {
         group.getChildren().add(imageVille1);
         Main.stage.setWidth(1200);
         Main.stage.setX(-30);
-        
+		var ievent : SetupSettings = new SetupSettings(this.getnbcars());
+		if (!launched) {
+			FireAgentBoot.main(this);
+			launched = true;
+			roadcreated = false;
+		}
+		this.ispace.emit(ievent);
     	
+    }
+    def public getnbcars() : int {
+    	var i = 0
+		for(child : group.getChildren()){
+			if(child.class == CarGUI){
+				i++
+			}
+		}
+		return i
     }
     def public Desc(e : ActionEvent) : void {
     	PaneHome.setVisible(false);
@@ -510,10 +523,21 @@ public class Controleur implements Initializable,  EventListener {
     	}	
     }
     
-    
+    //TO DO : Dunno if we still need this function
     def public addtoroadgui(c : CarObject, UID : UUID) : void {
     	var car = new  CarGUI(c.getCarIcon(), UID);
     	group.getChildren().add(car);
     }
-   
+	/*
+	 * Emit a kill signal wen the app is exited
+	 */
+	public def cleanExit() {
+		if (this.ispace !== null)
+			this.ispace.emit(new Exit());
+	}
+	
+	override receiveEvent(^event : Event) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

@@ -1,0 +1,16 @@
+package Controllers
+
+import io.janusproject.Boot
+import static io.janusproject.Boot.*
+import model.Enviroment
+
+/* 
+ * Launch janus Kernel and main sarl agent
+ */
+class FireAgentBoot {
+	static def public main(controller : Controleur) {
+		Boot::offline = true
+		Boot::verboseLevel = 7
+		Boot::startJanus(typeof(Enviroment), controller)
+	}
+}

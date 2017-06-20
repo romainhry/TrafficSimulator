@@ -15,7 +15,6 @@ import io.sarl.core.MemberLeft
 import io.sarl.core.Lifecycle
 import model.Car.CarObject
 import io.sarl.core.DefaultContextInteractions
-import Controllers.Controller
 //import agents.CarAgent
 import GUI.CarGUI
 import model.road.GraphCreator
@@ -24,7 +23,7 @@ import model.road.GraphCreator
  * @author gero_
  * 
  */
-
+ 
 agent BootAgent {
 	uses Logging, Lifecycle, DefaultContextInteractions
 	var nbCars : int //should get it from the env
@@ -32,7 +31,7 @@ agent BootAgent {
 		var gc : GraphCreator
 		gc.city1
 		var args : String[]
-		Main.main(args)
+		//Main.main(args)
 		info("Start the agent")
 		/*nbCars = 10 ;
 		for (i : 0 ..< nbCars) {

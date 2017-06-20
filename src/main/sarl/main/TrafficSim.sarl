@@ -9,16 +9,17 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author hp
+ * @author houda
  */
-public class Main extends Application {
-    public static Stage stage;
+public class TrafficSim extends Application {
+    var public static stage : Stage;
     @Override
-    public void start(Stage stage) throws Exception {
+    override start( stage :Stage) throws Exception {
        //StageStyle.UNDECORATED
-        Parent root = FXMLLoader.load(getClass().getResource("../GUI/Vue.fxml"));
-        Scene scene = new Scene(root);
-        KeyBoardInputs kbi = new KeyBoardInputs();
+        var root : Parent 
+        root = FXMLLoader.load(getClass().getResource("../GUI/Vue.fxml"));
+        var scene = new Scene(root);
+        var kbi = new KeyBoardInputs();
         scene.addEventHandler(KeyEvent.KEY_PRESSED,kbi); 
         stage.setScene(scene);
         //stage.setMaxHeight(800);
@@ -30,8 +31,8 @@ public class Main extends Application {
         Main.stage = stage;
     }
     
-    public void lancer(String[] args) {
+    def public static main(args : String[]) : void {
         launch(args);
-    }
+	}
 }
 

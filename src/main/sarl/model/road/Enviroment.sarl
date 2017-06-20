@@ -18,20 +18,54 @@ import model.Car.TimeStep
 import model.math.Point2f
 import model.road.PositionOnTheGraph
 import model.road.GraphCreator
+import agents.Exit
+import io.sarl.core.*
+import io.sarl.util.Scopes
+import java.util.UUID
+import agents.SetupSettings
 
 agent Enviroment {
+	uses Lifecycle, DefaultContextInteractions, Schedules, InnerContextAccess
 	var bodies : Collection<CarObject>
 	var graph = new Graph
+	var exited : boolean
+	var move : AgentTask
+	var destroyed : boolean
+	var parentAgent : UUID
+	var nbcars : int
 	
 	on Initialize {
 		// Initialize the graph
 		var graphCreator = new GraphCreator
 		var graphEnviroment = graphCreator.city1
+		
 	}
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
 		percieve()
 		applyInfluences()
+	}
+	/* 
+	 * Configure according to GUI settings
+	 */
+	on SetupSettings {
+		this.nbcars = occurrence.nbcars
+
+	}
+
+	/* 
+	 * Kill itself on Exit signal after all inner agent are killed
+	 */
+	on Exit [!hasMemberAgent] {
+		killMe
+	}
+
+	/* 
+	 * Transmit Exit signal to all inner agent
+	 */
+	on Exit [hasMemberAgent && !exited] {
+		exited = true
+		innerContext.defaultSpace.emit(new Exit)
 	}
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values

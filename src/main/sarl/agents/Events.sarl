@@ -17,8 +17,19 @@ event Perception {
 		this.objects = objects
 		this.position = position
 	}
-
 }
+/* 
+ * Carry all setup informations, send by the GUI
+ */
+//Choose the infos to send from the GUI 
+event SetupSettings {
+	var nbcars : Integer
+
+	new(nbc : Integer) {
+		nbcars = nbc
+	}
+}
+
 /* 
 event Action {
 
@@ -36,3 +47,6 @@ event Action {
 
 event CarAgentIsDead
 event CarAgentMoving
+
+//trigged when the gui is exited
+event Exit
