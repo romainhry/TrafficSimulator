@@ -23,36 +23,56 @@ import io.sarl.core.Schedules
 import model.math.Point2i
 import java.util.Random
 import io.sarl.core.Logging
+import io.sarl.core.AgentTask
+import model.road.TrafficLight
+import java.util.ArrayList
 
 agent Environment {
-	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging
+	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging, Schedules
 	var bodies : Collection<CarObject>
 	var graph : Graph
-	var posObjects : Positions = new Positions
-	var numberCarMax  = 25
+	var posCars : Positions = new Positions
+	var numberCarMax  = 1
+	var lights : ArrayList<TrafficLight>
 	val y = 800
 	val x = 1200
-	
+		
+	var changeLight : AgentTask
+		
 	var listener : Controller
-	
+		
 	on Initialize {
 		// Initialize the graph
 		listener = occurrence.parameters.get(0) as Controller
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
 		ispace.register(asEventListener)
 		listener.setGUISpace(ispace)
-		listener.listenAndDraw(posObjects)
-		System.out.println("la")
-
+		lights = new ArrayList<TrafficLight>()
+		lights.add(new TrafficLight(810, 150)) //Master of traffic light on the right 
+		lights.add(new TrafficLight(355, 170)) // Master of traffic light on the left
+		lights.add(new TrafficLight(840, 180, lights.get(0), true))
+		lights.add(new TrafficLight(810, 180, lights.get(0), false))
+		lights.add(new TrafficLight(840, 150, lights.get(0), false))		
+		lights.add(new TrafficLight(385, 170, lights.get(1), false))
+		lights.add(new TrafficLight(385, 200, lights.get(1), true))
+		listener.listenAndDraw(posCars, lights)
+		
 		var rnd = new Random()
 		var i = 0
-		while (i < 1) {
+		while (i < numberCarMax) {
 			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
-			spawnInContext(CarAgent, getInnerContext, pos, posObjects)
+			spawnInContext(CarAgent, getInnerContext, pos, posCars)
 			i++;
 		}
-
-
+		
+		
+		changeLight = atFixedDelay(3000) [
+			try {
+				wake(new UpdateLightStates);
+			} catch (e : Exception) {
+				e.printStackTrace
+			}
+		]
 		
 		/*setSkill(new DefaultMazeManagerSkill(width, height), typeof(MazeManager))
 		setSkill(new DefaultMazeFrontEndSkill(), typeof(MazeFrontEnd))
@@ -75,10 +95,19 @@ agent Environment {
 		
 	}
 	
+	on UpdateLightStates {
+		lights.get(0).setState(true)
+		var j = 0
+		for(j=0; j <lights.size; j++)
+		{
+			lights.get(j).colorChange
+		}
+	}
+	
 	on AddCar {
 		//var carBody = new CarObject()
 		
-		listener.addtoroadgui//(carBody.getUID)
+		//listener.addtoroadgui//(carBody.getUID)
      	
 	}
 	

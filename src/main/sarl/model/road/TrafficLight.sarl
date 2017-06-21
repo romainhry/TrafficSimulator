@@ -4,25 +4,44 @@ import model.PositionedObjects
 import model.math.Point2f
 import java.util.TimerTask
 import java.util.Timer
+import model.math.Point2i
 
 class TrafficLight extends PositionedObjects {
 	var color : LightColor //enum defined at the end of this file
-	var nextColor : LightColor
-	var timer = new Timer() //We utilize it for control the time of the color change
-	new(x : float) {
-		this.position = new Point2f(x,0f) //it has no lateral deviation
-		this.length = 1f
+	var timer = new Timer() // We utilize it for control the time of the color change
+	var stateChanged = false;
+	
+	var guiPos : Point2i
+
+	new(x : int, y : int) {
+		// this.position = new Point2i(x, y)
 		this.color = LightColor.RED
-		this.nextColor = LightColor.YELLOW
-		activate
-		
+		guiPos = new Point2i(x, y)
+		this.length = 1f
+		//activate
 	}
 	/* we have also the possibility of create a traffic light antisynchronized with other */
-	new(x : float, neighbour : TrafficLight) {
-		this.position = new Point2f(x, 0f)
+	new(x : int, y : int, neighbour : TrafficLight, sync : boolean) {
+		//this.position = new Point2i(x, y)
+		guiPos = new Point2i(x,y)
 		this.length = 1f
-		this.antiSynchr(neighbour)
-		activate
+		if(!sync)
+			this.antiSynchr(neighbour)
+		else
+			this.synchr(neighbour)
+		//activate
+	}
+	
+	def getState : boolean {
+		return stateChanged
+	}
+
+	def setState(s : boolean) : boolean {
+		stateChanged = s
+	}
+	
+	def getGuiPos() : Point2i {
+		return guiPos
 	}
 	
 	def getColor : LightColor {
@@ -31,51 +50,27 @@ class TrafficLight extends PositionedObjects {
 	def setColor(c : LightColor) : LightColor {
 		this.color = c
 	}
-
-	def getNextColor : LightColor {
-		this.nextColor
-	}
-
-	def setNextColor(c : LightColor) : LightColor {
-		this.nextColor = c
-	}
+	
 	/*2 traffic lights that have the same color at the same time */
 	def synchr(neighbour : TrafficLight) {
 		this.color = neighbour.color
-		this.nextColor = neighbour.nextColor
 	}
+		
 	/* 2 traffic lights that have the opposite color at the same time*/
 	def antiSynchr(neighbour : TrafficLight) {
 		if (neighbour.color == LightColor.RED) {
 			this.color = LightColor.GREEN
-			this.nextColor = LightColor.YELLOW
-		}
-		else if(neighbour.color == LightColor.GREEN) {
-			this.color = LightColor.RED
-			this.nextColor = LightColor.YELLOW
 		}
 		else {
-			this.color = LightColor.YELLOW
-			if (neighbour.nextColor == LightColor.RED) {
-				this.nextColor = LightColor.GREEN
-			}
-			else {
-				this.nextColor = LightColor.RED
-			}
+			this.color = LightColor.RED
 		}
 	}
 	def colorChange() {
 		if (this.color == LightColor.RED) {
-			this.color = this.nextColor
-			this.nextColor = LightColor.GREEN
+			this.color = LightColor.GREEN
 		}
-		else if (this.color == LightColor.GREEN) {
-			this.color = this.nextColor
-			this.nextColor = LightColor.RED
-		}
-		else {
-			this.color = this.nextColor
-			this.nextColor = LightColor.YELLOW
+		else{
+			this.color = LightColor.RED
 		}
 	}
 
@@ -101,6 +96,6 @@ class TrafficLight extends PositionedObjects {
 	}
 }
 
-enum LightColor {
-	RED, YELLOW, GREEN
+public enum LightColor {
+	RED, GREEN
 }

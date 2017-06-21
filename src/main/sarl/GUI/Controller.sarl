@@ -21,7 +21,8 @@ import main.TrafficSimulator
 import javafx.animation.PauseTransition
 import main.Positions
 import javafx.util.Duration
-
+import model.road.TrafficLight
+import model.road.LightColor
 
 class Controller implements EventListener {
 
@@ -33,16 +34,14 @@ class Controller implements EventListener {
 	@FXML
 	private var carGroup : Group
 
+	private var lightGroup : Group
+
     @FXML
     private var PaneHome: Pane 
     
     private var PaneVid : Pane
 
 	private var PaneDesc : Pane
-    
-    @FXML
-    private var groupeFeux1 : ArrayList<ImageView> 
-    private var groupeFeux2 :ArrayList<ImageView> 
     
 	private var ispace :OpenEventSpace
 
@@ -92,8 +91,10 @@ class Controller implements EventListener {
                 1150,300,
                 1200,300
         );
-
-        var colorRiver = new Color(200/255,230/255,250/255,0.5);
+		var red : double = 200/255
+		var green : double = 230/255
+		var blue : double = 250/255
+        var colorRiver = new Color(red,green,blue,0.5);
         river.setStroke(colorRiver);
         river.setStrokeLineJoin(StrokeLineJoin.ROUND);
         river.setStrokeWidth(23);
@@ -143,71 +144,6 @@ class Controller implements EventListener {
         imageVille3.setY(545);
         group.getChildren().add(imageVille3);
         
-        groupeFeux2 = new ArrayList<ImageView>();
-        
-        var imageFeux3 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/greenlight.png"));
-        imageFeux3.setPreserveRatio(true);
-        imageFeux3.setFitHeight(25);
-        imageFeux3.setX(810);
-        imageFeux3.setY(150);
-        imageFeux3.setId("green");
-        group.getChildren().add(imageFeux3);
-        groupeFeux2.add(imageFeux3);
-        
-        var imageFeux2 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/redlight.png"));
-        imageFeux2.setPreserveRatio(true);
-        imageFeux2.setFitHeight(25);
-        imageFeux2.setX(840);
-        imageFeux2.setId("red");
-        imageFeux2.setY(150);
-        group.getChildren().add(imageFeux2);
-        groupeFeux2.add(imageFeux2);
-        
-        var imageFeux1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/greenlight.png"));
-        imageFeux1.setPreserveRatio(true);
-        imageFeux1.setFitHeight(25);
-        imageFeux1.setX(840);
-        imageFeux1.setId("green");
-        imageFeux1.setY(180);
-        group.getChildren().add(imageFeux1);
-        groupeFeux2.add(imageFeux1);
-        
-        var imageFeux4 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/redlight.png"));
-        imageFeux4.setPreserveRatio(true);
-        imageFeux4.setFitHeight(25);
-        imageFeux4.setX(810);
-        imageFeux4.setId("red");
-        imageFeux4.setY(180);
-        group.getChildren().add(imageFeux4);
-        groupeFeux2.add(imageFeux4);
-        
-        groupeFeux1 = new ArrayList<ImageView>();
-        var imageFeux5 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/greenlight.png"));
-        imageFeux5.setPreserveRatio(true);
-        imageFeux5.setFitHeight(25);
-        imageFeux5.setX(355);
-        imageFeux5.setY(170);
-        imageFeux5.setId("green");
-        group.getChildren().add(imageFeux5);
-        groupeFeux1.add(imageFeux5);
-        
-        var imageFeux6 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/redlight.png"));
-        imageFeux6.setPreserveRatio(true);
-        imageFeux6.setFitHeight(25);
-        imageFeux6.setX(385);
-        imageFeux6.setId("red");
-        imageFeux6.setY(170);
-        group.getChildren().add(imageFeux6);
-        groupeFeux1.add(imageFeux6);
-        
-        var imageFeux7 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/greenlight.png"));
-        imageFeux7.setPreserveRatio(true);
-        imageFeux7.setFitHeight(25);
-        imageFeux7.setId("green");
-        imageFeux7.setX(385);
-        imageFeux7.setY(200);
-        group.getChildren().add(imageFeux7);
-        groupeFeux1.add(imageFeux7);
         
         var imageStop1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/stop.png"));
         imageStop1.setPreserveRatio(true);
@@ -487,6 +423,8 @@ class Controller implements EventListener {
         TrafficSimulator.myStage.setX(0);
         carGroup = new Group()
         group.getChildren.add(carGroup)
+        lightGroup = new Group()
+		group.getChildren.add(lightGroup)
         BootEnv.main(this);
         
     	
@@ -509,63 +447,18 @@ class Controller implements EventListener {
     	//group.getChildren().remove(drawingTrain);
     	//group.getChildren().remove(drawingTrain);
     }
+   
+    
 
-	public def changeCrossLight1() {
-		for (var i = 0; i < groupeFeux1.length; i++) {
-			var imageFeux = groupeFeux1.get(i)
-    		if(imageFeux.getId()=="green")
-        	{
-        		imageFeux.setImage(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/redlight.png"));
-        	}
-        	if(imageFeux.getId()=="red")
-        	{
-        		imageFeux.setImage(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/greenlight.png"));
-        	}
-    	}	
-    }
-    
-    public def changeCrossLight2() {
-		for (var i = 0; i < groupeFeux2.length; i++) {
-		var imageFeux = groupeFeux2.get(i)
-    		if(imageFeux.getId()=="green")
-        	{
-        		imageFeux.setImage(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/redlight.png"));
-        	}
-        	if(imageFeux.getId()=="red")
-        	{
-        		imageFeux.setImage(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/greenlight.png"));
-        	}
-    	}	
-    }
-    
-    
-    public def addtoroadgui (){
-    	//GraphicsContext gContext = group
-//    	CarGUI car = new  CarGUI("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/car.png", UID);
-//    	car.setPreserveRatio(true);
-//        car.setFitWidth(70);
-//        car.setX(30);
-//        car.setY(30);
-//    	group.getChildren().add(car);
-    	var fountain = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/fountain.png"));       
-        fountain.setPreserveRatio(true);
-        fountain.setFitWidth(38);
-        fountain.setX(20);
-        fountain.setY(50);
-        group.getChildren().add(fountain);
-        
-    }
-
-	public def listenAndDraw(grid : Positions) {
-		var gp = carGroup// = draw_zone.getGraphicsContext2D();
+	public def listenAndDraw(carPos : Positions, lights : ArrayList<TrafficLight>) {
 		var wait : PauseTransition = new PauseTransition(Duration.seconds(0.03));
-		
+				
 		wait.setOnFinished [ e |
 			try {
-				gp.getChildren.clear
+				carGroup.getChildren.clear
 				//group.getChildren.clear
 				//gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());
-				grid.getCars().values().stream().filter(car|!car.getHidden()).forEach(car |
+				carPos.getCars().values().stream().filter(car|!car.getHidden()).forEach(car |
 					{
 					var carView = new ImageView(
 						new Image(
@@ -575,16 +468,35 @@ class Controller implements EventListener {
 					carView.setFitWidth(30);
 					carView.setX(car.getPosition.getX);
 					carView.setY(car.getPosition.getY);
-					gp.getChildren().add(carView);
-					System.out.println("car view added x :" + car.getPosition.getX)
-					System.out.println("car view added y :" + car.getPosition.getY)
-					//gc.fillOval(rocket.getPosition().get(0), rocket.getPosition().get(1), 10, 10);
+					carGroup.getChildren().add(carView);
 					});
-
-
+				if (lights.get(0).getState) {
+					lightGroup.getChildren.clear
+					var i = 0
+					for (i = 0; i < lights.size; i++) {
+						var light = lights.get(i)
+						var lightView : ImageView
+						if (light.getColor == LightColor.RED) {
+							lightView = new ImageView(new Image("file:" +
+										this.getClass().getClassLoader().getResource("").getPath() +
+								"../../Images/redlight.png"));
+						} else {
+							lightView = new ImageView(new Image("file:" +
+										this.getClass().getClassLoader().getResource("").getPath() +
+								"../../Images/greenlight.png"));
+						}
+						lightView.setPreserveRatio(true);
+						lightView.setFitHeight(20);
+						lightView.setX(light.getGuiPos.getX);
+						lightView.setY(light.getGuiPos.getY);
+						lightGroup.getChildren().add(lightView);
+					}
+					lights.get(0).setState(false)
+				}
 			} catch (exception : Exception) {
 				System.out.println(exception)
 			}
+			//stateChanged = false
 			wait.playFromStart();
 		];
 		wait.play();

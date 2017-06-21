@@ -11,6 +11,9 @@ event UpdateCarPosition
 	
 }
 
+event UpdateLightStates {
+}
+
 event Perception {
 	val time : int
 	val objects : List<CarObject>

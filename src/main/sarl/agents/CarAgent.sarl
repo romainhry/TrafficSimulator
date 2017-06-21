@@ -28,7 +28,6 @@ agent CarAgent {
 	var move : AgentTask
 	var myPos : Point2i
 	
-	
 	on Initialize {
 
 		id = UUID.randomUUID
