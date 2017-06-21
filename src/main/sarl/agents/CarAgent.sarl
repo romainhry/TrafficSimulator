@@ -10,23 +10,30 @@ import Controllers.Controller
 import model.road.LightColor
 import model.math.Point2i
 import model.math.Point2f
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.lang.core.Event
 
 agent CarAgent {
-	uses Lifecycle
+	uses Lifecycle, DefaultContextInteractions
 
 	var previousDirection : int
 	var CarBody : CarObject
 	val random = new Random
 	on Initialize {
-		CarBody = new CarObject(0, 0)
-		Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		CarBody = occurrence.parameters.get(0) as CarObject
+		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
 		CarBody.getDirection().randomMove()
 	}
 
 	on CarAgentIsDead {
-		//delete the car image from the gui
-		//kill the agent
-		killMe
+		/*The agent will only take account of it if it's its car body the one who's dead */
+		if (occurrence.ob === CarBody) {
+			// TODO delete the car image from the gui
+			var e = new CarDead
+			emit(e)
+			killMe
+		}
+		
 	}
 
 	on Perception {
@@ -135,4 +142,7 @@ agent CarAgent {
 		}
 	}
 
+}
+event CarDead extends Event {
+	//event for indicate to the Enviroment that the Car is dead, so he need to spawn another one
 }

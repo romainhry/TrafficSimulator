@@ -19,12 +19,18 @@ import model.road.PositionOnTheGraph
 import model.road.GraphCreator
 import model.road.TimeStep
 import model.road.TimeAgent
+import agents.CarAgent
+import agents.CarDead
 import io.sarl.core.DefaultContextInteractions
+import java.util.Random
+import agents.CarAgentIsDead
 
 agent Enviroment {
 	uses DefaultContextInteractions
 	var bodies : Collection<CarObject>
 	var graph : Graph
+	val NUMBER_OF_CARS = 10
+	var rnd = new Random
 	
 	on Initialize {
 		// Initialize the graph
@@ -32,13 +38,21 @@ agent Enviroment {
 		graph = GraphCreator.city1
 		//Initialize the Time Agent
 		spawn(typeof(TimeAgent))
+		spawnCarAgents //function that spawns the car agents
 		
 	}
 	on TimeStep { // Every time step, the enviroment have to the following computations
 		System.out.println("time step")
-		percieve()
-		applyInfluences()
+		//percieve()
+		//applyInfluences()
 		//TODO Update UI
+	}
+	
+	on CarDead { //Everytime a Car is dead, the Enviroment create a new one
+		var nsp = graph.spawningPoints.length
+		var car = new CarObject(0, 0)
+		spawn(typeof(CarAgent), car)
+		graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 	}
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values
@@ -118,7 +132,13 @@ agent Enviroment {
 		 */
 		for (gn : graph.nodes) { //for each graph node on the graph
 			for(o : gn.posObj){ //will take each agent on it
-				if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
+			//We will see if it's already out of the graph
+				if (o.position.x + o.influence.x > gn.length && gn.isFinalNode){
+					var ev = new CarAgentIsDead(o)
+					emit(ev)
+					gn.remove(o)
+				}
+				else if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
 					o.position = desiredPosition(o,gn).position  //the position of the object get update
 				} // if there's a collision, we will ignore it
 			}
@@ -145,9 +165,19 @@ agent Enviroment {
 		if (posObj.position.x + posObj.influence.x <= currentNode.length) {
 			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
 		}
-		/*Otherwise it will change to the position 0 of the next node */
-		else {
+		/* Otherwise it will change to the position 0 of the next node
+		 */
+		else{
 			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(posObj.turnTo))
 			 }
 	}
+	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
+		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
+		for (n : 1 .. NUMBER_OF_CARS) {
+			var car = new CarObject(0,0) //create the agent body
+			spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
+			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
+		}
+	}
+	
 }
