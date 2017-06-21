@@ -73,27 +73,6 @@ class TrafficLight extends PositionedObjects {
 			this.color = LightColor.RED
 		}
 	}
-
-	def activate {
-		/*each second it will decide if it need to remain in one color
-		 * of it's time for a color change. */
-		var task = new TimerTask() {
-			var contador = 0
-			@Override
-			def run {
-				if (contador < 4) {			//it's in GREEN or RED
-					if (contador == 3) {
-						colorChange
-					}
-				} else {
-					colorChange
-					contador = 0		//It's in YELLOW
-				}
-				contador++
-			}
-		}
-		timer.schedule(task, 0, 1000)
-	}
 }
 
 public enum LightColor {
