@@ -1,0 +1,518 @@
+package GUI
+
+import Events.Exit
+import agents.BootEnv
+import io.sarl.lang.core.Event
+import io.sarl.lang.core.EventListener
+import io.sarl.util.OpenEventSpace
+import java.util.ArrayList
+import java.util.UUID
+import javafx.^event.ActionEvent
+import javafx.fxml.FXML
+import javafx.scene.Group
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.layout.Pane
+import javafx.scene.paint.Color
+import javafx.scene.shape.Polyline
+import javafx.scene.shape.StrokeLineJoin
+import javafx.application.Platform
+import main.TrafficSimulator
+import javafx.animation.PauseTransition
+import main.Positions
+import javafx.util.Duration
+import model.road.TrafficLight
+import model.road.LightColor
+
+class Controller implements EventListener {
+
+	private var id = UUID.randomUUID()
+
+    @FXML
+    private var group : Group
+
+	@FXML
+	private var carGroup : Group
+
+	private var lightGroup : Group
+
+    @FXML
+    private var PaneHome: Pane 
+    
+    private var PaneVid : Pane
+
+	private var PaneDesc : Pane
+    
+	private var ispace :OpenEventSpace
+
+    
+    var waiting : long 
+    
+    new(waitingDuration : long) {
+    	waiting = waitingDuration;
+    }
+
+	new() {
+	}
+
+	public def setGUISpace(ispace : OpenEventSpace) {
+		this.ispace = ispace;
+		this.ispace.register(this);
+	}
+
+	public def start(e : ActionEvent) {
+    	/*
+    	 *Start spawn the boot agent or let this be the boo agent who's spawning the envAgent
+    	 *the car agents    	
+			 */
+    	Platform.setImplicitExit(false)
+    	group.getChildren().clear();
+    	
+    	
+    	//group.getChildren().clear();
+        /*
+         * And add the cars imgs
+         */
+        //group.getChildren().add(e);
+
+        // River :
+        var river = new Polyline(
+                150,600,
+                150,450,
+                500,450,
+                500,330,
+                530,300,
+                700,300,
+                800,370,
+                900,300,
+                1000,300,
+                1000,420,
+                1150,420,
+                1150,300,
+                1200,300
+        );
+		var red : double = 200/255
+		var green : double = 230/255
+		var blue : double = 250/255
+        var colorRiver = new Color(red,green,blue,0.5);
+        river.setStroke(colorRiver);
+        river.setStrokeLineJoin(StrokeLineJoin.ROUND);
+        river.setStrokeWidth(23);
+
+        var borderRiver = new Polyline(
+                150,600,
+                150,450,
+                500,450,
+                500,330,
+                530,300,
+                700,300,
+                800,370,
+                900,300,
+                1000,300,
+                1000,420,
+                1150,420,
+                1150,300,
+                1200,300
+        );
+
+        var colorBorder = new Color(100/255,180/255,220/255,0.5);
+        borderRiver.setStroke(colorBorder);
+        borderRiver.setStrokeLineJoin(StrokeLineJoin.ROUND);
+        borderRiver.setStrokeWidth(31);
+
+        group.getChildren().add(borderRiver);
+        
+        group.getChildren().add(river);
+        //System.err.println(this.getClass().getClassLoader().getParent().getClass().getResource("").getPath());
+        var imageVille1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/ville.png"));
+        imageVille1.setPreserveRatio(true);
+        imageVille1.setFitWidth(70);
+        imageVille1.setX(250);
+        imageVille1.setY(100);
+        
+        var imageVille2 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/ville.png"));
+        imageVille2.setPreserveRatio(true);
+        imageVille2.setFitWidth(70);
+        imageVille2.setX(1110);
+        imageVille2.setY(230);
+        group.getChildren().add(imageVille2);
+        
+        var imageVille3 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/ville.png"));
+        imageVille3.setPreserveRatio(true);
+        imageVille3.setFitWidth(70);
+        imageVille3.setX(785);
+        imageVille3.setY(545);
+        group.getChildren().add(imageVille3);
+        
+        
+        var imageStop1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/stop.png"));
+        imageStop1.setPreserveRatio(true);
+        imageStop1.setFitHeight(20);
+        imageStop1.setX(80);
+        imageStop1.setY(190);
+        group.getChildren().add(imageStop1);
+        
+        
+        var imageForbidden1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/forbidden-way.jpg"));
+        imageForbidden1.setPreserveRatio(true);
+        imageForbidden1.setFitHeight(20);
+        imageForbidden1.setX(670);
+        imageForbidden1.setY(395);
+        group.getChildren().add(imageForbidden1);
+        
+        var imageForbidden2 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/forbidden-way.jpg"));
+        imageForbidden2.setPreserveRatio(true);
+        imageForbidden2.setFitHeight(20);
+        imageForbidden2.setX(670);
+        imageForbidden2.setY(425);
+        group.getChildren().add(imageForbidden2);
+        
+        var imageOneWay = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/one-way.png"));
+        imageOneWay.setPreserveRatio(true);
+        imageOneWay.setFitHeight(20);
+        imageOneWay.setX(670);
+        imageOneWay.setY(350);
+        group.getChildren().add(imageOneWay);
+        
+        
+        var imageLetPrio = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/letPrio.jpg"));
+        imageLetPrio.setPreserveRatio(true);
+        imageLetPrio.setFitHeight(20);
+        imageLetPrio.setX(585);
+        imageLetPrio.setY(560);
+        group.getChildren().add(imageLetPrio);
+        
+        
+        var image901 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/90.png"));
+        image901.setPreserveRatio(true);
+        image901.setFitHeight(20);
+        image901.setX(1050);
+        image901.setY(460);
+        group.getChildren().add(image901);
+        
+        var image701 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/70.png"));
+        image701.setPreserveRatio(true);
+        image701.setFitHeight(20);
+        image701.setX(1090);
+        image701.setY(460);
+        group.getChildren().add(image701);
+        
+        var image301 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/30.png"));
+        image301.setPreserveRatio(true);
+        image301.setFitHeight(20);
+        image301.setX(40);
+        image301.setY(240);
+        group.getChildren().add(image301);
+        
+        var image1301 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/130.png"));
+        image1301.setPreserveRatio(true);
+        image1301.setFitHeight(20);
+        image1301.setX(600);
+        image1301.setY(10);
+        group.getChildren().add(image1301);
+        
+        
+        
+        
+        for(var i=0; i<25; i++)
+        {
+        	var tree1 : ImageView
+        	if(Math.random()>0.5){
+        		tree1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/tree1.png"));
+        	}
+        	else {
+        		tree1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/tree2.png"));
+			}
+            tree1.setPreserveRatio(true);
+            tree1.setFitHeight(60);
+            var y : double
+            var x = (Math.random() * ( 270 - 100 ))+100;
+            tree1.setX(x);
+            if(x<180) {
+            	y=Math.random() * ( 250 - 175 ) +175;
+        	} 	
+            else {
+            	y=Math.random() * ( 320 - 145 )+145;
+			}
+            tree1.setY(y);
+              
+            group.getChildren().add(tree1);
+        }
+        
+        for(var i=0; i<4; i++)
+        {
+        	var build1 : ImageView;
+    		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
+
+            build1.setPreserveRatio(true);
+            build1.setFitHeight(Math.random() * ( 65 - 40 )+40);
+            var y : double
+            if(i>=2)
+            {
+            	y = 320
+            }
+            else {
+            	y = 280
+            }
+            var x : double
+            if(i==1 || i == 3)
+            {
+            	x = 150
+            }
+            else {
+            	x = 100
+            }
+
+            build1.setX(x);
+            build1.setY(y);
+              
+            group.getChildren().add(build1);
+        }
+        
+        for(var i=0; i<2; i++)
+        {
+        	var build1 : ImageView;
+    		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
+
+            build1.setPreserveRatio(true);
+            build1.setFitHeight(Math.random() * ( 65 - 40 )+40);
+            var y= 280 + i*40;
+            var x = 20;
+            build1.setY(y);
+            build1.setX(x);
+            group.getChildren().add(build1);
+        }
+        
+        for(var i=0; i<4; i++)
+        {
+        	var build1 : ImageView;
+    		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
+
+            build1.setPreserveRatio(true);
+            build1.setFitHeight(45);
+            var y= 380;
+            var x = 20+i*40;
+            build1.setY(y);
+            build1.setX(x);
+            group.getChildren().add(build1);
+        }
+        
+        var build1 : ImageView;
+		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
+
+        build1.setPreserveRatio(true);
+        build1.setFitHeight(45);
+        var y= 420;
+        var x = 20;
+        build1.setY(y);
+        build1.setX(x);
+        group.getChildren().add(build1);
+        
+		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+
+        build1.setPreserveRatio(true);
+        build1.setFitHeight(30);
+        build1.setY(450);
+        build1.setX(785);
+        group.getChildren().add(build1);
+        
+        for(var  i=0;i< 5;i++){
+        	var house1 : ImageView;
+    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+
+            house1.setPreserveRatio(true);
+            house1.setFitHeight(30);
+            house1.setY(315+i*20);
+            house1.setX(665+i*30);
+            group.getChildren().add(house1);
+        }
+        
+        for(var i=0;i< 2;i++){
+        	var house1 : ImageView;
+    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+
+            house1.setPreserveRatio(true);
+            house1.setFitHeight(30);
+            house1.setY(385+i*20);
+            house1.setX(695+i*30);
+            group.getChildren().add(house1);
+        }
+        
+        for(var i=0;i< 3;i++){
+        	var house1 : ImageView;
+    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+
+            house1.setPreserveRatio(true);
+            house1.setFitHeight(30);
+            house1.setY(430+i*20);
+            house1.setX(665+i*30);
+            group.getChildren().add(house1);
+        }
+        
+        for(var i=0;i< 4;i++){
+        	var house1 : ImageView;
+    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+
+            house1.setPreserveRatio(true);
+            house1.setFitHeight(30);
+            house1.setY(140);
+            house1.setX(650+i*40);
+            group.getChildren().add(house1);
+        }
+        
+        for(var i=0;i< 5;i++){
+        	var house1 : ImageView;
+    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+
+            house1.setPreserveRatio(true);
+            house1.setFitHeight(30);
+            house1.setY(180);
+            house1.setX(650+i*30);
+            group.getChildren().add(house1);
+        }
+        
+        
+        
+        var tennis = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/tennis.png"));
+        
+        tennis.setPreserveRatio(true);
+        tennis.setFitWidth(135);
+        tennis.setX(15);
+        tennis.setY(480);
+        group.getChildren().add(tennis);
+        
+        var pool = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/pool.png"));
+        
+        pool.setPreserveRatio(true);
+        pool.setFitWidth(220);
+        pool.setX(185);
+        pool.setY(540);
+        group.getChildren().add(pool);
+        
+        var sm = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/supermarket.jpg"));       
+        sm.setPreserveRatio(true);
+        sm.setFitWidth(120);
+        sm.setX(210);
+        sm.setY(470);
+
+        group.getChildren().add(sm);
+        
+        var mcdo = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/mcdo.png"));       
+        mcdo.setPreserveRatio(true);
+        mcdo.setFitWidth(100);
+        mcdo.setX(380);
+        mcdo.setY(465);
+        group.getChildren().add(mcdo);
+        
+        var mairie = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/town-hall.png"));       
+        mairie.setPreserveRatio(true);
+        mairie.setFitWidth(70);
+        mairie.setX(520);
+        mairie.setY(320);
+        group.getChildren().add(mairie);
+        
+        var fountain = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/fountain.png"));       
+        fountain.setPreserveRatio(true);
+        fountain.setFitWidth(38);
+        fountain.setX(615);
+        fountain.setY(370);
+        group.getChildren().add(fountain);
+        
+        group.getChildren().add(imageVille1);
+        TrafficSimulator.myStage.setWidth(1200);
+        TrafficSimulator.myStage.setX(0);
+        carGroup = new Group()
+        group.getChildren.add(carGroup)
+        lightGroup = new Group()
+		group.getChildren.add(lightGroup)
+        BootEnv.main(this);
+        
+    	
+    }
+
+	public def Desc ( e : ActionEvent ){
+    	PaneHome.setVisible(false);
+    	PaneDesc.setVisible(true);    	
+    }
+
+	public def Video (e : ActionEvent  ){
+    	PaneHome.setVisible(false);
+    	PaneVid.setVisible(true);
+    }
+
+	public def ReturnHome ( e : ActionEvent ){
+    	PaneHome.setVisible(true);
+    	PaneVid.setVisible(false);
+    	PaneDesc.setVisible(false);
+    	//group.getChildren().remove(drawingTrain);
+    	//group.getChildren().remove(drawingTrain);
+    }
+   
+    
+
+	public def listenAndDraw(carPos : Positions, lights : ArrayList<TrafficLight>) {
+		var wait : PauseTransition = new PauseTransition(Duration.seconds(0.03));
+				
+		wait.setOnFinished [ e |
+			try {
+				carGroup.getChildren.clear
+				//group.getChildren.clear
+				//gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());
+				carPos.getCars().values().stream().filter(car|!car.getHidden()).forEach(car |
+					{
+					var carView = new ImageView(
+						new Image(
+							"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+						"../../Images/car.png"));
+					carView.setPreserveRatio(true);
+					carView.setFitWidth(30);
+					carView.setX(car.getPosition.getX);
+					carView.setY(car.getPosition.getY);
+					carGroup.getChildren().add(carView);
+					});
+				if (lights.get(0).getState) {
+					lightGroup.getChildren.clear
+					var i = 0
+					for (i = 0; i < lights.size; i++) {
+						var light = lights.get(i)
+						var lightView : ImageView
+						if (light.getColor == LightColor.RED) {
+							lightView = new ImageView(new Image("file:" +
+										this.getClass().getClassLoader().getResource("").getPath() +
+								"../../Images/redlight.png"));
+						} else {
+							lightView = new ImageView(new Image("file:" +
+										this.getClass().getClassLoader().getResource("").getPath() +
+								"../../Images/greenlight.png"));
+						}
+						lightView.setPreserveRatio(true);
+						lightView.setFitHeight(20);
+						lightView.setX(light.getGuiPos.getX);
+						lightView.setY(light.getGuiPos.getY);
+						lightGroup.getChildren().add(lightView);
+					}
+					lights.get(0).setState(false)
+				}
+			} catch (exception : Exception) {
+				System.out.println(exception)
+			}
+			//stateChanged = false
+			wait.playFromStart();
+		];
+		wait.play();
+	}
+
+	public def cleanExit() {
+			if (this.ispace !== null)
+				this.ispace.emit(new Exit());
+		}
+
+	override public def getID() :UUID {
+		return this.id;
+	}
+
+	@Override
+	public def receiveEvent(ievent : Event) {
+	}
+   
+}

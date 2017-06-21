@@ -7,6 +7,14 @@ import model.Car.CarObject
 import model.Car.Direction
 import model.PositionedObjects
 
+event UpdateCarPosition
+{
+	
+}
+
+event UpdateLightStates {
+}
+
 event Perception {
 	val time : int
 	val objects : List<CarObject>

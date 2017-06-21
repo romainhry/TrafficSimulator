@@ -15,7 +15,13 @@ class CarObject implements Serializable extends PositionedObjects {
 	var frustum : float
 	var vitesse : float
 	var CarIcon : String
+	var id : UUID
 	transient val road : WeakReference<EnvObjects>
+	new {
+		id = UUID::randomUUID
+		road = null
+	}
+	
 	new (x : int, y : int, road : Graph) {
 		this.position = new Point2i(x, y)
 		this.road = new WeakReference(road)
@@ -24,7 +30,7 @@ class CarObject implements Serializable extends PositionedObjects {
 	}
 	new (x : int, y : int) {
 		this.position = new Point2i(x, y)
-		//this.UID = this.UID + 1
+		
 		this.road = null // TO DO remove it the agent should be affected to a road 
 	}
 	new (position : Point2i, road : Graph) {
@@ -53,6 +59,6 @@ class CarObject implements Serializable extends PositionedObjects {
 		return this.CarIcon
 	}
 	def getUID : UUID {
-		return this.UID
+		return this.id
 	}
 }
