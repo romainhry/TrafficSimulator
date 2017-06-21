@@ -15,6 +15,7 @@ class GraphNode {
 	var maxDesviationLeft : float // Max desviation i can have to the left
 	var isFinalNode : boolean //end of the route
 	
+	
 	new (l : float, b : boolean){
 		this.length=l
 		this.isFinalNode=b

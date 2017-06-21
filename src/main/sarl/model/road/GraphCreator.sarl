@@ -7,7 +7,7 @@ import model.road.CrosswalkSign
 class GraphCreator {
 	
 	
-	def city1 : Graph{
+	static def city1 : Graph{
 		var graph = new Graph
 		
 		var node1 = new GraphNode(10,false)

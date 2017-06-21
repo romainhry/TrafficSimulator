@@ -28,8 +28,8 @@ agent Enviroment {
 	
 	on Initialize {
 		// Initialize the graph
-		var graphCreator = new GraphCreator
-		graph = graphCreator.city1
+		//var graphCreator = new GraphCreator
+		graph = GraphCreator.city1
 		//Initialize the Time Agent
 		spawn(typeof(TimeAgent))
 		
