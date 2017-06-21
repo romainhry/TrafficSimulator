@@ -1,0 +1,72 @@
+package main
+
+import java.util.HashMap
+import java.util.List
+import java.util.Map
+import java.util.UUID
+import java.util.Vector
+import javafx.scene.paint.Color
+import model.math.Point2i
+
+/*
+ * Data structure used to represent a rocket position
+ */
+class CarPos {
+	public val CARREFRESHDELAY = 100
+	
+	var position : Point2i
+	//var color : Color
+	var hidden = false
+
+	public def getPosition() {
+		return position
+	}
+
+	public def setPosition(position : Point2i) {
+		this.position = position
+	}
+
+
+	public def setHidden(hidden : boolean) {
+		this.hidden = hidden
+	}
+
+	public def getHidden() {
+		return this.hidden
+	}
+}
+
+/*
+ * Data structure referencing every position of every fire and rocket existing
+ * This object is read by the GUI for display
+ */
+class Positions {
+	var cars = new HashMap<UUID, CarPos>()
+	//var fire = new HashMap<UUID, FirePos>()
+
+	public def getCars() : Map<UUID, CarPos> {
+		return cars.unmodifiableView
+	}
+
+
+	public def setCarPosition(id : UUID, position : Point2i) {
+		var pos = new CarPos()
+		pos.setPosition(position)
+		if (cars.containsKey(id)) {
+			//pos.setColor(rockets.get(id).getColor)
+			cars.replace(id, pos)
+		} else {
+			//pos.setColor(Color.color(Math.random(), Math.random(), Math.random()))
+			cars.put(id, pos)
+		}
+	}
+
+	public def removeRocketPosition(id : UUID) {
+		cars.remove(id)
+	}
+
+	public def hideCarPosition(id : UUID) {
+		cars.get(id).setHidden(true)
+	}
+
+}

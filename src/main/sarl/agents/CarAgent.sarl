@@ -1,40 +1,66 @@
 package agents
 
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import java.util.Random
-import io.sarl.core.Initialize
-import java.util.List
-import model.Car.CarObject
-import model.Car.Direction
-import Controllers.Controller
-import model.road.LightColor
-import model.math.Point2i
-import model.math.Point2f
-import java.util.TimerTask
 import java.util.Timer
-import io.sarl.core.DefaultContextInteractions
+import java.util.TimerTask
+import model.Car.CarObject
+import model.math.Point2f
+import java.util.UUID
+import main.Positions
+import io.sarl.core.AgentTask
+import io.sarl.core.Schedules
+import io.sarl.core.Behaviors
+import model.math.Point2i
+import io.sarl.core.Logging
 
 agent CarAgent {
-	uses Lifecycle, DefaultContextInteractions
+	uses Lifecycle, DefaultContextInteractions, Schedules, Behaviors, Logging 
 
 	var previousDirection : int
 	var CarBody : CarObject
 	val random = new Random
+	var id : UUID
+	var myPosObjects : Positions
+	val speed = 3
+	var move : AgentTask
+	var myPos : Point2i
+	
+	
 	on Initialize {
+
+		id = UUID.randomUUID
+
+		myPos = occurrence.parameters.get(0) as Point2i
+		myPosObjects = occurrence.parameters.get(1) as Positions
+		if (myPosObjects !== null)
+			myPosObjects.setCarPosition(id, myPos)
+		info("car created")
+		move = atFixedDelay(30) [
+			try {
+				wake(new UpdateCarPosition);
+			} catch (e : Exception) {
+				e.printStackTrace
+			}
+		]
 		//CarBody = new CarObject(0, 0)
 		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
 		// CarBody.getDirection().randomMove()
-		var timer = new Timer()
-		var task = new TimerTask() {
-			var contador = 0
-
-			@Override
-			def run {
-				emit(new AddCar)
-				System.out.println("emit")
-			}
-		}
-		timer.schedule(task, 4000, 4000)
+		
+		
+//		var timer = new Timer()
+//		var task = new TimerTask() {
+//			var contador = 0
+//
+//			@Override
+//			def run {
+//				emit(new AddCar)
+//				System.out.println("emit")
+//			}
+//		}
+//		timer.schedule(task, 4000, 4000)
 	}
 
 	on CarAgentIsDead {
@@ -48,40 +74,55 @@ agent CarAgent {
 		freeDirections = CarBody.getDirection
 		var car : CarObject
 		for (percept : occurrence.objects) {
-			//var v = percept.position - occurrence.position
+			//var v = percept.myPosition - occurrence.myPosition
 			if(percept instanceof CarObject){
 				car = percept
 				break;
 				}
 		}
-	if (car !== null) {
-		var direction : int
-		if (CarBody.getTurnTo!==0){
-			if (CarBody.direction == 3){
-				var posdir : int[] = #[0,1,2]
-				direction =posdir.get(random.nextInt(posdir.length))
-				direction.memorizeAndMoveTo
-			} else if (CarBody.direction == 2) {
-					var posdir : int[] = #[0,2]
-					direction = posdir.get(random.nextInt(posdir.length))
+		if (car !== null) {
+			var direction : int
+			if (CarBody.getTurnTo!==0){
+				if (CarBody.direction == 3){
+					var myPosdir : int[] = #[0,1,2]
+					direction =myPosdir.get(random.nextInt(myPosdir.length))
 					direction.memorizeAndMoveTo
-				} else if (CarBody.direction == 1) {
-					var posdir : int[] = #[0, 1]
-					direction = posdir.get(random.nextInt(posdir.length))
-					direction.memorizeAndMoveTo
-				} 
-		}else {
-			freeDirections.randomMove
+				} else if (CarBody.direction == 2) {
+						var myPosdir : int[] = #[0,2]
+						direction = myPosdir.get(random.nextInt(myPosdir.length))
+						direction.memorizeAndMoveTo
+					} else if (CarBody.direction == 1) {
+						var myPosdir : int[] = #[0, 1]
+						direction = myPosdir.get(random.nextInt(myPosdir.length))
+						direction.memorizeAndMoveTo
+					} 
+			}else {
+				freeDirections.randomMove
+			}
+				
 		}
-			
-	}
 	
+	}
+
+	on UpdateCarPosition [isFromMe(occurrence)] {
+		if (myPos.getX + speed > 1200)
+		{
+			killMe
+		}
+		else {
+			myPos = new Point2i(myPos.getX + speed, myPos.getY)
+		if (myPosObjects !== null)
+			myPosObjects.setCarPosition(id, myPos)
+			info("move :" + myPos.getX)
+		}
+		
+
 	}
 
 	/*on CarAgentMove{
 		//GetNodeInfrontofMe
 		//then getTrafficLight
-		//get possible directions
+		//get myPossible directions
 		//get randomly one of the allowed direction
 		//based on the direction
 		var i : int
@@ -90,7 +131,7 @@ agent CarAgent {
 		if(CarBody.getRoad.getTrafficLight==green){
 		/*if(CarBody.getRoad.getTrafficLight==LightColor.GREEN){
 			if(i==0){//strait
-				if (CarBody.getRoad.getEnvObjectsat(CarBody.position) != 0 & ) {
+				if (CarBody.getRoad.getEnvObjectsat(CarBody.myPosition) != 0 & ) {
 					
 				}
 			}else
@@ -114,21 +155,21 @@ agent CarAgent {
 	}
 
 	def randomMove(directions : int) {
-		var posdir : int[]
+		var myPosdir : int[]
 		var selectedDirection : int
 			if (directions == 0 && directions == this.previousDirection) {
 				selectedDirection = this.previousDirection
 			}
 		if (directions > 0) {
 				if (CarBody.direction == 3){
-				posdir = #[0,1,2]
+				myPosdir = #[0,1,2]
 			} else if (CarBody.direction == 2) {
-					posdir = #[0,2]
+					myPosdir = #[0,2]
 				} else if (CarBody.direction == 1) {
-					posdir = #[0, 1]
+					myPosdir = #[0, 1]
 					}
 				
-				selectedDirection = posdir.get(random.nextInt(posdir.length))
+				selectedDirection = myPosdir.get(random.nextInt(myPosdir.length))
 				
 			}
 		selectedDirection.memorizeAndMoveTo

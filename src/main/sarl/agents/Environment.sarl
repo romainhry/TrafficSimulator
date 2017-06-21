@@ -1,60 +1,58 @@
-package main
+package agents;
 
-import java.awt.Graphics;
-import java.util.*;
-import java.text.DateFormat;
-import java.applet.Applet;
-import javafx.application.Platform;
-import java.util.Collection
-import io.sarl.core.AgentKilled
-import io.sarl.core.AgentSpawned
-import io.sarl.core.ContextJoined
-import io.sarl.core.ContextLeft
-import io.sarl.core.Destroy
+import GUI.Controller
+import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
-import io.sarl.core.Logging
-import io.sarl.core.MemberJoined
-import io.sarl.core.MemberLeft
-import java.util.Map
+import io.sarl.core.Lifecycle
+import io.sarl.util.OpenEventSpaceSpecification
+import java.util.Collection
 import java.util.List
 import java.util.TreeMap
+import java.util.UUID
 import model.Car.CarObject
 import model.Car.TimeStep
+import model.Graph
+import model.GraphNode
+import model.PositionedObjects
 import model.math.Point2f
 import model.road.PositionOnTheGraph
-import model.Graph
-import Controllers.Controller
-import model.PositionedObjects
-import model.GraphNode
-import io.sarl.core.Lifecycle
-import io.sarl.core.DefaultContextInteractions
-import main.SimulationGUI
-import javafx.application.Application
-import agents.*
-import javafx.concurrent.Task
+import io.sarl.core.Behaviors
+import io.sarl.core.InnerContextAccess
+import main.Positions
+import io.sarl.core.Schedules
+import model.math.Point2i
+import java.util.Random
+import io.sarl.core.Logging
 
 agent Environment {
-	uses Lifecycle, DefaultContextInteractions
+	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging
 	var bodies : Collection<CarObject>
-	var graph = new Graph
-
-	var listener : SimulationGUI
+	var graph : Graph
+	var posObjects : Positions = new Positions
+	var numberCarMax  = 25
+	val y = 800
+	val x = 1200
 	
-	var myGui : SimulationGUI
+	var listener : Controller
 	
 	on Initialize {
 		// Initialize the graph
-		var width = occurrence.parameters.get(0) as Integer
-		var height = occurrence.parameters.get(1) as Integer
-		var nbGhosts = occurrence.parameters.get(2) as Integer
-		var perceptionDistance = occurrence.parameters.get(3) as Integer
-		for (i : 4 ..< occurrence.parameters.size) {
-			var o = occurrence.parameters.get(i)
-				this.listener = o as SimulationGUI
-		}
+		listener = occurrence.parameters.get(0) as Controller
+		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
+		ispace.register(asEventListener)
+		listener.setGUISpace(ispace)
+		listener.listenAndDraw(posObjects)
 		System.out.println("la")
-		var carBody = new CarObject()
-		spawnInContextWithID(typeof(CarAgent), carBody.getUID, defaultContext)
+
+		var rnd = new Random()
+		var i = 0
+		while (i < 1) {
+			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
+			spawnInContext(CarAgent, getInnerContext, pos, posObjects)
+			i++;
+		}
+
+
 		
 		/*setSkill(new DefaultMazeManagerSkill(width, height), typeof(MazeManager))
 		setSkill(new DefaultMazeFrontEndSkill(), typeof(MazeFrontEnd))
@@ -70,7 +68,7 @@ agent Environment {
 		fireEnvironmentChange*/
 		// listener.start(null)
 		
-		myGui = SimulationGUI.waitForGui();
+		//myGui = SimulationGUI.waitForGui();
 		
 		System.out.println("pas la")
 		
@@ -78,9 +76,9 @@ agent Environment {
 	}
 	
 	on AddCar {
-		var carBody = new CarObject()
+		//var carBody = new CarObject()
 		
-		Platform.runLater(new Runnable(){ myGui.addtoroadgui(carBody.getUID)})
+		listener.addtoroadgui//(carBody.getUID)
      	
 	}
 	

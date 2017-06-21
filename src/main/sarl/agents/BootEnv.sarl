@@ -1,0 +1,15 @@
+package agents
+
+import io.janusproject.Boot
+
+import GUI.Controller
+/*
+ * Launch janus Kernel and main sarl agent
+ */
+class BootEnv {
+	static def main(controller : Controller) {
+		Boot::offline = true
+		Boot::verboseLevel = 7
+		Boot::startJanus(typeof(Environment), controller)
+	}
+}

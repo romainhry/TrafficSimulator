@@ -6,6 +6,11 @@ import model.math.Point2i
 import model.Car.CarObject
 import model.Car.Direction
 
+event UpdateCarPosition
+{
+	
+}
+
 event Perception {
 	val time : int
 	val objects : List<CarObject>
