@@ -7,7 +7,7 @@ class Graph {
 	var nodes = new ArrayList<GraphNode>
 	var spawningPoints = new ArrayList<GraphNode>
 	var palabra = "holiwis"
-
+	
 	def add(g : GraphNode) : void{
 		nodes.add(g)
 		//this function only add it to the list of nodes in the graph

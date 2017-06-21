@@ -1,19 +1,21 @@
 package agents
 
-import java.util.UUID
 import java.util.List
-import model.math.Point2i
+import java.util.UUID
 import model.Car.CarObject
-import model.Car.Direction
 import model.PositionedObjects
+import model.math.Point2i
 
 event UpdateCarPosition
-{
-	
-}
 
-event UpdateLightStates {
-}
+event UpdateLightStates
+
+event TimeStep
+
+event Exit
+
+event CarDead // event for indicate to the Enviroment that the Car is dead, so he need to spawn another one
+	
 
 event Perception {
 	val time : int

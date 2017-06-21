@@ -10,7 +10,7 @@ class TrafficLight extends PositionedObjects {
 	var color : LightColor //enum defined at the end of this file
 	var timer = new Timer() // We utilize it for control the time of the color change
 	var stateChanged = false;
-	
+			
 	var guiPos : Point2i
 
 	new(x : int, y : int) {
@@ -20,6 +20,7 @@ class TrafficLight extends PositionedObjects {
 		this.length = 1f
 		//activate
 	}
+	
 	/* we have also the possibility of create a traffic light antisynchronized with other */
 	new(x : int, y : int, neighbour : TrafficLight, sync : boolean) {
 		//this.position = new Point2i(x, y)

@@ -12,7 +12,7 @@ class Point2i {
 		x=i
 		y=j
 	}
-
+	
 	@Pure
 	def distanceSquared(p1 : Point2i) : float {
 	      var dx : float

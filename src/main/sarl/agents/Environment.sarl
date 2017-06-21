@@ -10,7 +10,6 @@ import java.util.List
 import java.util.TreeMap
 import java.util.UUID
 import model.Car.CarObject
-import model.Car.TimeStep
 import model.Graph
 import model.GraphNode
 import model.PositionedObjects
@@ -26,23 +25,30 @@ import io.sarl.core.Logging
 import io.sarl.core.AgentTask
 import model.road.TrafficLight
 import java.util.ArrayList
+import model.road.GraphCreator
 
 agent Environment {
 	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging, Schedules
 	var bodies : Collection<CarObject>
 	var graph : Graph
 	var posCars : Positions = new Positions
-	var numberCarMax  = 1
+	val NUMBERCARMAX  = 10
 	var lights : ArrayList<TrafficLight>
 	val y = 800
 	val x = 1200
+	var numberCar =0
+	var rnd : Random
+		
 		
 	var changeLight : AgentTask
 		
 	var listener : Controller
 		
 	on Initialize {
+		rnd = new Random()
 		// Initialize the graph
+		graph = GraphCreator.city1
+		
 		listener = occurrence.parameters.get(0) as Controller
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
 		ispace.register(asEventListener)
@@ -56,14 +62,8 @@ agent Environment {
 		lights.add(new TrafficLight(385, 170, lights.get(1), false))
 		lights.add(new TrafficLight(385, 200, lights.get(1), true))
 		listener.listenAndDraw(posCars, lights)
-		
-		var rnd = new Random()
-		var i = 0
-		while (i < numberCarMax) {
-			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
-			spawnInContext(CarAgent, getInnerContext, pos, posCars)
-			i++;
-		}
+
+		spawnCarAgents // function that spawns the car agents
 		
 		
 		changeLight = atFixedDelay(3000) [
@@ -73,22 +73,16 @@ agent Environment {
 				e.printStackTrace
 			}
 		]
+
+		//update the environment (TimeStep)
+		var updateEnv = atFixedDelay(30) [
+			try {
+				wake(new TimeStep);
+			} catch (e : Exception) {
+				e.printStackTrace
+			}
+		]
 		
-		/*setSkill(new DefaultMazeManagerSkill(width, height), typeof(MazeManager))
-		setSkill(new DefaultMazeFrontEndSkill(), typeof(MazeFrontEnd))
-		this.controller = new Controller(defaultSpace, defaultAddress)
-		var pacmanBody = createPacman
-		this.player = new Player(pacmanBody.agentId, Logger::getLogger(ID.toString))
-		for (i : 0 ..< nbGhosts) {
-			var ghostBody = createGhost(perceptionDistance)
-			spawnInContextWithID(typeof(Ghost), ghostBody.agentId, defaultContext)
-		}
-		firePlayerBinding
-		fireControllerBinding
-		fireEnvironmentChange*/
-		// listener.start(null)
-		
-		//myGui = SimulationGUI.waitForGui();
 		
 		System.out.println("pas la")
 		
@@ -104,18 +98,34 @@ agent Environment {
 		}
 	}
 	
-	on AddCar {
-		//var carBody = new CarObject()
-		
-		//listener.addtoroadgui//(carBody.getUID)
-     	
-	}
 	
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
-		percieve()
-		applyInfluences()
+		//percieve()
+		//applyInfluences()
 	}
+	
+	
+	on CarDead { // Everytime a Car is dead, the Enviroment create a new one
+		numberCar--
+		var nsp = graph.spawningPoints.length
+		var i = 0
+		val numberNew = rnd.nextInt(NUMBERCARMAX - numberCar)
+		numberCar+=numberNew
+		for(i=0;i<numberNew;i++)
+		{
+			//var car = new CarObject(0, 0)
+			//spawn(typeof(CarAgent), car)
+			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
+			var car = new CarObject(0, 0) // create the agent body
+			spawnInContext(CarAgent, getInnerContext, pos, posCars, car)
+			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
+			
+		}
+		
+	}
+	
+	
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values
 		var i : float //local variable
@@ -141,12 +151,12 @@ agent Environment {
 							for (fnn : gn.frontNeighbourNodes) { //we look into each front neighbour node
 								posDir++
 								for(j=0;j<o.frustum-i;j++) //from 0 to the remaining frustum length
-							{
-								if (!fnn.isEmptyAt(j,0)) {
-									li += fnn.objectAt(j)
+								{
+									if (!fnn.isEmptyAt(j,0)) {
+										li += fnn.objectAt(j)
+									}
 								}
 							}
-						}
 							for (cfnn : gn.frontNeighbourNodes) { // we look into each front conflict node
 								for (j = 0; j < o.frustum - i; j++) // from 0 to the remaining frustum length
 								{
@@ -154,23 +164,23 @@ agent Environment {
 										li += cfnn.objectAt(j)
 									}
 								}
-						}
-						
-					}
-				}
-				for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
-					if (o.position.x - i >= 0) {
-						if (!gn.isEmptyAt(o.position.x - i,0)) {
-							li += gn.objectAt(o.position.x - i)
-						} else {
-							for (bnn : gn.backNeighbourNodes) {
-									for(j=bnn.length;j<o.frustum-i;j++)
-							{
-								if (!bnn.isEmptyAt(j,0)) {
-									li += bnn.objectAt(j)
-								}
 							}
+						
 						}
+					}
+					for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
+						if (o.position.x - i >= 0) {
+							if (!gn.isEmptyAt(o.position.x - i,0)) {
+								li += gn.objectAt(o.position.x - i)
+							} else {
+								for (bnn : gn.backNeighbourNodes) {
+									for(j=bnn.length;j<o.frustum-i;j++)
+									{
+										if (!bnn.isEmptyAt(j,0)) {
+											li += bnn.objectAt(j)
+										}
+									}
+								}
 								for (cbnn : gn.conflictNodesInBack) {
 									for (j = cbnn.length; j < o.frustum - i; j++) {
 										if (!cbnn.isEmptyAt(j, 0)) {
@@ -178,23 +188,31 @@ agent Environment {
 										}
 									}
 								}
+							}
+						}
 					}
+					map.put(o, li)
+					o.direction = posDir
 				}
 			}
-			map.put(o, li)
-			o.direction = posDir
 		}
-	}
-}
 		return map
 	}
+	
+	
 	def applyInfluences {
 		/*This function will take each object influence and will try to apply it.
 		 * If it's posible will change its position, if it's not, it will ignore it 
 		 */
 		for (gn : graph.nodes) { //for each graph node on the graph
 			for(o : gn.posObj){ //will take each agent on it
-				if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
+			//We will see if it's already out of the graph
+				if (o.position.x + o.influence.x > gn.length && gn.isFinalNode){
+					var ev = new CarAgentIsDead(o)
+					emit(ev)
+					gn.remove(o)
+				}
+				else if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
 					o.position = desiredPosition(o,gn).position  //the position of the object get update
 				} // if there's a collision, we will ignore it
 			}
@@ -204,15 +222,17 @@ agent Environment {
 	 */	
 	}
 
+
 	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
-	/*We are going to test if there's a collision with other objects */	
-	if(newPosition.graphNode.isEmptyAt(newPosition.position.x,object.length)){
-		return false
+		/*We are going to test if there's a collision with other objects */	
+		if(newPosition.graphNode.isEmptyAt(newPosition.position.x,object.length)){
+			return false
+		}
+		else {
+			return true
+		}
 	}
-	else {
-		return true
-	}
-	}
+	
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
 		/*This function will take an object knowing the node where it is and then,
 		 * will give the position on the graph where it wants to go
@@ -221,9 +241,25 @@ agent Environment {
 		if (posObj.position.x + posObj.influence.x <= currentNode.length) {
 			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
 		}
-		/*Otherwise it will change to the position 0 of the next node */
-		else {
+		/* Otherwise it will change to the position 0 of the next node
+		 */
+		else{
 			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(posObj.turnTo))
 			 }
+	}
+		
+	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
+		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
+		val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
+		numberCar += newNumberOfCar
+		for (n : 1 .. newNumberOfCar) {
+			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
+			var car = new CarObject(0, 0) // create the agent body
+			spawnInContext(CarAgent, getInnerContext, pos, posCars,car)
+			
+			
+			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
+			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
+		}
 	}
 }

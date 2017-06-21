@@ -1,6 +1,5 @@
 package GUI
 
-import Events.Exit
 import agents.BootEnv
 import io.sarl.lang.core.Event
 import io.sarl.lang.core.EventListener
@@ -23,6 +22,8 @@ import main.Positions
 import javafx.util.Duration
 import model.road.TrafficLight
 import model.road.LightColor
+import java.util.Random
+import agents.Exit
 
 class Controller implements EventListener {
 
@@ -35,7 +36,8 @@ class Controller implements EventListener {
 	private var carGroup : Group
 
 	private var lightGroup : Group
-
+	
+	private var l : int //use to count cars
     @FXML
     private var PaneHome: Pane 
     
@@ -238,7 +240,7 @@ class Controller implements EventListener {
               
             group.getChildren().add(tree1);
         }
-        
+               
         for(var i=0; i<4; i++)
         {
         	var build1 : ImageView;
@@ -452,23 +454,49 @@ class Controller implements EventListener {
 
 	public def listenAndDraw(carPos : Positions, lights : ArrayList<TrafficLight>) {
 		var wait : PauseTransition = new PauseTransition(Duration.seconds(0.03));
-				
+		
 		wait.setOnFinished [ e |
 			try {
-				carGroup.getChildren.clear
-				//group.getChildren.clear
+				var rnd = new Random
+				l = 0
+				var str : String
+				if (carPos.getCars().values().size > 10) {
+					switch i=rnd.nextInt(100) {
+						case i < 70:
+							str = "car.png"
+						case i < 80:
+							str = "car2.png"
+						default:
+						str = "car3.png"
+					
+					}
+				}
+				else {
+					str = "car.png"
+				}
+				
+				var im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+					"../../Images/"+str)
+				
+				// group.getChildren.clear
 				//gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());
 				carPos.getCars().values().stream().filter(car|!car.getHidden()).forEach(car |
-					{
-					var carView = new ImageView(
-						new Image(
-							"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-						"../../Images/car.png"));
-					carView.setPreserveRatio(true);
-					carView.setFitWidth(30);
-					carView.setX(car.getPosition.getX);
-					carView.setY(car.getPosition.getY);
-					carGroup.getChildren().add(carView);
+				{					
+						if (l < carGroup.getChildren.size) {
+							//val view = 
+							(carGroup.getChildren.get(l) as ImageView).setX(car.getPosition.getX)
+							(carGroup.getChildren.get(l) as ImageView).setY(car.getPosition.getY)
+						}
+						else {
+							var carView = new ImageView(im);
+							carView.setPreserveRatio(true);
+							carView.setFitWidth(30);
+							carView.setX(car.getPosition.getX);
+							carView.setY(car.getPosition.getY);
+							carGroup.getChildren().add(carView);
+						}
+						l++
+						
 					});
 				if (lights.get(0).getState) {
 					lightGroup.getChildren.clear
@@ -501,7 +529,7 @@ class Controller implements EventListener {
 		];
 		wait.play();
 	}
-
+	
 	public def cleanExit() {
 			if (this.ispace !== null)
 				this.ispace.emit(new Exit());

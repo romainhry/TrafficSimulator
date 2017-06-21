@@ -1,33 +1,28 @@
 package agents
 
+import io.sarl.core.AgentTask
+import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
+import io.sarl.core.Schedules
 import java.util.Random
-import java.util.Timer
-import java.util.TimerTask
-import model.Car.CarObject
-import model.math.Point2f
 import java.util.UUID
 import main.Positions
-import io.sarl.core.AgentTask
-import io.sarl.core.Schedules
-import io.sarl.core.Behaviors
-import model.math.Point2i
-import io.sarl.core.Logging
+import model.Car.CarObject
 import model.math.Point2f
-import io.sarl.core.DefaultContextInteractions
-import io.sarl.lang.core.Event
+import model.math.Point2i
 
 agent CarAgent {
 	uses Lifecycle, DefaultContextInteractions, Schedules, Behaviors, Logging 
-
+	
 	var previousDirection : int
 	var CarBody : CarObject
 	val random = new Random
 	var id : UUID
 	var myPosObjects : Positions
-	val speed = 3
+	val speed = 1 //2=50,3=90/4=130
 	var move : AgentTask
 	var myPos : Point2i
 	
@@ -40,31 +35,15 @@ agent CarAgent {
 		if (myPosObjects !== null)
 			myPosObjects.setCarPosition(id, myPos)
 		info("car created")
-		move = atFixedDelay(30) [
+		move = atFixedDelay(20) [
 			try {
 				wake(new UpdateCarPosition);
 			} catch (e : Exception) {
 				e.printStackTrace
 			}
 		]
-		//CarBody = new CarObject(0, 0)
-		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
-		// CarBody.getDirection().randomMove()
 		
-		
-//		var timer = new Timer()
-//		var task = new TimerTask() {
-//			var contador = 0
-//
-//			@Override
-//			def run {
-//				emit(new AddCar)
-//				System.out.println("emit")
-//			}
-//		}
-//		timer.schedule(task, 4000, 4000)
-		CarBody = occurrence.parameters.get(0) as CarObject
-		//Controller.addtoroadgui(CarBody.getCarIcon, CarBody.UID)
+		CarBody = occurrence.parameters.get(2) as CarObject
 		CarBody.getDirection().randomMove()
 	}
 
@@ -123,7 +102,7 @@ agent CarAgent {
 			myPos = new Point2i(myPos.getX + speed, myPos.getY)
 		if (myPosObjects !== null)
 			myPosObjects.setCarPosition(id, myPos)
-			info("move :" + myPos.getX)
+			//info("move :" + myPos.getX)
 		}
 		
 
@@ -184,9 +163,13 @@ agent CarAgent {
 			}
 		selectedDirection.memorizeAndMoveTo
 	}
+	
+	
 	def turn (direction : int){
 		
 	}
+	
+	
 	def move (direction : int){
 		//the +1 is not a correct way to do this 
 		//should know "le pas = 3"
@@ -199,10 +182,4 @@ agent CarAgent {
 			CarBody.setInfluence(new Point2f(0, -3))
 		}
 	}
-}
-
-event AddCar {
-}
-event CarDead extends Event {
-	//event for indicate to the Enviroment that the Car is dead, so he need to spawn another one
 }
