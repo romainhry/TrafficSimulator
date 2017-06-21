@@ -164,4 +164,12 @@ class GraphNode {
 	def addObject(o : PositionedObjects) {
 		posObj.add(o)
 	}
+	def getIsFinalNode: boolean {
+		isFinalNode
+	}
+	
+	def remove(o : PositionedObjects) {
+		posObj.remove(o)
+	}
+	
 }

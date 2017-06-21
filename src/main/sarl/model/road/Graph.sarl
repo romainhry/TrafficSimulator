@@ -6,6 +6,7 @@ import java.util.ArrayList
 class Graph {
 	var nodes = new ArrayList<GraphNode>
 	var spawningPoints = new ArrayList<GraphNode>
+	var palabra = "holiwis"
 
 	def add(g : GraphNode) : void{
 		nodes.add(g)
@@ -24,5 +25,11 @@ class Graph {
 	def getNodes : ArrayList<GraphNode> {
 		return this.nodes
 	}
-	
+	def getPalabra : String {
+		palabra
+	}
+	def getSpawningPoints : ArrayList<GraphNode> {
+		spawningPoints
+	}
+
 }

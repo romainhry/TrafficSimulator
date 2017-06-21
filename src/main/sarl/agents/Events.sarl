@@ -5,6 +5,7 @@ import java.util.List
 import model.math.Point2i
 import model.Car.CarObject
 import model.Car.Direction
+import model.PositionedObjects
 
 event Perception {
 	val time : int
@@ -34,5 +35,10 @@ event Action {
  */
 
 
-event CarAgentIsDead
+event CarAgentIsDead {
+	var ob : PositionedObjects
+	new(o : PositionedObjects) {
+		ob = o
+	}
+}
 event CarAgentMoving
