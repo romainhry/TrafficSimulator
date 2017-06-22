@@ -41,7 +41,6 @@ class TrafficSimulator extends Application {
 		var root : Parent = loader.load(location.openStream()) as Parent;
 		var scene : Scene = new Scene(root);
 		stage.setTitle("TrafficSimulator")
-
         var kbi = new KeyBoardInputs();
         scene.addEventHandler(KeyEvent.KEY_PRESSED,kbi); 
         stage.setScene(scene);

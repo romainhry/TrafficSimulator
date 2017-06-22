@@ -6,47 +6,54 @@ import model.road.CrosswalkSign
 
 class GraphCreator {
 	
+	static val COEFX = 4.6
+	static val COEFY = 1;
+	
+	static val roadWidth = 10
 	
 	static def city1 : Graph{
 		var graph = new Graph
-		
-		var node1 = new GraphNode(10,false)
+		var node1 = new GraphNode(10, false, #[0 * COEFX, 20*COEFX, 10*COEFX, 20*COEFX])
 		graph.add(node1)
 		graph.addSpawnPoint(node1)
-		var node2 = new GraphNode(20,false)
+		
+		var node2 = new GraphNode(20,false,#[10*COEFX,20*COEFX,30*COEFX,20*COEFX])
 		graph.add(node2)
 		node1.addFrontNeighbour(node2)
-		var node3 = new GraphNode(20, false)
+		
+		var node3 = new GraphNode(20, false, #[30*COEFX, 20*COEFX, 50*COEFX, 20*COEFX])
 		graph.add(node3)
 		node2.addFrontNeighbour(node3)
-		var node4 = new GraphNode(10, false)
+		var node4 = new GraphNode(10, false, #[30,20*COEFX, 34.5*COEFX, 22 *COEFX,36.5*COEFX, 26.5*COEFX])
 		graph.add(node4)
 		node2.addFrontNeighbour(node4)
-		var node5 = new GraphNode(20, false)
+		
+		var node5 = new GraphNode(20, false, #[36.5*COEFX,26.5*COEFX,36.5*COEFX,46.5*COEFX])
 		graph.add(node5)
 		var giveWay5 = new GiveWaySign(19)
 		node5.addObject(giveWay5)
-		var node6 = new GraphNode(10, false)
+		
+		var node6 = new GraphNode(10, false, #[36.5*COEFX,46.5*COEFX, 32*COEFX, 48.5*COEFX, 30*COEFX, 53*COEFX])
 		graph.add(node6)
-		var node7 = new GraphNode(10, false)
+		var node7 = new GraphNode(10, false, #[30 * COEFX, 53 * COEFX, 32 * COEFX, 57.5 * COEFX, 36.5 * COEFX, 59.5*COEFX])
 		graph.add(node7)
-		var node8 = new GraphNode(10, false)
+		var node8 = new GraphNode(10, false, #[36.5*COEFX,59.5*COEFX, 41*COEFX, 57.5*COEFX, 43*COEFX, 53*COEFX])
 		graph.add(node8)
-		var node9 = new GraphNode(10, false)
+		var node9 = new GraphNode(10, false, #[43*COEFX, 53*COEFX, 41*COEFX, 48.5*COEFX, 36.5*COEFX, 46.5*COEFX])
 		graph.add(node9)
-		var node10 = new GraphNode(20, false)
+		var node10 = new GraphNode(20, false, #[30*COEFX, 53*COEFX, 10*COEFX, 53*COEFX])
 		graph.add(node10)
 		var giveWay10 = new GiveWaySign(19)
 		node5.addObject(giveWay10)
-		var node11 = new GraphNode(20, false)
+		var node11 = new GraphNode(20, false, #[36.5*COEFX, 59.5*COEFX, 36.5*COEFX, 79.5*COEFX])
 		graph.add(node11)
-		var node12 = new GraphNode(20, false)
+		var node12 = new GraphNode(20, false, #[36.5*COEFX + roadWidth, 59.5*COEFX, 36.5*COEFX+roadWidth, 79.5*COEFX])
 		graph.add(node12)
 		var giveWay12 = new GiveWaySign(19)
 		node5.addObject(giveWay12)
-		var node13 = new GraphNode(20, false)
+		var node13 = new GraphNode(20, false, #[43*COEFX, 53*COEFX, 63*COEFX, 53*COEFX])
 		graph.add(node13)
-		var node14 = new GraphNode(20, false)
+		var node14 = new GraphNode(20, false, #[43 * COEFX, 53 * COEFX - roadWidth, 63 * COEFX, 53 * COEFX - roadWidth])
 		graph.add(node14)
 		var giveWay14 = new GiveWaySign(19)
 		node5.addObject(giveWay14)
@@ -60,60 +67,77 @@ class GraphCreator {
 		node9.addFrontNeighbour(node6)
 		node12.addFrontNeighbour(node8)
 		node14.addFrontNeighbour(node9)
-		var node15 = new GraphNode(10, true)
+		var node15 = new GraphNode(10, true, #[10*COEFX, 53*COEFX, 0*COEFX, 53*COEFX])
 		graph.add(node15)
 		node10.addFrontNeighbour(node15)
-		var node16 = new GraphNode(200, false)
+		var node16 = new GraphNode(200, false, #[40*COEFX, 20*COEFX, 250*COEFX, 20*COEFX])
 		graph.add(node16)
 		node3.addFrontNeighbour(node16)
-		var node17 = new GraphNode(10, true)
+		
+		var node17 = new GraphNode(10, true, #[250 * COEFX, 20 * COEFX, 260 * COEFX, 20 * COEFX])
 		graph.add(node17)
 		node16.addFrontNeighbour(node17)
-		var node18 = new GraphNode(10, false)
+		var node18 = new GraphNode(10, false, #[250 * COEFX, 20 * COEFX - roadWidth, 260 * COEFX, 20 * COEFX- roadWidth])
 		graph.add(node18)
 		graph.addSpawnPoint(node18)
-		var node19 = new GraphNode(60, false)
+		var node19 = new GraphNode(60, false, #[250 * COEFX, 20 * COEFX - roadWidth, 190 * COEFX, 20 * COEFX -roadWidth])
 		graph.add(node19)
 		node18.addFrontNeighbour(node19)
-		var node20 = new GraphNode(110, false)
+		var node20 = new GraphNode(110, false, #[190 * COEFX, 20 * COEFX - roadWidth, 200 * COEFX, 10 * COEFX, 210 * COEFX, 10 * COEFX, 210 * COEFX,
+				60 * COEFX])
 		graph.add(node20)
+		
 		var stop20 = new StopSign(109)
 		node20.addObject(stop20)
-		var node21 = new GraphNode(180, false)
+		var node21 = new GraphNode(
+			180,
+			false,
+			#[190 * COEFX, 20 * COEFX - roadWidth, 10 * COEFX, 20 * COEFX - roadWidth]
+			)
 		graph.add(node21)
 		node20.addFrontNeighbour(node21)
-		var node22 = new GraphNode(10, true)
+		var node22 = new GraphNode(10, true, #[10 * COEFX, 20 * COEFX - roadWidth, 0 * COEFX, 20 * COEFX- roadWidth])
 		graph.add(node22)
 		node21.addFrontNeighbour(node22)
-		var node23 = new GraphNode(20, false)
+		var node23 = new GraphNode(20, false,
+			#[63 * COEFX, 53 * COEFX, 75 * COEFX, 53 * COEFX, 75 * COEFX, 61 * COEFX])
 		graph.add(node23)
-		var node24 = new GraphNode(20, false)
+		var node24 = new GraphNode(20+2*roadWidth, false, #[63 * COEFX, 53 * COEFX -roadWidth, 75 * COEFX +roadWidth, 53 * COEFX-roadWidth, 75 * COEFX + roadWidth, 61 * COEFX])
 		graph.add(node24)
 		node13.addFrontNeighbour(node23)
 		node24.addFrontNeighbour(node14)
 		
 		//nodes for the 3 street corner
-		var node25 = new GraphNode(10, false)
+		var node25 = new GraphNode(10, false,
+			#[75 * COEFX, 61 * COEFX, 75 * COEFX, 65 * COEFX])
 		graph.add(node25)
-		var node26 = new GraphNode(10, false)
+		var node26 = new GraphNode(10, false, #[75 * COEFX +roadWidth, 61 * COEFX, 75 * COEFX+roadWidth, 65 * COEFX])
 		graph.add(node26)
-		var node27 = new GraphNode(10, false)
+		var node27 = new GraphNode(10, false,
+			#[75 * COEFX, 61 * COEFX, 77 * COEFX, 65.5 * COEFX, 81.5 * COEFX, 67.5 * COEFX])
 		graph.add(node27)
-		var node28 = new GraphNode(5, false)
+		var node28 = new GraphNode(5, false,
+			#[81.5 * COEFX, 67.5 * COEFX - roadWidth, 75 * COEFX + roadWidth, 61 * COEFX])
 		graph.add(node28)
-		var node29 = new GraphNode(5, false)
+		var node29 = new GraphNode(5, false, #[75 * COEFX + roadWidth, 65 * COEFX, 81.5 * COEFX, 67.5 * COEFX])
 		graph.add(node29)
-		var node30 = new GraphNode(10, false)
+		var node30 = new GraphNode(10, false,
+			#[81.5 * COEFX, 67.5 * COEFX - roadWidth, 77 * COEFX, 69.5 * COEFX - roadWidth, 75 * COEFX,
+			65 * COEFX])
 		graph.add(node30)
-		var node31 = new GraphNode(100, false)
+		var node31 = new GraphNode(100, false,
+			#[81.5 * COEFX, 67.5 * COEFX - roadWidth, 181.5 * COEFX, 67.5 * COEFX - roadWidth])
 		graph.add(node31)
-		var node32 = new GraphNode(70, false)
+		var node32 = new GraphNode(70, false, #[81.5 * COEFX, 67.5 * COEFX, 151.5 * COEFX, 67.5 * COEFX])
 		graph.add(node32)
-		var node33 = new GraphNode(90, false)
+		var node33 = new GraphNode(90, false,
+			#[75 * COEFX, 65 * COEFX, 75 * COEFX, 105 * COEFX, 25 * COEFX, 105 * COEFX])
 		graph.add(node33)
-		var node34 = new GraphNode(90, false)
+		var node34 = new GraphNode(90, false,
+			#[75 * COEFX + roadWidth, 65 * COEFX, 75 * COEFX + roadWidth, 105 * COEFX + roadWidth, 25 * COEFX,
+			105 * COEFX + roadWidth])
 		graph.add(node34)
-		
+		/*
 		//3 street corner
 //		var tl23 = new TrafficLight(19)
 //		var tl31 = new TrafficLight(99)
@@ -321,7 +345,7 @@ class GraphCreator {
 		// end of 3 street corner
 		
 		
-		/*There's no Node 65 */
+		///*There's no Node 65
 		
 		
 		var node63 = new GraphNode(160, false)
@@ -377,8 +401,8 @@ class GraphCreator {
 		node71.addFrontNeighbour(node72)
 		node72.addFrontNeighbour(node73)
 		
-		/* Cration of the Crosswalks
-		 */
+		// Cration of the Crosswalks
+		 
 		var cross53 = new CrosswalkSign(1)
 		node53.addObject(cross53)
 		var cross54 = new CrosswalkSign(19)
@@ -444,7 +468,8 @@ class GraphCreator {
 		var cross63 = new CrosswalkSign(159)
 		node63.addObject(cross63)
 		
-		/*Here we create the Maximum Speed Signs */
+		
+		//Here we create the Maximum Speed Signs 
 		var max63a = new MaxSpeedSign(21)
 		max63a.maxSpeed = 70
 		node63.addObject(max63a)
@@ -472,7 +497,10 @@ class GraphCreator {
 		var max35 = new MaxSpeedSign(1)
 		max35.maxSpeed = 30
 		node35.addObject(max35)
+		* s
+		*/
 		
 		return graph
+		
 	}
 }

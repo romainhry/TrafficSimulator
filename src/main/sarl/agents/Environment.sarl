@@ -43,7 +43,7 @@ agent Environment {
 	var changeLight : AgentTask
 		
 	var listener : Controller
-		
+			
 	on Initialize {
 		rnd = new Random()
 		// Initialize the graph
@@ -61,7 +61,7 @@ agent Environment {
 		lights.add(new TrafficLight(840, 150, lights.get(0), false))		
 		lights.add(new TrafficLight(385, 170, lights.get(1), false))
 		lights.add(new TrafficLight(385, 200, lights.get(1), true))
-		listener.listenAndDraw(posCars, lights)
+		listener.listenAndDraw(posCars, lights, graph)
 
 		spawnCarAgents // function that spawns the car agents
 		
@@ -119,7 +119,7 @@ agent Environment {
 			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0, 0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext, pos, posCars, car)
-			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
+			//graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 			
 		}
 		
@@ -204,6 +204,7 @@ agent Environment {
 		/*This function will take each object influence and will try to apply it.
 		 * If it's posible will change its position, if it's not, it will ignore it 
 		 */
+		 
 		for (gn : graph.nodes) { //for each graph node on the graph
 			for(o : gn.posObj){ //will take each agent on it
 			//We will see if it's already out of the graph
@@ -259,7 +260,7 @@ agent Environment {
 			
 			
 			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
-			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
+			//graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
 		}
 	}
 }

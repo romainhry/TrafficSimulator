@@ -8,6 +8,8 @@ class Graph {
 	var spawningPoints = new ArrayList<GraphNode>
 	var palabra = "holiwis"
 	
+	var create = false
+	
 	def add(g : GraphNode) : void{
 		nodes.add(g)
 		//this function only add it to the list of nodes in the graph
@@ -21,6 +23,15 @@ class Graph {
 			// this function only add it to the list of nodes in the graph
 		// We also need to relate to an existing node before by the function
 		// "add" of the class GraphNode c
+	}
+	
+
+	def isCreated() : boolean {
+		return create;
+	}
+
+	def created() {
+		create = true;
 	}
 	def getNodes : ArrayList<GraphNode> {
 		return this.nodes

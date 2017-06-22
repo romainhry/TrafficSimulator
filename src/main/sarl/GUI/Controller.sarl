@@ -24,6 +24,7 @@ import model.road.TrafficLight
 import model.road.LightColor
 import java.util.Random
 import agents.Exit
+import model.Graph
 
 class Controller implements EventListener {
 
@@ -78,53 +79,7 @@ class Controller implements EventListener {
         //group.getChildren().add(e);
 
         // River :
-        var river = new Polyline(
-                150,600,
-                150,450,
-                500,450,
-                500,330,
-                530,300,
-                700,300,
-                800,370,
-                900,300,
-                1000,300,
-                1000,420,
-                1150,420,
-                1150,300,
-                1200,300
-        );
-		var red : double = 200/255
-		var green : double = 230/255
-		var blue : double = 250/255
-        var colorRiver = new Color(red,green,blue,0.5);
-        river.setStroke(colorRiver);
-        river.setStrokeLineJoin(StrokeLineJoin.ROUND);
-        river.setStrokeWidth(23);
-
-        var borderRiver = new Polyline(
-                150,600,
-                150,450,
-                500,450,
-                500,330,
-                530,300,
-                700,300,
-                800,370,
-                900,300,
-                1000,300,
-                1000,420,
-                1150,420,
-                1150,300,
-                1200,300
-        );
-
-        var colorBorder = new Color(100/255,180/255,220/255,0.5);
-        borderRiver.setStroke(colorBorder);
-        borderRiver.setStrokeLineJoin(StrokeLineJoin.ROUND);
-        borderRiver.setStrokeWidth(31);
-
-        group.getChildren().add(borderRiver);
         
-        group.getChildren().add(river);
         //System.err.println(this.getClass().getClassLoader().getParent().getClass().getResource("").getPath());
         var imageVille1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/ville.png"));
         imageVille1.setPreserveRatio(true);
@@ -451,12 +406,33 @@ class Controller implements EventListener {
     }
    
     
-
-	public def listenAndDraw(carPos : Positions, lights : ArrayList<TrafficLight>) {
+    
+	public def listenAndDraw(carPos : Positions, lights : ArrayList<TrafficLight>, graph : Graph) {
 		var wait : PauseTransition = new PauseTransition(Duration.seconds(0.03));
+		
+		//var n : int 
 		
 		wait.setOnFinished [ e |
 			try {
+				if(!graph.isCreated)
+				{
+					var nodes = graph.getNodes
+					for (var n = 0;n<nodes.size;n++){
+						var p = nodes.get(n).getUI
+						p.setStrokeLineJoin(StrokeLineJoin.ROUND)
+						p.setStrokeWidth(10)
+						
+						var red : double = 200 / 255
+						var green : double = 230 / 255
+						var blue : double = 250 / 255
+						
+						p.setStroke(new Color(red,green,blue,0.5))
+						
+						group.getChildren().add(p)
+					}
+					graph.created()
+					
+				}
 				var rnd = new Random
 				l = 0
 				var str : String

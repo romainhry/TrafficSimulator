@@ -1,5 +1,6 @@
 package model
 import java.util.ArrayList
+import javafx.scene.shape.Polyline
 
 class GraphNode {
 	var neighbourNodes : ArrayList<GraphNode> // Nodes where i can move to
@@ -14,9 +15,9 @@ class GraphNode {
 	var maxDesviationRight : float // Max desviation i can have to the right
 	var maxDesviationLeft : float // Max desviation i can have to the left
 	var isFinalNode : boolean //end of the route
-	
-	
-	new (l : float, b : boolean){
+	var line : Polyline
+		
+	new (l : float, b : boolean, params : double[]) {
 		this.length=l
 		this.isFinalNode=b
 		posObj = new ArrayList<PositionedObjects>
@@ -25,6 +26,12 @@ class GraphNode {
 		conflictNodesInFront = new ArrayList<GraphNode>
 		frontNeighbourNodes = new ArrayList<GraphNode>
 		backNeighbourNodes = new ArrayList<GraphNode>
+		line = new Polyline();
+		line.getPoints().addAll(params)
+	}
+	
+	def getUI() : Polyline{
+		return line
 	}
 
 
