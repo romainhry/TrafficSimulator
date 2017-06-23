@@ -617,7 +617,7 @@ class GraphCreator {
 		var tl11 = new TrafficLight(390, 10)
 		graph.addTrafficLight(tl11)
 		node11.addObject(tl11)
-		var tl7 = new TrafficLight(190, 10)
+		var tl7 = new TrafficLight(390, 10)
 		graph.addTrafficLight(tl7)
 		node7.addObject(tl7)
 		var tl18 = new TrafficLight(190, 10)
@@ -626,7 +626,7 @@ class GraphCreator {
 		var tl10 = new TrafficLight(190, 10)
 		graph.addTrafficLight(tl10)
 		node10.addObject(tl10)
-
+		
 		return graph
 	}
 }
