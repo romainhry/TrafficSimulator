@@ -46,6 +46,9 @@ class GraphNode {
 		line.getPoints().addAll(params)
 	}
 	
+	def getVert : boolean {
+		return vert
+	}
 	def getUI() : Polyline{
 		return line
 	}
