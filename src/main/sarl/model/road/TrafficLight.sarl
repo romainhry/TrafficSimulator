@@ -13,8 +13,8 @@ class TrafficLight extends PositionedObjects {
 			
 	//var guiPos : Point2i
 
-	new() {
-		// this.position = new Point2i(x, y)
+	new(x:int) {
+		this.position = new Point2f(x, 0)
 		this.color = LightColor.RED
 		//guiPos = new Point2i(x, y)
 		this.length = 1f
@@ -22,8 +22,8 @@ class TrafficLight extends PositionedObjects {
 	}
 			
 	/* we have also the possibility of create a traffic light antisynchronized with other */
-	new( neighbour : TrafficLight, sync : boolean) {
-		//this.position = new Point2i(x, y)
+	new(x:int, neighbour : TrafficLight, sync : boolean) {
+		this.position = new Point2f(x, 0)
 		//guiPos = new Point2i(x,y)
 		//position = new Point2f()
 		this.length = 1f

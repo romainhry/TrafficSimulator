@@ -29,11 +29,9 @@ import model.road.GraphCreator
 
 agent Environment {
 	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging, Schedules
-	var bodies : Collection<CarObject>
 	var graph : Graph
 	var posCars : Positions = new Positions
 	val NUMBERCARMAX  = 10
-	var lights : ArrayList<TrafficLight>
 	val y = 800
 	val x = 1200
 	var numberCar =0
@@ -83,11 +81,11 @@ agent Environment {
 	}
 	
 	on UpdateLightStates {
-		lights.get(0).setState(true)
+		graph.trafficLights.get(0).setState(true)
 		var j = 0
-		for(j=0; j <lights.size; j++)
+		for(j=0; j <graph.trafficLights.size; j++)
 		{
-			lights.get(j).colorChange
+			graph.trafficLights.get(j).colorChange
 		}
 	}
 	
