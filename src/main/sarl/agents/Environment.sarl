@@ -47,7 +47,7 @@ agent Environment {
 	on Initialize {
 		rnd = new Random()
 		// Initialize the graph
-		graph = GraphCreator.city1
+		graph = GraphCreator.city2
 		
 		listener = occurrence.parameters.get(0) as Controller
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)

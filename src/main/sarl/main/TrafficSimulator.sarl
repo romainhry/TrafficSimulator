@@ -62,7 +62,7 @@ class TrafficSimulator extends Application {
 	 	
 	 
 	}
-	
+		
 	@Override
 	public def stop() throws Exception {
 		super.stop();

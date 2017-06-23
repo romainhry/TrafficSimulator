@@ -408,7 +408,7 @@ class Controller implements EventListener {
     
     
 	public def listenAndDraw(carPos : Positions, lights : ArrayList<TrafficLight>, graph : Graph) {
-		var wait : PauseTransition = new PauseTransition(Duration.seconds(0.03));
+		val wait : PauseTransition = new PauseTransition(Duration.seconds(0.03));
 		
 		//var n : int 
 		
@@ -451,7 +451,7 @@ class Controller implements EventListener {
 					str = "car.png"
 				}
 				
-				var im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+				val im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
 					"../../Images/"+str)
 				
 				// group.getChildren.clear

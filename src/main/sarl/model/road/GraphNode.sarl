@@ -16,10 +16,26 @@ class GraphNode {
 	var maxDesviationLeft : float // Max desviation i can have to the left
 	var isFinalNode : boolean //end of the route
 	var line : Polyline
+	var vert = false
 		
 	new (l : float, b : boolean, params : double[]) {
 		this.length=l
 		this.isFinalNode=b
+		posObj = new ArrayList<PositionedObjects>
+		neighbourNodes = new ArrayList<GraphNode>
+		conflictNodesInBack = new ArrayList<GraphNode>
+		conflictNodesInFront = new ArrayList<GraphNode>
+		frontNeighbourNodes = new ArrayList<GraphNode>
+		backNeighbourNodes = new ArrayList<GraphNode>
+		line = new Polyline();
+		line.getPoints().addAll(params)
+	}
+
+	new (l : float, b : boolean,v:boolean, params : double[]
+	) {
+		vert = v
+		this.length = l
+		this.isFinalNode = b
 		posObj = new ArrayList<PositionedObjects>
 		neighbourNodes = new ArrayList<GraphNode>
 		conflictNodesInBack = new ArrayList<GraphNode>
