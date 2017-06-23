@@ -605,6 +605,28 @@ class GraphCreator {
 		graph.addSpawnPoint(node17)
 		graph.addSpawnPoint(node18)
 		
+		var tl3 = new TrafficLight(190, 10)
+		graph.addTrafficLight(tl3)
+		node3.addObject(tl3)
+		var tl14 = new TrafficLight(400, 10)
+		graph.addTrafficLight(tl14)
+		node14.addObject(tl14)
+		var tl6 = new TrafficLight(380, 10)
+		graph.addTrafficLight(tl6)
+		node6.addObject(tl6)
+		var tl11 = new TrafficLight(390, 10)
+		graph.addTrafficLight(tl11)
+		node11.addObject(tl11)
+		var tl7 = new TrafficLight(190, 10)
+		graph.addTrafficLight(tl7)
+		node7.addObject(tl7)
+		var tl18 = new TrafficLight(190, 10)
+		graph.addTrafficLight(tl18)
+		node18.addObject(tl18)
+		var tl10 = new TrafficLight(190, 10)
+		graph.addTrafficLight(tl10)
+		node10.addObject(tl10)
+
 		return graph
 	}
 }

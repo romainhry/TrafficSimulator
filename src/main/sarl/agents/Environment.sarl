@@ -53,15 +53,8 @@ agent Environment {
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
 		ispace.register(asEventListener)
 		listener.setGUISpace(ispace)
-		lights = new ArrayList<TrafficLight>()
-		lights.add(new TrafficLight(810, 150)) //Master of traffic light on the right 
-		lights.add(new TrafficLight(355, 170)) // Master of traffic light on the left
-		lights.add(new TrafficLight(840, 180, lights.get(0), true))
-		lights.add(new TrafficLight(810, 180, lights.get(0), false))
-		lights.add(new TrafficLight(840, 150, lights.get(0), false))		
-		lights.add(new TrafficLight(385, 170, lights.get(1), false))
-		lights.add(new TrafficLight(385, 200, lights.get(1), true))
-		listener.listenAndDraw(posCars, lights, graph)
+		
+		listener.listenAndDraw(graph)
 
 		spawnCarAgents // function that spawns the car agents
 		

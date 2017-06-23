@@ -2,11 +2,13 @@ package model
 
 import java.util.List
 import java.util.ArrayList
+import model.road.TrafficLight
 
 class Graph {
 	var nodes = new ArrayList<GraphNode>
 	var spawningPoints = new ArrayList<GraphNode>
 	var palabra = "holiwis"
+	var lights = new ArrayList<TrafficLight>
 	
 	var create = false
 	
@@ -24,7 +26,12 @@ class Graph {
 		// We also need to relate to an existing node before by the function
 		// "add" of the class GraphNode c
 	}
-	
+	def addTrafficLight(tl : TrafficLight) {
+		lights.add(tl)
+	}
+	def getTrafficLights : ArrayList<TrafficLight> {
+		lights
+	}
 
 	def isCreated() : boolean {
 		return create;
