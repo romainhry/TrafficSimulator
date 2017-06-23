@@ -53,7 +53,7 @@ agent Environment {
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
 		ispace.register(asEventListener)
 		listener.setGUISpace(ispace)
-		
+				
 		listener.listenAndDraw(graph)
 
 		spawnCarAgents // function that spawns the car agents

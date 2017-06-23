@@ -11,26 +11,31 @@ class TrafficLight extends PositionedObjects {
 	var timer = new Timer() // We utilize it for control the time of the color change
 	var stateChanged = false;
 			
-	var guiPos : Point2i
+	//var guiPos : Point2i
 
-	new(x : int, y : int) {
+	new() {
 		// this.position = new Point2i(x, y)
 		this.color = LightColor.RED
-		guiPos = new Point2i(x, y)
+		//guiPos = new Point2i(x, y)
 		this.length = 1f
 		//activate
 	}
-	
+			
 	/* we have also the possibility of create a traffic light antisynchronized with other */
-	new(x : int, y : int, neighbour : TrafficLight, sync : boolean) {
+	new( neighbour : TrafficLight, sync : boolean) {
 		//this.position = new Point2i(x, y)
-		guiPos = new Point2i(x,y)
+		//guiPos = new Point2i(x,y)
+		//position = new Point2f()
 		this.length = 1f
 		if(!sync)
 			this.antiSynchr(neighbour)
 		else
 			this.synchr(neighbour)
 		//activate
+	}
+	
+	def setPos(p : Point2f) {
+		position = p
 	}
 	
 	def getState : boolean {
@@ -43,6 +48,10 @@ class TrafficLight extends PositionedObjects {
 	
 	def getGuiPos() : Point2i {
 		return guiPos
+	}
+
+	def getPos() : Point2f {
+		return position
 	}
 	
 	def getColor : LightColor {

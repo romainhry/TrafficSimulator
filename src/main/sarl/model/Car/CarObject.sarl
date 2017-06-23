@@ -7,9 +7,10 @@ import model.EnvObjects
 import model.Graph
 import model.PositionedObjects
 import model.math.Point2i
+import model.math.Point2f
 
 class CarObject implements Serializable extends PositionedObjects {
-	var position : Point2i
+	//var position : Point2i
 	var frustum : float
 	var vitesse : float
 	var CarIcon : String
@@ -20,12 +21,17 @@ class CarObject implements Serializable extends PositionedObjects {
 		road = null
 	}
 	
+	new (road : Graph) {
+		position = new Point2f(0,0)
+		this.road = new WeakReference(road)
+	}
+	
 	new (x : int, y : int, road : Graph) {
-		this.position = new Point2i(x, y)
+		//this.position = new Point2i(x, y)
 		this.road = new WeakReference(road)
 	}
 	new (x : int, y : int) {
-		this.position = new Point2i(x, y)
+		//this.position = new Point2i(x, y)
 		
 		this.road = null // TO DO remove it the agent should be affected to a road 
 	}
@@ -33,10 +39,10 @@ class CarObject implements Serializable extends PositionedObjects {
 		this(position.x, position.y, road)
 	}
 
-	def setCarPosition(pos : Point2i) {
+	def setCarPosition(pos : Point2f) {
 		this.position = pos
 	}
-	def getCarPosition : Point2i {
+	def getCarPosition : Point2f {
 		this.position
 	}
 	def getVitesse : float {
