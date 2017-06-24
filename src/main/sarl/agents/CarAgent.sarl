@@ -29,6 +29,7 @@ agent CarAgent {
 		info("car created")
 		CarBody = occurrence.parameters.get(0) as CarObject
 		CarBody.getDirection().randomMove()
+		speed = (random.nextDouble()*15+5) as int
 		CarBody.setInfluence(new Point2f(speed, 0))
 	}
 
