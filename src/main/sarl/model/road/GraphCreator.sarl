@@ -512,7 +512,7 @@ class GraphCreator {
 		var node4 = new GraphNode(200+roadWidth, false,true, #[600+roadWidth, 300, 600+roadWidth, 100-roadWidth])
 		//cross
 		var node5 = new GraphNode(200+roadWidth, false,true, #[600, 300+roadWidth, 600, 500+roadWidth])
-		var node6 = new GraphNode(400-roadWidth, false,true, #[600+roadWidth, 500, 600+roadWidth, 300+roadWidth])
+		var node6 = new GraphNode(200-roadWidth, false,true, #[600+roadWidth, 500, 600+roadWidth, 300+roadWidth])
 		var node7 = new GraphNode(400+roadWidth, false, #[600, 500+roadWidth, 1000+roadWidth, 500+roadWidth])
 		var node8 = new GraphNode(400-roadWidth, false, #[1000, 500, 600+roadWidth, 500])
 		var node9 = new GraphNode(200+roadWidth, false,true, #[1000+roadWidth, 500+roadWidth, 1000+roadWidth, 300])
@@ -605,27 +605,31 @@ class GraphCreator {
 		graph.addSpawnPoint(node17)
 		graph.addSpawnPoint(node18)
 		
-		var tl3 = new TrafficLight(190)
+		var tl3 = new TrafficLight(node3.getLength)
 		graph.addTrafficLight(tl3)
 		node3.addObject(tl3)
-		var tl14 = new TrafficLight(400,tl3,false)
+		var tl14 = new TrafficLight(node14.getLength,tl3,false)
 		graph.addTrafficLight(tl14)
 		node14.addObject(tl14)
-		var tl6 = new TrafficLight(380, tl3,true)
+		
+		var tl6 = new TrafficLight(node6.getLength, tl3, true)
 		graph.addTrafficLight(tl6)
 		node6.addObject(tl6)
-		var tl11 = new TrafficLight(390, tl3,false)
+		
+		var tl11 = new TrafficLight(node11.getLength, tl3, false)
 		graph.addTrafficLight(tl11)
 		node11.addObject(tl11)
-		var tl7 = new TrafficLight(390)
+		
+		var tl7 = new TrafficLight(node7.getLength)
 		graph.addTrafficLight(tl7)
 		node7.addObject(tl7)
-		var tl18 = new TrafficLight(190,tl7,true)
+		var tl18 = new TrafficLight(node18.getLength, tl7, true)
 		graph.addTrafficLight(tl18)
 		node18.addObject(tl18)
-		var tl10 = new TrafficLight(190,tl7,false)
+		var tl10 = new TrafficLight(node10.getLength, tl7, false)
 		graph.addTrafficLight(tl10)
 		node10.addObject(tl10)
+
 		
 		return graph
 	}

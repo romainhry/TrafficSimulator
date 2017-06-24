@@ -36,6 +36,7 @@ agent Environment {
 	val x = 1200
 	var numberCar =0
 	var rnd : Random
+	var lights : ArrayList<TrafficLight>
 		
 		
 	var changeLight : AgentTask
@@ -51,7 +52,7 @@ agent Environment {
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
 		ispace.register(asEventListener)
 		listener.setGUISpace(ispace)
-				
+		lights = graph.getTrafficLights		
 		listener.listenAndDraw(graph)
 
 		spawnCarAgents // function that spawns the car agents
@@ -81,14 +82,14 @@ agent Environment {
 	}
 	
 	on UpdateLightStates {
-		graph.trafficLights.get(0).setState(true)
+		info("light changed")
 		var j = 0
 		for(j=0; j <graph.trafficLights.size; j++)
 		{
+			graph.trafficLights.get(j).setState(true)
 			graph.trafficLights.get(j).colorChange
 		}
 	}
-	
 	
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception

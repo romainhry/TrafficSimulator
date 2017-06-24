@@ -429,17 +429,22 @@ class Controller implements EventListener {
 							var green : double = 230 / 255
 							var blue : double = 250 / 255
 							
-							p.setStroke(new Color(red,green,blue,0.5))
+							p.setStroke(new Color(red,green,blue,1))
 							
 							group.getChildren().add(p)
-							graph.created()
+							if (n == nodes.size - 1) {
+								graph.created()
+							}
+							
 						}
 						var objs = node.getPosObj
+						System.out.println("nb ob in node : " + objs.size);
 						
 						for(var j =0;j<objs.size;j++)
 						{
 							
-							if(objs.get(j) instanceof CarObject) {
+							if (objs.get(j) instanceof CarObject) {
+								System.out.println("one is a car")
 								var car = objs.get(j) as CarObject
 								// group.getChildren.clear
 								// gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());					
@@ -458,74 +463,126 @@ class Controller implements EventListener {
 										node.getUI().getPoints.get(0));
 									}
 								
+								} else {
+									
+									var rnd = new Random
+									var str : String
+									if (nbCarUpdated > 10) {
+										switch i=rnd.nextInt(100) {
+											case i < 70:
+												str = "car.png"
+											case i < 80:
+										str = "car2.png"
+											default:
+												str = "car3.png"
+										}
 									} else {
-										
-										var rnd = new Random
-										var str : String
-										if (nbCarUpdated > 10) {
-											switch i=rnd.nextInt(100) {
-												case i < 70:
-													str = "car.png"
-												case i < 80:
-											str = "car2.png"
-												default:
-													str = "car3.png"
-											}
-										} else {
-											str = "car.png"
-										}
-				
-										val im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
-											"../../Images/" + str)
-										var carView = new ImageView(im);
-										carView.setPreserveRatio(true);
-										carView.setFitWidth(30);
-										if (node.vert) {
-											carView.setY(node.getUI().getPoints.get(0) + car.getPosition.getX);
-											carView.setX(node.getUI().getPoints.get(0));
-										}
-										else {
-											carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX);
-											carView.setY(node.getUI().getPoints.get(0));
-										}
-										
-										
-										carGroup.getChildren().add(carView);
-									}
-									nbCarUpdated++
-								
-								}
-						if (objs.get(j) instanceof TrafficLight) {
-							var light = objs.get(j) as TrafficLight
-							if (light.getState) {
-									var lightView : ImageView
-									if (light.getColor == LightColor.RED) {
-										lightView = new ImageView(
-											new Image(
-												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-											"../../Images/redlight.png"));
-									} else {
-										lightView = new ImageView(
-											new Image(
-												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-											"../../Images/greenlight.png"));
-									}
-									lightView.setPreserveRatio(true);
-									lightView.setFitHeight(20);
+										str = "car.png"
+									}		
+									val im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+										"../../Images/" + str)
+									var carView = new ImageView(im);
+									carView.setPreserveRatio(true);
+									carView.setFitWidth(30);
 									if (node.vert) {
-										lightView.setY(node.getUI().getPoints.get(0) + light.getPosition.getX);
-										lightView.setX(node.getUI().getPoints.get(0));
+										carView.setY(node.getUI().getPoints.get(0) + car.getPosition.getX);
+										carView.setX(node.getUI().getPoints.get(0));
 									}
 									else {
-										lightView.setX(node.getUI().getPoints.get(0) + light.getPosition.getX);
-										lightView.setY(node.getUI().getPoints.get(0));
+										carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX);
+										carView.setY(node.getUI().getPoints.get(0));
+									}
+									
+									
+									carGroup.getChildren().add(carView);
+								}
+									nbCarUpdated++
+								
+							}
+							if (objs.get(j) instanceof TrafficLight) {
+								System.out.println("one is a light")
+								var light = objs.get(j) as TrafficLight
+								if (light.getState) {
+									var lightView : ImageView
+									if (node.vert) {
+										if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
+											if (light.getColor == LightColor.RED) {
+												lightView = new ImageView(
+													new Image(
+														"file:" +
+													this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/redlight^.png"));
+											} else {
+													lightView = new ImageView(new Image(
+														"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/greenlight^.png"));
+											}
+											lightView.setPreserveRatio(true);
+											lightView.setFitHeight(20);
+											lightView.setY(node.getUI().getPoints.get(1) + light.getPosition.getX-27);
+											lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getY - 2 );
+										}
+										else {
+											if (light.getColor == LightColor.RED) {
+												lightView = new ImageView(
+													new Image(
+														"file:" +
+													this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/redlight.png"));
+											} else {
+												lightView = new ImageView(new Image(
+													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+												"../../Images/greenlight.png"));
+											}
+											lightView.setPreserveRatio(true);
+											lightView.setFitHeight(20);
+											lightView.setY(node.getUI().getPoints.get(1) - light.getPosition.getX+6);
+											lightView.setX(node.getUI().getPoints.get(0) + light.getPosition.getY-9);
+										}
+										
+									}
+									else {
+										if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
+											if (light.getColor == LightColor.RED) {
+												lightView = new ImageView(
+													new Image(
+														"file:" +
+													this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/redlight<-.png"));
+											} else {
+												lightView = new ImageView(new Image(
+													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+												"../../Images/greenlight<-.png"));
+											}
+											lightView.setPreserveRatio(true);
+											lightView.setFitWidth(20);
+											lightView.setX(node.getUI().getPoints.get(0) + light.getPosition.getX -26);
+											lightView.setY(node.getUI().getPoints.get(1) + light.getPosition.getY -9);
+										} else {
+											if (light.getColor == LightColor.RED) {
+												lightView = new ImageView(
+													new Image(
+														"file:" +
+													this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/redlight->.png"));
+											} else {
+												lightView = new ImageView(new Image(
+													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+												"../../Images/greenlight->.png"));
+											}
+											lightView.setPreserveRatio(true);
+											lightView.setFitWidth(20);
+											lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getX +7);
+											lightView.setY(node.getUI().getPoints.get(1) - light.getPosition.getY-2);
+										}
+										
+										
 									}
 									lightGroup.getChildren().add(lightView);
 									light.setState(false)
 								}
 								
 							}
-
 						}
 
 					}

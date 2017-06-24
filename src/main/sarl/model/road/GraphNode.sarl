@@ -53,7 +53,6 @@ class GraphNode {
 		return line
 	}
 
-
 	def itIsEmptyNode() : Boolean {
 		if (posObj.empty) {
 			return true
