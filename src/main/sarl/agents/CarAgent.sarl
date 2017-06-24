@@ -93,7 +93,7 @@ agent CarAgent {
 			killMe
 		}
 		else {
-			CarBody.setPosition(new Point2f(CarBody.getPosition.getX + speed,0))
+			CarBody.setInfluence(new Point2f(speed,0))
 			//info("move :" + myPos.getX)
 		}		
 	}
@@ -166,9 +166,11 @@ agent CarAgent {
 		if (direction == 0) {
 			CarBody.setInfluence(new Point2f(3, 0))
 		} else if (direction == 1) { // move right
-			CarBody.setInfluence(new Point2f(0, 3))
+			CarBody.setInfluence(new Point2f(3, 0))
+			CarBody.turnTo = 1
 		} else if (direction == 2) { // move left
-			CarBody.setInfluence(new Point2f(0, -3))
+			CarBody.setInfluence(new Point2f(3, 0))
+			CarBody.turnTo = 2
 		}
 	}
 }

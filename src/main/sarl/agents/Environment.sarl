@@ -82,7 +82,7 @@ agent Environment {
 	}
 	
 	on UpdateLightStates {
-		info("light changed")
+		//info("light changed")
 		var j = 0
 		for(j=0; j <graph.trafficLights.size; j++)
 		{
@@ -94,25 +94,25 @@ agent Environment {
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
 		//percieve()
-		//applyInfluences()
+		applyInfluences()
 	}
 			
 	on CarDead { // Everytime a Car is dead, the Enviroment create a new one
-		numberCar--
+		//numberCar--
 		var nsp = graph.spawningPoints.length
-		var i = 0
-		val numberNew = rnd.nextInt(NUMBERCARMAX - numberCar)
-		numberCar+=numberNew
-		for(i=0;i<numberNew;i++)
-		{
-			//var car = new CarObject(0, 0)
-			//spawn(typeof(CarAgent), car)
+		//var i = 0
+		//val numberNew = rnd.nextInt(NUMBERCARMAX - numberCar)
+		//numberCar+=numberNew
+		//for(i=0;i<numberNew;i++)
+		//{
+			var car = new CarObject(0)
+			spawn(typeof(CarAgent), car)
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
-			var car = new CarObject(0) // create the agent body
+			//var car = new CarObject(0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext, car)
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 			
-		}
+		//}
 		
 	}	
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
@@ -202,7 +202,12 @@ agent Environment {
 					emit(ev)
 					gn.remove(o)
 				}
-				else if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
+				else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
+					if (o.position.x + o.influence.x > gn.length) {
+						desiredPosition(o,gn).graphNode.addObject(o) //if it's necesary we change of graphnode
+						gn.remove(o)
+					}
+					System.out.println("llegamos aqui")
 					o.position = desiredPosition(o,gn).position  //the position of the object get update
 				} // if there's a collision, we will ignore it
 			}
@@ -238,11 +243,11 @@ agent Environment {
 			 }
 	}
 	
-	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
+	def spawnCarAgents { //For spawn NUMBERCARMAX Car Agents
 		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
-		val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
-		numberCar += newNumberOfCar
-		for (n : 1 .. newNumberOfCar) {
+		//val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
+		//numberCar += newNumberOfCar
+		for (n : 1 .. NUMBERCARMAX) {
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext,car)
