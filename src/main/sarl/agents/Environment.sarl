@@ -273,7 +273,7 @@ agent Environment {
 					
 			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
 			System.out.println(nsp)
-			graph.spawningPoints.get(/*(rnd.nextDouble() * nsp) as int*/1).addObject(car) //select the node where it will spawn
+			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
 			numberCar++
 		}
 		
