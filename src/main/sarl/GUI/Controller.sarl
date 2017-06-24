@@ -518,7 +518,7 @@ class Controller implements EventListener {
 										else {
 											val im = new Image(
 												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/" + str + "^.png")
+													"../../Images/" + str + "Top.png")
 												var carView = new ImageView(im)
 											carView.setY(node.getUI().getPoints.get(1) + car.getPosition.getX)
 											carView.setX(node.getUI().getPoints.get(0))
@@ -532,7 +532,7 @@ class Controller implements EventListener {
 										if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(1)) {
 											val im = new Image(
 												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/" + str + ">.png")
+													"../../Images/" + str + "Right.png")
 											var carView = new ImageView(im)
 											carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX)
 											carView.setY(node.getUI().getPoints.get(1)-4)
@@ -543,7 +543,7 @@ class Controller implements EventListener {
 										else {
 											val im = new Image(
 												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/" + str + "<.png")
+													"../../Images/" + str + "Left.png")
 											var carView = new ImageView(im)
 											carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX)
 											carView.setY(node.getUI().getPoints.get(1))
@@ -573,11 +573,11 @@ class Controller implements EventListener {
 													new Image(
 														"file:" +
 													this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/redlight^.png"));
+													"../../Images/redlightTop.png"));
 											} else {
 													lightView = new ImageView(new Image(
 														"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/greenlight^.png"));
+													"../../Images/greenlightTop.png"));
 											}
 											lightView.setPreserveRatio(true);
 											lightView.setFitHeight(20);
@@ -610,11 +610,11 @@ class Controller implements EventListener {
 													new Image(
 														"file:" +
 													this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/redlight<-.png"));
+													"../../Images/redlightLeft.png"));
 											} else {
 												lightView = new ImageView(new Image(
 													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-												"../../Images/greenlight<-.png"));
+												"../../Images/greenlightLeft.png"));
 											}
 											lightView.setPreserveRatio(true);
 											lightView.setFitWidth(20);
@@ -626,11 +626,11 @@ class Controller implements EventListener {
 													new Image(
 														"file:" +
 													this.getClass().getClassLoader().getResource("").getPath() +
-													"../../Images/redlight->.png"));
+													"../../Images/redlightRight.png"));
 											} else {
 												lightView = new ImageView(new Image(
 													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-												"../../Images/greenlight->.png"));
+												"../../Images/greenlightRight.png"));
 											}
 											lightView.setPreserveRatio(true);
 											lightView.setFitWidth(20);
