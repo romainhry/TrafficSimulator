@@ -21,7 +21,7 @@ agent CarAgent {
 	var CarBody : CarObject
 	val random = new Random
 	var id : UUID
-	val speed = 1 //2=50,3=90/4=130
+	val speed = 10 //2=50,3=90/4=130
 	var move : AgentTask
 	
 	on Initialize {
