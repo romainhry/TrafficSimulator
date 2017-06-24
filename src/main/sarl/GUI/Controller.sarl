@@ -26,6 +26,8 @@ import java.util.Random
 import agents.Exit
 import model.Graph
 import model.Car.CarObject
+import java.awt.Desktop
+import java.io.File
 
 class Controller implements EventListener {
 
@@ -43,10 +45,10 @@ class Controller implements EventListener {
 	
 	private var nbCarUpdated : int //use to count cars
     @FXML
-    private var PaneHome: Pane 
-    
+    private var PaneHome : Pane
+	@FXML
     private var PaneVid : Pane
-
+	@FXML
 	private var PaneDesc : Pane
     
 	private var ispace :OpenEventSpace
@@ -66,6 +68,7 @@ class Controller implements EventListener {
 		this.ispace.register(this);
 	}
 
+	@FXML
 	public def start(e : ActionEvent) {
     	/*
     	 *Start spawn the boot agent or let this be the boo agent who's spawning the envAgent
@@ -392,16 +395,25 @@ class Controller implements EventListener {
     	
     }
 
+	@FXML
 	public def Desc ( e : ActionEvent ){
     	PaneHome.setVisible(false);
-    	PaneDesc.setVisible(true);    	
+    	PaneDesc.setVisible(true);
+    	try{
+		var d = Desktop.getDesktop();
+		d.open(new File("../../rapport.docx"));
+		}catch (exp : Exception){
+			System.out.println(exp);
+		}
     }
 
+	@FXML
 	public def Video (e : ActionEvent  ){
     	PaneHome.setVisible(false);
     	PaneVid.setVisible(true);
     }
 
+	@FXML
 	public def ReturnHome ( e : ActionEvent ){
     	PaneHome.setVisible(true);
     	PaneVid.setVisible(false);
