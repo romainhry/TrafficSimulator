@@ -468,11 +468,19 @@ class Controller implements EventListener {
 									//System.out.println("should not be here")
 									
 									if (node.vert) {
-										
-										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(node.getUI().getPoints.get(1) +
-											car.getPosition.getX - 5);
-										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(
-										node.getUI().getPoints.get(0) - 5);
+										if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(node.getUI().getPoints.get(1) +
+												car.getPosition.getX - 10);
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(
+												node.getUI().getPoints.get(0)-5);
+																	
+										}
+										else {
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(
+												node.getUI().getPoints.get(1) - car.getPosition.getX - 8);
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(
+												node.getUI().getPoints.get(0)-5);
+										}
 										
 									} else {
 										if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
@@ -480,18 +488,43 @@ class Controller implements EventListener {
 											car.getPosition.getX);
 											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(node.getUI().getPoints.get(1)-4)
 										}
+										else {
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(
+												node.getUI().getPoints.get(0) - car.getPosition.getX);
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(
+												node.getUI().getPoints.get(1) - 4)
+										}
 											
 									}
 									
 									if (car.getDirectionChanged) {
-										if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3) ||
-												node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
-											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setRotate(90)
+										var im : Image
+										if (node.vert) {
+											if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
+												im = new Image(
+													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/car.png")
+											}
+											else
+											{
+												im = new Image(
+												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/carTop.png")
+											}										
 										}
-										else
-										{
-											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setRotate(-90)
+										else {
+											if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
+												im = new Image(
+												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/carRight.png")
+											}
+											else {
+												im = new Image(
+													"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+														"../../Images/carLeft.png")
+											}
 										}
+										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setImage(im)
 										car.setDirectionChanged(false)
 									}
 
@@ -500,6 +533,7 @@ class Controller implements EventListener {
 		//---------------------------------------------------------------------------------------- //
 								} else {
 									System.out.println("here")
+									
 									var rnd = new Random
 									var str : String
 									if (nbCarUpdated > 10) {
@@ -513,7 +547,8 @@ class Controller implements EventListener {
 										}
 									} else {
 										str = "car"
-									}		
+								   }
+								 
 									
 									
 									if (node.vert) {
@@ -539,7 +574,7 @@ class Controller implements EventListener {
 											carView.setFitWidth(12)
 											carGroup.getChildren().add(carView);
 										}
-												
+											
 									}
 									else {
 										if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {

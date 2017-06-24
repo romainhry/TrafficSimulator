@@ -13,7 +13,6 @@ class PositionOnTheGraph {
 		this.position = p
 		this. graphNode = gn
 	}
-	
 	def getPosition : Point2f{
 		this.position
 	}

@@ -20,24 +20,16 @@ agent CarAgent {
 	var CarBody : CarObject
 	val random = new Random
 	var id : UUID
-	val speed = 10 //2=50,3=90/4=130
+	val speed = 5 //2=50,3=90/4=130
 	var move : AgentTask
 		
 	on Initialize {
 
 		id = UUID.randomUUID
-
 		info("car created")
 		CarBody = occurrence.parameters.get(0) as CarObject
 		CarBody.getDirection().randomMove()
-		move = atFixedDelay(20) [
-			try {
-				wake(new UpdateCarPosition);
-			} catch (e : Exception) {
-				e.printStackTrace
-			}
-		]
-				
+		CarBody.setInfluence(new Point2f(speed, 0))
 	}
 
 	on CarAgentIsDead {
@@ -86,16 +78,6 @@ agent CarAgent {
 	
 	}
 
-	on UpdateCarPosition [isFromMe(occurrence)] {
-		if (CarBody.getPosition.getX + speed > 1200)
-		{
-			killMe
-		}
-		else {
-			CarBody.setInfluence(new Point2f(speed,0))
-			//info("move :" + myPos.getX)
-		}		
-	}
 	/*on CarAgentMove{
 		//GetNodeInfrontofMe
 		//then getTrafficLight
