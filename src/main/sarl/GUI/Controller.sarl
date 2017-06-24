@@ -453,19 +453,19 @@ class Controller implements EventListener {
 							
 						}
 						var objs = node.getPosObj
-						System.out.println("nb ob in node : " + objs.size);
+						//System.out.println("nb ob in node : " + objs.size);
 						
 						for(var j =0;j<objs.size;j++)
 						{
 							
 							if (objs.get(j) instanceof CarObject) {
-								System.out.println("one is a car")
+								//System.out.println("one is a car")
 								var car = objs.get(j) as CarObject
 		//----------------------------------------------------------------------------------------//
 		// ---------------------------------CAR already on the GUI -------------------------------//
 		//----------------------------------------------------------------------------------------//				
 								if (nbCarUpdated < carGroup.getChildren.size) { // already on graph
-									System.out.println("should not be here")
+									//System.out.println("should not be here")
 									
 									if (node.vert) {
 										
@@ -498,7 +498,7 @@ class Controller implements EventListener {
 		// ----------------------------ELSE we should create a new Image --------------------------//
 		//---------------------------------------------------------------------------------------- //
 								} else {
-									System.out.println("here")
+									//System.out.println("here")
 									var rnd = new Random
 									var str : String
 									if (nbCarUpdated > 10) {
@@ -574,7 +574,7 @@ class Controller implements EventListener {
 						//----------------------------------------------------------------------------------------//
 						
 							if (objs.get(j) instanceof TrafficLight) {
-								System.out.println("one is a light")
+								//System.out.println("one is a light")
 								var light = objs.get(j) as TrafficLight
 								if (light.getState) {
 									var lightView : ImageView

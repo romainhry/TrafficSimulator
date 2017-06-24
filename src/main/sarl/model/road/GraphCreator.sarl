@@ -526,7 +526,7 @@ class GraphCreator {
 		var node17 = new GraphNode(200, false, #[0, 100, 200 , 100])
 		var node18 = new GraphNode(200, false, #[1200, 500, 1000, 500])
 		var node19 = new GraphNode(200-roadWidth, true, #[200-roadWidth, 100-roadWidth, 0, 100-roadWidth])
-		var node20 = new GraphNode(200, false, #[1000+roadWidth, 500+roadWidth, 1200, 500+roadWidth])
+		var node20 = new GraphNode(200, true, #[1000+roadWidth, 500+roadWidth, 1200, 500+roadWidth])
 		graph.add(node1)
 		graph.add(node2)
 		graph.add(node3)

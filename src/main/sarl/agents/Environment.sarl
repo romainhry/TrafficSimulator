@@ -67,7 +67,7 @@ agent Environment {
 		]
 
 		//update the environment (TimeStep)
-		var updateEnv = atFixedDelay(30) [
+		var updateEnv = atFixedDelay(1000) [
 			try {
 				wake(new TimeStep);
 			} catch (e : Exception) {
@@ -94,7 +94,7 @@ agent Environment {
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
 		//percieve()
-		//applyInfluences()
+		applyInfluences()
 	}
 			
 	on CarDead { // Everytime a Car is dead, the Enviroment create a new one
@@ -196,6 +196,7 @@ agent Environment {
 		 
 		for (gn : graph.nodes) { //for each graph node on the graph
 			for(o : gn.posObj){ //will take each agent on it
+			if(o instanceof CarObject){
 			//We will see if it's already out of the graph
 				if (o.position.x + o.influence.x > gn.length && gn.isFinalNode){
 					var ev = new CarAgentIsDead(o)
@@ -204,8 +205,10 @@ agent Environment {
 				}
 				else if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
 					o.position = desiredPosition(o,gn).position  //the position of the object get update
+					System.out.println(o.position.x)
 				} // if there's a collision, we will ignore it
 			}
+		}
 		}
 	/*BUG ALERT: if the agent change of graph node on an application of its influence,
 	 * its influence may be applyed twice
