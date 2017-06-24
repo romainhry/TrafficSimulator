@@ -67,17 +67,17 @@ agent CarAgent {
 			if (CarBody.getTurnTo!==0){
 				if (CarBody.direction == 3){
 					var myPosdir : int[] = #[0,1,2]
-					direction =myPosdir.get(random.nextInt(myPosdir.length))
+					direction =myPosdir.get(random.nextInt(myPosdir.length-1))
 					direction.memorizeAndMoveTo
 				} else if (CarBody.direction == 2) {
-						var myPosdir : int[] = #[0,2]
-						direction = myPosdir.get(random.nextInt(myPosdir.length))
-						direction.memorizeAndMoveTo
-					} else if (CarBody.direction == 1) {
-						var myPosdir : int[] = #[0, 1]
-						direction = myPosdir.get(random.nextInt(myPosdir.length))
-						direction.memorizeAndMoveTo
-					} 
+					var myPosdir : int[] = #[0,2]
+					direction = myPosdir.get(random.nextInt(myPosdir.length-1))
+					direction.memorizeAndMoveTo
+				} else if (CarBody.direction == 1) {
+					var myPosdir : int[] = #[0, 1]
+					direction = myPosdir.get(random.nextInt(myPosdir.length-1))
+					direction.memorizeAndMoveTo
+				} 
 			}else {
 				freeDirections.randomMove
 			}

@@ -1,6 +1,9 @@
 package model
 import java.util.ArrayList
 import javafx.scene.shape.Polyline
+import model.Car.CarObject
+import model.road.TrafficLight
+import model.road.LightColor
 
 class GraphNode {
 	var neighbourNodes : ArrayList<GraphNode> // Nodes where i can move to
@@ -141,15 +144,18 @@ class GraphNode {
 			 * and with his proximities (len)
 			 */
 		for (o : posObj) {
-			if (o.position.x + o.length < x + len && o.position.x + o.length > x - len) {
-				return false
+			if (o instanceof CarObject || (o as TrafficLight).getColor==LightColor.RED) {
+				if (o.position.x + o.length < x + len && o.position.x + o.length > x - len) {
+					return false
+				}
+				if (o.position.x - o.length < x + len && o.position.x - o.length > x - len) {
+					return false
+				}
+				if (o.position.x + o.length > x + len && o.position.x - o.length < x - len) {
+					return false
+				}
 			}
-			if (o.position.x - o.length < x + len && o.position.x - o.length > x - len) {
-				return false
-			}
-			if (o.position.x + o.length > x + len && o.position.x - o.length < x - len) {
-				return false
-			}
+			
 			return true
 		}
 	}

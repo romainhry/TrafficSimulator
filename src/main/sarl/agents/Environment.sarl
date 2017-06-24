@@ -60,7 +60,7 @@ agent Environment {
 		spawnCarAgents // function that spawns the car agents
 		
 			
-		changeLight = atFixedDelay(3000) [
+		changeLight = atFixedDelay(5000) [
 			try {
 				wake(new UpdateLightStates);
 			} catch (e : Exception) {
@@ -69,7 +69,7 @@ agent Environment {
 		]
 
 		//update the environment (TimeStep)
-		var updateEnv = atFixedDelay(300) [
+		var updateEnv = atFixedDelay(200) [
 			try {
 				wake(new TimeStep);
 			} catch (e : Exception) {
@@ -198,7 +198,8 @@ agent Environment {
 		for (gn : graph.nodes) { //for each graph node on the graph
 			for(var i = 0; i< gn.posObj.size ; i++){ //will take each agent on it
 				var o = gn.posObj.get(i)
-				if(o instanceof CarObject){
+				if (o instanceof CarObject) {
+					System.out.println(o.position.x)
 					if (!o.getInfluenceDone) {
 						// We will see if it's already out of the graph
 						if (o.position.x + o.influence.x > gn.length && gn.isFinalNode) {
@@ -207,7 +208,7 @@ agent Environment {
 							gn.remove(o)
 						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
 							o.position = desiredPosition(o, gn).position // the position of the object get update
-							//System.out.println(o.position.x)
+							
 						} 	// if there's a collision, we will ignore it
 						o.setInfluenceDone(true)
 					}
@@ -227,16 +228,11 @@ agent Environment {
 	 * its influence may be applyed twice
 	 */	
 	}
-
+	
 
 	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
 		/*We are going to test if there's a collision with other objects */	
-		if(newPosition.graphNode.isEmptyAt(newPosition.position.x,object.length)){
-			return false
-		}
-		else {
-			return true
-		}
+			return !newPosition.graphNode.isEmptyAt(newPosition.position.x, object.length)
 	}
 		
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
