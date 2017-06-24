@@ -31,7 +31,7 @@ agent Environment {
 	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging, Schedules
 	var graph : Graph
 	var posCars : Positions = new Positions
-	val NUMBERCARMAX  = 10
+	val NUMBERCARMAX  = 5
 	val y = 800
 	val x = 1200
 	var numberCar =0
@@ -207,7 +207,7 @@ agent Environment {
 							gn.remove(o)
 						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
 							o.position = desiredPosition(o, gn).position // the position of the object get update
-							//System.out.println(o.position.x)
+							System.out.println(o.position.x)
 						} 	// if there's a collision, we will ignore it
 						o.setInfluenceDone(true)
 					}
@@ -262,16 +262,17 @@ agent Environment {
 	}
 	
 	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
-		var nsp = graph.spawningPoints.length -1 //the number of nodes where we can spawn
-		val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
-		numberCar += newNumberOfCar
-		//for (n : 1 .. newNumberOfCar) {
+		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
+		//val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
+		//numberCar += newNumberOfCar
+		for (n : 1 .. NUMBERCARMAX) {
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext,car)
 					
 			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
+			System.out.println(nsp)
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
-		//}
+		}
 	}
 }

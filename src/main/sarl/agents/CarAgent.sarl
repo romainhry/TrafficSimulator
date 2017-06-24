@@ -20,7 +20,7 @@ agent CarAgent {
 	var CarBody : CarObject
 	val random = new Random
 	var id : UUID
-	val speed = 10 //2=50,3=90/4=130
+	var speed = 10 //2=50,3=90/4=130
 	var move : AgentTask
 		
 	on Initialize {
@@ -30,6 +30,7 @@ agent CarAgent {
 		info("car created")
 		CarBody = occurrence.parameters.get(0) as CarObject
 		CarBody.getDirection().randomMove()
+		speed = (random.nextDouble()*15+5) as int
 		move = atFixedDelay(20) [
 			try {
 				wake(new UpdateCarPosition);
