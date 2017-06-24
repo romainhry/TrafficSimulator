@@ -96,9 +96,7 @@ agent CarAgent {
 			CarBody.setPosition(new Point2f(CarBody.getPosition.getX + speed,0))
 			//info("move :" + myPos.getX)
 		}		
-
 	}
-
 	/*on CarAgentMove{
 		//GetNodeInfrontofMe
 		//then getTrafficLight
