@@ -9,7 +9,7 @@ class GraphCreator {
 	static val COEFX = 4.6
 	static val COEFY = 1;
 	
-	static val roadWidth = 10
+	static val roadWidth = 15
 	
 	static def city1 : Graph{
 		var graph = new Graph

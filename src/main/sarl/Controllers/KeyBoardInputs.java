@@ -11,7 +11,7 @@ import model.math.Point2f;
 public class KeyBoardInputs implements EventHandler<KeyEvent>{
 	CarObject playerCar;
 	public KeyBoardInputs(){
-		playerCar = new CarObject(0,0);
+		playerCar = new CarObject(0);
 	}
     @Override
     public void handle(KeyEvent e) {

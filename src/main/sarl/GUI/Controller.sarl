@@ -37,6 +37,8 @@ class Controller implements EventListener {
 	@FXML
 	private var carGroup : Group
 
+	private var roadGroup : Group
+
 	private var lightGroup : Group
 	
 	private var nbCarUpdated : int //use to count cars
@@ -379,6 +381,8 @@ class Controller implements EventListener {
         group.getChildren().add(imageVille1);
         TrafficSimulator.myStage.setWidth(1200);
         TrafficSimulator.myStage.setX(0);
+		roadGroup = new Group()
+		group.getChildren.add(roadGroup)
         carGroup = new Group()
         group.getChildren.add(carGroup)
         lightGroup = new Group()
@@ -423,7 +427,7 @@ class Controller implements EventListener {
 						if (!graph.isCreated) {
 							var p = node.getUI
 							p.setStrokeLineJoin(StrokeLineJoin.ROUND)
-							p.setStrokeWidth(10)
+							p.setStrokeWidth(15)
 							
 							var red : double = 200 / 255
 							var green : double = 230 / 255
@@ -431,7 +435,7 @@ class Controller implements EventListener {
 							
 							p.setStroke(new Color(red,green,blue,1))
 							
-							group.getChildren().add(p)
+							roadGroup.getChildren().add(p)
 							if (n == nodes.size - 1) {
 								graph.created()
 							}
@@ -446,57 +450,96 @@ class Controller implements EventListener {
 							if (objs.get(j) instanceof CarObject) {
 								System.out.println("one is a car")
 								var car = objs.get(j) as CarObject
-								// group.getChildren.clear
+								//carGroup.getChildren.clear
 								// gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());					
-								if (nbCarUpdated < carGroup.getChildren.size) { //already on graph
-								
+								if (nbCarUpdated < carGroup.getChildren.size) { // already on graph
+									System.out.println("should not be here")
 									if (node.vert) {
-										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(node.getUI().getPoints.get(0) +
+										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(node.getUI().getPoints.get(1) +
 											car.getPosition.getX);
 										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(
 										node.getUI().getPoints.get(0));
 									} else {
-										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(
-										node.getUI().getPoints.get(0) +
+										if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(1)) {
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setX(node.getUI().getPoints.get(0) +
 											car.getPosition.getX);
-										(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(
-										node.getUI().getPoints.get(0));
+											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setY(node.getUI().getPoints.get(1)-4)
+										}
+											
 									}
 								
 								} else {
-									
+									System.out.println("here")
 									var rnd = new Random
 									var str : String
 									if (nbCarUpdated > 10) {
 										switch i=rnd.nextInt(100) {
 											case i < 70:
-												str = "car.png"
+												str = "car"
 											case i < 80:
 										str = "car2.png"
 											default:
-												str = "car3.png"
+												str = "car3"
 										}
 									} else {
-										str = "car.png"
+										str = "car"
 									}		
-									val im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
-										"../../Images/" + str)
-									var carView = new ImageView(im);
-									carView.setPreserveRatio(true);
-									carView.setFitWidth(30);
+									
+									
 									if (node.vert) {
-										carView.setY(node.getUI().getPoints.get(0) + car.getPosition.getX);
-										carView.setX(node.getUI().getPoints.get(0));
+										if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
+											val im = new Image(
+												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/" + str + ".png")
+											var carView = new ImageView(im)
+											carView.setY(node.getUI().getPoints.get(1) + car.getPosition.getX)
+											carView.setX(node.getUI().getPoints.get(0))
+											carView.setPreserveRatio(true)
+											carView.setFitWidth(12)
+											carGroup.getChildren().add(carView);
+										}
+										else {
+											val im = new Image(
+												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/" + str + "^.png")
+												var carView = new ImageView(im)
+											carView.setY(node.getUI().getPoints.get(1) + car.getPosition.getX)
+											carView.setX(node.getUI().getPoints.get(0))
+											carView.setPreserveRatio(true)
+											carView.setFitWidth(12)
+											carGroup.getChildren().add(carView);
+										}
+			
 									}
 									else {
-										carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX);
-										carView.setY(node.getUI().getPoints.get(0));
+										if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(1)) {
+											val im = new Image(
+												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/" + str + ">.png")
+											var carView = new ImageView(im)
+											carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX)
+											carView.setY(node.getUI().getPoints.get(1)-4)
+											carView.setPreserveRatio(true)
+											carView.setFitHeight(12)
+											carGroup.getChildren().add(carView);
+										}
+										else {
+											val im = new Image(
+												"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+													"../../Images/" + str + "<.png")
+											var carView = new ImageView(im)
+											carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX)
+											carView.setY(node.getUI().getPoints.get(1))
+											carView.setPreserveRatio(true)
+											carView.setFitHeight(12)
+											carGroup.getChildren().add(carView);
+											
+										}
 									}
 									
 									
-									carGroup.getChildren().add(carView);
 								}
-									nbCarUpdated++
+								nbCarUpdated++
 								
 							}
 							if (objs.get(j) instanceof TrafficLight) {

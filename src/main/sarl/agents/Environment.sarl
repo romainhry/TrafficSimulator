@@ -96,8 +96,7 @@ agent Environment {
 		//percieve()
 		//applyInfluences()
 	}
-	
-	
+			
 	on CarDead { // Everytime a Car is dead, the Enviroment create a new one
 		numberCar--
 		var nsp = graph.spawningPoints.length
@@ -108,16 +107,14 @@ agent Environment {
 		{
 			//var car = new CarObject(0, 0)
 			//spawn(typeof(CarAgent), car)
-			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
-			var car = new CarObject(0, 0) // create the agent body
-			spawnInContext(CarAgent, getInnerContext, pos, posCars, car)
-			//graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
+			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
+			var car = new CarObject(0) // create the agent body
+			spawnInContext(CarAgent, getInnerContext, car)
+			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 			
 		}
 		
-	}
-	
-	
+	}	
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values
 		var i : float //local variable
@@ -240,19 +237,19 @@ agent Environment {
 			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(posObj.turnTo))
 			 }
 	}
-		
+	
 	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
 		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
 		val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
 		numberCar += newNumberOfCar
 		for (n : 1 .. newNumberOfCar) {
-			var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
-			var car = new CarObject(0, 0) // create the agent body
-			spawnInContext(CarAgent, getInnerContext, pos, posCars,car)
+			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
+			var car = new CarObject(0) // create the agent body
+			spawnInContext(CarAgent, getInnerContext,car)
 			
 			
 			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
-			//graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
+			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
 		}
 	}
 }

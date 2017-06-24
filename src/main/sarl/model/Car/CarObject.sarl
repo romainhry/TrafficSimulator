@@ -30,11 +30,12 @@ class CarObject implements Serializable extends PositionedObjects {
 		//this.position = new Point2i(x, y)
 		this.road = new WeakReference(road)
 	}
-	new (x : int, y : int) {
-		//this.position = new Point2i(x, y)
+	new (x : float) {
+		this.position = new Point2f(x, 0)
 		
 		this.road = null // TO DO remove it the agent should be affected to a road 
 	}
+	
 	new (position : Point2i, road : Graph) {
 		this(position.x, position.y, road)
 	}
