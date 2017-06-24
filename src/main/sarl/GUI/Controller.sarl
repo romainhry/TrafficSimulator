@@ -424,6 +424,9 @@ class Controller implements EventListener {
 					nbCarUpdated = 0
 					for (var n = 0; n < nodes.size; n++) {
 						var node = nodes.get(n)
+					//----------------------------------------------------------------------------------------//
+					// -------------------------If road is not on the GUI : create it ------------------------//
+					//----------------------------------------------------------------------------------------//
 						if (!graph.isCreated) {
 							var p = node.getUI
 							p.setStrokeLineJoin(StrokeLineJoin.ROUND)
@@ -446,8 +449,9 @@ class Controller implements EventListener {
 							if (objs.get(j) instanceof CarObject) {
 								System.out.println("one is a car")
 								var car = objs.get(j) as CarObject
-								//carGroup.getChildren.clear
-								// gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());					
+		//----------------------------------------------------------------------------------------//
+		// ---------------------------------CAR already on the GUI -------------------------------//
+		//----------------------------------------------------------------------------------------//				
 								if (nbCarUpdated < carGroup.getChildren.size) { // already on graph
 									System.out.println("should not be here")
 									
@@ -477,6 +481,10 @@ class Controller implements EventListener {
 											(carGroup.getChildren.get(nbCarUpdated) as ImageView).setRotate(90)
 										}
 									}
+
+		//---------------------------------------------------------------------------------------- //
+		// ----------------------------ELSE we should create a new Image --------------------------//
+		//---------------------------------------------------------------------------------------- //
 								} else {
 									System.out.println("here")
 									var rnd = new Random
@@ -544,13 +552,15 @@ class Controller implements EventListener {
 											carGroup.getChildren().add(carView);
 											
 										}
-									}
-									
-									
+									}	
 								}
 								nbCarUpdated++
 								
 							}
+						//----------------------------------------------------------------------------------------//
+						// ----------------------Draw only trafficlight when the light has change-----------------//
+						//----------------------------------------------------------------------------------------//
+						
 							if (objs.get(j) instanceof TrafficLight) {
 								System.out.println("one is a light")
 								var light = objs.get(j) as TrafficLight
@@ -627,67 +637,17 @@ class Controller implements EventListener {
 											lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getX +7);
 											lightView.setY(node.getUI().getPoints.get(1) - light.getPosition.getY-2);
 										}
-										
-										
 									}
 									lightGroup.getChildren().add(lightView);
 									light.setState(false)
-								}
-								
+								}			
 							}
 						}
 
-					}
-
-				
-				/* 
-				 * var rnd = new Random
-				l = 0
-				var str : String
-				if (carPos.getCars().values().size > 10) {
-					switch i=rnd.nextInt(100) {
-						case i < 70:
-							str = "car.png"
-						case i < 80:
-							str = "car2.png"
-						default:
-						str = "car3.png"
-					
-					}
-				}
-				else {
-					str = "car.png"
-				}
-				
-				val im = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
-					"../../Images/"+str)
-				
-				// group.getChildren.clear
-				//gc.clearRect(0, 0, draw_zone.getWidth(), draw_zone.getHeight());
-				carPos.getCars().values().stream().filter(car|!car.getHidden()).forEach(car |
-				{					
-						if (l < carGroup.getChildren.size) {
-							//val view = 
-							(carGroup.getChildren.get(l) as ImageView).setX(car.getPosition.getX)
-							(carGroup.getChildren.get(l) as ImageView).setY(car.getPosition.getY)
-						}
-						else {
-							var carView = new ImageView(im);
-							carView.setPreserveRatio(true);
-							carView.setFitWidth(30);
-							carView.setX(car.getPosition.getX);
-							carView.setY(car.getPosition.getY);
-							carGroup.getChildren().add(carView);
-						}
-						l++
-						
-					});
-					*/			
+					}			
 			} catch (exception : Exception) {
 				System.out.println(exception)
-			}
-			 //stateChanged = false
-			 
+			}	 
 			wait.playFromStart();
 		];
 		wait.play();
