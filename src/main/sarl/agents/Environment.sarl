@@ -54,10 +54,12 @@ agent Environment {
 		listener.setGUISpace(ispace)
 		lights = graph.getTrafficLights		
 		listener.listenAndDraw(graph)
+		
+		
 
 		spawnCarAgents // function that spawns the car agents
 		
-		
+			
 		changeLight = atFixedDelay(3000) [
 			try {
 				wake(new UpdateLightStates);
@@ -67,7 +69,7 @@ agent Environment {
 		]
 
 		//update the environment (TimeStep)
-		var updateEnv = atFixedDelay(1000) [
+		var updateEnv = atFixedDelay(300) [
 			try {
 				wake(new TimeStep);
 			} catch (e : Exception) {
@@ -188,27 +190,38 @@ agent Environment {
 		return map
 	}
 	
-	
 	def applyInfluences {
 		/*This function will take each object influence and will try to apply it.
 		 * If it's posible will change its position, if it's not, it will ignore it 
 		 */
 		 
 		for (gn : graph.nodes) { //for each graph node on the graph
-			for(o : gn.posObj){ //will take each agent on it
-			if(o instanceof CarObject){
-			//We will see if it's already out of the graph
-				if (o.position.x + o.influence.x > gn.length && gn.isFinalNode){
-					var ev = new CarAgentIsDead(o)
-					emit(ev)
-					gn.remove(o)
+			for(var i = 0; i< gn.posObj.size ; i++){ //will take each agent on it
+				var o = gn.posObj.get(i)
+				if(o instanceof CarObject){
+					if (!o.getInfluenceDone) {
+						// We will see if it's already out of the graph
+						if (o.position.x + o.influence.x > gn.length && gn.isFinalNode) {
+							var ev = new CarAgentIsDead(o)
+							emit(ev)
+							gn.remove(o)
+						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
+							o.position = desiredPosition(o, gn).position // the position of the object get update
+							//System.out.println(o.position.x)
+						} 	// if there's a collision, we will ignore it
+						o.setInfluenceDone(true)
+					}
+					
 				}
-				else if(!collision(o,desiredPosition(o,gn))){ //if there is not a collision,
-					o.position = desiredPosition(o,gn).position  //the position of the object get update
-					System.out.println(o.position.x)
-				} // if there's a collision, we will ignore it
 			}
 		}
+		for (gn : graph.nodes) {
+			for(o : gn.posObj){ //will take each agent on it
+				if(o instanceof CarObject){
+					o.setInfluenceDone(false)
+				}
+			}
+			
 		}
 	/*BUG ALERT: if the agent change of graph node on an application of its influence,
 	 * its influence may be applyed twice
@@ -225,7 +238,7 @@ agent Environment {
 			return true
 		}
 	}
-	
+		
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
 		/*This function will take an object knowing the node where it is and then,
 		 * will give the position on the graph where it wants to go
@@ -236,23 +249,29 @@ agent Environment {
 		}
 		/* Otherwise it will change to the position 0 of the next node
 		 */
-		else{
-			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(posObj.turnTo))
-			 }
+		else {
+			var car = posObj as CarObject
+			if (currentNode.vert != currentNode.nextNode(car.turnTo).vert) {
+				car.setDirectionChanged(true)
+			}
+			currentNode.nextNode(car.turnTo).addObject(car)
+			currentNode.remove(car)
+			
+			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(car.turnTo))
+		}
 	}
 	
 	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
-		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
+		var nsp = graph.spawningPoints.length -1 //the number of nodes where we can spawn
 		val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
 		numberCar += newNumberOfCar
-		for (n : 1 .. newNumberOfCar) {
+		//for (n : 1 .. newNumberOfCar) {
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext,car)
-			
-			
+					
 			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
-		}
+		//}
 	}
 }

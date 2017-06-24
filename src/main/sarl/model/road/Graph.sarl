@@ -10,6 +10,8 @@ class Graph {
 	var palabra = "holiwis"
 	var lights = new ArrayList<TrafficLight>
 	
+	//var posObjs = new ArrayList<PositionedObjects>
+	
 	var create = false
 	
 	def add(g : GraphNode) : void{

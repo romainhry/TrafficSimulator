@@ -16,14 +16,13 @@ import model.math.Point2i
 
 agent CarAgent {
 	uses Lifecycle, DefaultContextInteractions, Schedules, Behaviors, Logging 
-	
 	var previousDirection : int
 	var CarBody : CarObject
 	val random = new Random
 	var id : UUID
 	val speed = 10 //2=50,3=90/4=130
 	var move : AgentTask
-	
+		
 	on Initialize {
 
 		id = UUID.randomUUID

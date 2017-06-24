@@ -52,7 +52,7 @@ class TrafficSimulator extends Application {
         stage.setResizable(true);
         stage.show();
     }
-
+    
 	static def main(args : String[]) : void {
 		//var ui = new Controller()
 

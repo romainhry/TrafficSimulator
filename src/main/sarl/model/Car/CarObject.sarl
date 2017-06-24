@@ -18,12 +18,14 @@ class CarObject implements Serializable extends PositionedObjects {
 	var id : UUID
 	var influence = new Point2f(1f,0f)
 	transient val road : WeakReference<EnvObjects>
+	
+	var influenceDone = false
 	new {
 		length = 5f
 		id = UUID::randomUUID
 		road = null
 	}
-	
+		
 	new (road : Graph) {
 		position = new Point2f(0,0)
 		this.road = new WeakReference(road)
@@ -36,6 +38,14 @@ class CarObject implements Serializable extends PositionedObjects {
 
 	def getDirectionChanged : boolean {
 		return directionChanged
+	}
+	
+	def setInfluenceDone(b : boolean) {
+		influenceDone = b
+	}
+
+	def getInfluenceDone : boolean {
+		return influenceDone
 	}
 	
 	new (x : int, y : int, road : Graph) {
