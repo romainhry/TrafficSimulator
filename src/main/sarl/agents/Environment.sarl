@@ -46,6 +46,9 @@ agent Environment {
 		rnd = new Random()
 		// Initialize the graph
 		graph = GraphCreator.city2
+
+		graph.spawningPoints.get(rnd.nextInt(graph.spawningPoints.length)).addObject(
+			occurrence.parameters.get(1) as CarObject) //addPlayerCar
 		
 		listener = occurrence.parameters.get(0) as Controller
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
@@ -210,13 +213,11 @@ agent Environment {
 					if (!o.getInfluenceDone) {
 						// We will see if it's already out of the graph
 						if (o.position.x + o.influence.x > gn.length && gn.isFinalNode) {
-							System.out.println("tchao")
 							var ev = new CarAgentIsDead(o)
 							emit(ev)
 							gn.remove(o)
 						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
 							o.position = new Point2f(desiredPosition(o, gn).position.getX, 0) 	// the position of the object get update
-							System.out.println(o.position.x)
 						} 	// if there's a collision, we will ignore it
 						o.setInfluenceDone(true)
 					}

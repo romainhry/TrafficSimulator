@@ -30,6 +30,7 @@ import java.awt.Desktop
 import java.io.File
 import java.util.HashMap
 import model.road.MaxSpeedSign
+import model.road.StopSign
 
 class Controller implements EventListener {
 	
@@ -62,8 +63,6 @@ class Controller implements EventListener {
 	private val imStop = new Image(
 		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/stop.png")
 		
-	private val imLetPrio = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/letPrio.jpg")
 		
 	private val im90 = new Image(
 		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/90.png")
@@ -74,30 +73,13 @@ class Controller implements EventListener {
 	private val im30 = new Image(
 		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/30.png")
 		
-		
-	private val imTlRedTop = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/redlightTop.png")
 
 	private val imTlRed = new Image(
 		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/redlight.png")
 
-	private val imTlRedLeft = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/redlightLeft.png")
-
-	private val imTlRedRight = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/redlightRight.png")
-
-	private val imTlGreenTop = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/greenlightTop.png")
-
 	private val imTlGreen = new Image(
 		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/greenlight.png")
-
-	private val imTlGreenLeft = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/greenlightLeft.png")
-
-	private val imTlGreenRight = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/greenlightRight.png")	
+	
 	
 	
 	
@@ -307,7 +289,6 @@ class Controller implements EventListener {
         fountain.setX(795);
         fountain.setY(375);
         group.getChildren().add(fountain);
-    
       
         //group.getChildren().add(imageVille1);
         TrafficSimulator.myStage.setWidth(1200);
@@ -411,9 +392,18 @@ class Controller implements EventListener {
 									}
 								}
 								roadGroup.getChildren().add(signView)
+								
 							}
-						}
-						
+							if(objs.get(j) instanceof StopSign) 
+							{
+								var signView = new ImageView(imStop)
+								signView.setPreserveRatio(true);
+								signView.setFitHeight(20);
+								signView.setX(node.getUI().getPoints.get(0) + objs.get(j).getPosition.getY-10);
+								signView.setY(node.getUI().getPoints.get(1) - objs.get(j).getPosition.getX + 10);
+								roadGroup.getChildren().add(signView)
+							}
+						}														
 						roadGroup.getChildren().add(p)
 						if (n == nodes.size - 1) {
 							graph.created()
@@ -456,11 +446,19 @@ class Controller implements EventListener {
 								} else {
 									str = "car"
 							   }
-								imCar = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+								if (car.getIsPlayer) {
+									imCar = new Image(
+										"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+										"../../Images/carPlayer.png")
+								}
+							   else {
+									imCar = new Image(
+										"file:" + this.getClass().getClassLoader().getResource("").getPath() +
 										"../../Images/" + str + ".png")
+							   }
 								carView = new ImageView(imCar)
 									carView.setPreserveRatio(true)
-								carView.setFitWidth(12)
+								carView.setFitWidth(14)
 								carList.put(car, carView)
 								carGroup.getChildren().add(carView);			
 							}
@@ -480,11 +478,11 @@ class Controller implements EventListener {
 							} else {
 								if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
 									carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX);
-									carView.setY(node.getUI().getPoints.get(1) - 4)
+									carView.setY(node.getUI().getPoints.get(1) - 5)
 									carView.setRotate(-90)
 								} else {
 									carView.setX(node.getUI().getPoints.get(0) - car.getPosition.getX);
-									carView.setY(node.getUI().getPoints.get(1) - 4)
+									carView.setY(node.getUI().getPoints.get(1) - 5)
 									carView.setRotate(90)
 								}
 								
@@ -534,6 +532,7 @@ class Controller implements EventListener {
 						}
 						
 					}
+
 
 				}			
 			} catch (exception : Exception) {

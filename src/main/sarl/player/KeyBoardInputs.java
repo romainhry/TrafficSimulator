@@ -1,4 +1,6 @@
-package Controllers;
+package player;
+
+import javax.lang.model.element.VariableElement;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -10,17 +12,23 @@ import model.math.Point2f;
  * the corresponding action that the player car will execute*/
 public class KeyBoardInputs implements EventHandler<KeyEvent>{
 	CarObject playerCar;
+	int  speed;
 	public KeyBoardInputs(){
 		playerCar = new CarObject(0);
+		speed = 3;
 	}
     @Override
     public void handle(KeyEvent e) {
     	try{
     	if (e.getCode() == KeyCode.UP) {
-    		this.playerCar.setInfluence(new Point2f(3,0));
+    		speed++;
+    		this.playerCar.setInfluence(new Point2f(speed,0));
 			System.out.println("up");
 		}else if (e.getCode() == KeyCode.DOWN) {
-			this.playerCar.setInfluence(new Point2f(-3,0));
+			speed--;
+			if(speed<0)
+				speed=0;
+			this.playerCar.setInfluence(new Point2f(speed,0));
 			System.out.println("down");
 		}else if (e.getCode() == KeyCode.LEFT) {
 			if (playerCar.getDirection() > 1) {
