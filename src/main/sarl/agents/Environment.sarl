@@ -31,7 +31,7 @@ agent Environment {
 	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging, Schedules
 	var graph : Graph
 	var posCars : Positions = new Positions
-	val NUMBERCARMAX  = 1
+	val NUMBERCARMAX  = 5
 	val y = 800
 	val x = 1200
 	var numberCar =0
