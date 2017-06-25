@@ -54,8 +54,7 @@ agent Environment {
 		lights = graph.getTrafficLights		
 		listener.listenAndDraw(graph)
 		
-		
-
+				
 		//spawnCarAgents // function that spawns the car agents
 		
 			
@@ -119,7 +118,7 @@ agent Environment {
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 			
 		}
-		
+			
 	}	
 	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
 		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values

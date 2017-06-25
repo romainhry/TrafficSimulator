@@ -117,7 +117,7 @@ class Controller implements EventListener {
 		this.ispace = ispace;
 		this.ispace.register(this);
 	}
-
+	
 	@FXML
 	public def start(e : ActionEvent) {
     	/*
@@ -126,156 +126,113 @@ class Controller implements EventListener {
 			 */
     	Platform.setImplicitExit(false)
     	group.getChildren().clear();
-    	   
-        for(var i=0; i<25; i++)
+
+
+		val imVille = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+					"../../Images/ville.png")
+
+		var imTree1 = new Image(
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/tree1.png")
+		var imTree2 = new Image(
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/tree2.png")
+
+		var imBuilding = new Image(
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/building.png")
+		var imHouse = new Image(
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/house.png")
+					
+		var ville1 = new ImageView(imVille)
+		ville1.setPreserveRatio(true);
+		ville1.setFitWidth(50);
+		ville1.setY(125);
+		ville1.setX(365);
+		ville1.setRotate(90)
+		group.getChildren().add(ville1);
+
+		var ville2 = new ImageView(imVille)
+		ville2.setPreserveRatio(true);
+		ville2.setFitWidth(50);
+		ville2.setY(340);
+		ville2.setX(365);
+		ville2.setRotate(90)
+		group.getChildren().add(ville2);
+    	
+        for(var i=0; i<35; i++)
         {
         	var tree1 : ImageView
         	if(Math.random()>0.5){
-        		tree1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/tree1.png"));
+        		tree1 = new ImageView(imTree1);
         	}
         	else {
-        		tree1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/tree2.png"));
+        		tree1 = new ImageView(imTree2);
 			}
             tree1.setPreserveRatio(true);
             tree1.setFitHeight(60);
             var y : double
-            var x = (Math.random() * ( 270 - 100 ))+100;
+            var x = (Math.random() * ( 1200 - 840 ))+840;
             tree1.setX(x);
-            if(x<180) {
-            	y=Math.random() * ( 250 - 175 ) +175;
+            if(x<1030) {
+            	y=Math.random() * ( 240 - 140 ) +140;
         	} 	
             else {
-            	y=Math.random() * ( 320 - 145 )+145;
+            	y=Math.random() * ( 440 - 140 )+140;
 			}
             tree1.setY(y);
               
             group.getChildren().add(tree1);
         }
-               
-        for(var i=0; i<4; i++)
+          
+      	          
+        for(var i=0; i<12; i++)
         {
         	var build1 : ImageView;
-    		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
-
+    		build1 = new ImageView(imBuilding);
             build1.setPreserveRatio(true);
-            build1.setFitHeight(Math.random() * ( 65 - 40 )+40);
-            var y : double
-            if(i>=2)
+            build1.setFitHeight(Math.random() * ( 65 - 40 ) + 40);
+			var x = 640 
+            var y =60
+            if(i>=3)
             {
-            	y = 320
+            	y = 110
             }
-            else {
-            	y = 280
+            if(i>=6) {
+            	y = 155
             }
-            var x : double
-            if(i==1 || i == 3)
+            if(i>=9)
             {
-            	x = 150
-            }
-            else {
-            	x = 100
+				y = 200
             }
 
-            build1.setX(x);
-            build1.setY(y);
+            
+            x += (i % 3) * 65
+			build1.setX(x);
+			build1.setY(y);
               
             group.getChildren().add(build1);
         }
         
-        for(var i=0; i<2; i++)
-        {
-        	var build1 : ImageView;
-    		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
-
-            build1.setPreserveRatio(true);
-            build1.setFitHeight(Math.random() * ( 65 - 40 )+40);
-            var y= 280 + i*40;
-            var x = 20;
-            build1.setY(y);
-            build1.setX(x);
-            group.getChildren().add(build1);
-        }
         
-        for(var i=0; i<4; i++)
-        {
-        	var build1 : ImageView;
-    		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
-
-            build1.setPreserveRatio(true);
-            build1.setFitHeight(45);
-            var y= 380;
-            var x = 20+i*40;
-            build1.setY(y);
-            build1.setX(x);
-            group.getChildren().add(build1);
-        }
         
-        var build1 : ImageView;
-		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/building.png"));
-
-        build1.setPreserveRatio(true);
-        build1.setFitHeight(45);
-        var y= 420;
-        var x = 20;
-        build1.setY(y);
-        build1.setX(x);
-        group.getChildren().add(build1);
-        
-		build1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
-
-        build1.setPreserveRatio(true);
-        build1.setFitHeight(30);
-        build1.setY(450);
-        build1.setX(785);
-        group.getChildren().add(build1);
-        
-        for(var  i=0;i< 5;i++){
+        for(var  i=0;i< 40;i++){
         	var house1 : ImageView;
-    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+    		house1 = new ImageView(imHouse);
 
             house1.setPreserveRatio(true);
             house1.setFitHeight(30);
-            house1.setY(315+i*20);
-            house1.setX(665+i*30);
+            var y = 530
+            if(i>15)
+            	y = 545
+        	if(i>30)
+        		y = 570
+            house1.setY(y);
+            house1.setX(630 + (i % 15) * 40);
             group.getChildren().add(house1);
         }
         
-        for(var i=0;i< 2;i++){
-        	var house1 : ImageView;
-    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
-
-            house1.setPreserveRatio(true);
-            house1.setFitHeight(30);
-            house1.setY(385+i*20);
-            house1.setX(695+i*30);
-            group.getChildren().add(house1);
-        }
-        
-        for(var i=0;i< 3;i++){
-        	var house1 : ImageView;
-    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
-
-            house1.setPreserveRatio(true);
-            house1.setFitHeight(30);
-            house1.setY(430+i*20);
-            house1.setX(665+i*30);
-            group.getChildren().add(house1);
-        }
-        
-        for(var i=0;i< 4;i++){
-        	var house1 : ImageView;
-    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
-
-            house1.setPreserveRatio(true);
-            house1.setFitHeight(30);
-            house1.setY(140);
-            house1.setX(650+i*40);
-            group.getChildren().add(house1);
-        }
-        
+        /* 
         for(var i=0;i< 5;i++){
         	var house1 : ImageView;
-    		house1 = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/house.png"));
+    		house1 = new ImageView(imHouse);
 
             house1.setPreserveRatio(true);
             house1.setFitHeight(30);
@@ -283,6 +240,8 @@ class Controller implements EventListener {
             house1.setX(650+i*30);
             group.getChildren().add(house1);
         }
+        * */
+        
         
         
         
@@ -305,16 +264,16 @@ class Controller implements EventListener {
         var sm = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/supermarket.jpg"));       
         sm.setPreserveRatio(true);
         sm.setFitWidth(120);
-        sm.setX(210);
-        sm.setY(470);
+        sm.setX(430);
+        sm.setY(230);
 
         group.getChildren().add(sm);
         
         var mcdo = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/mcdo.png"));       
         mcdo.setPreserveRatio(true);
         mcdo.setFitWidth(100);
-        mcdo.setX(380);
-        mcdo.setY(465);
+        mcdo.setX(440);
+        mcdo.setY(17);
         group.getChildren().add(mcdo);
         
         var mairie = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/town-hall.png"));       

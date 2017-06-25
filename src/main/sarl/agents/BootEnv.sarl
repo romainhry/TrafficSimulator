@@ -6,7 +6,6 @@ import GUI.Controller
 /*
  * Launch janus Kernel and main sarl agent
  */
- 
 class BootEnv {
 	static def main(controller : Controller) {
 		Boot::offline = true
