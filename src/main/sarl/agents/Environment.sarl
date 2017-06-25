@@ -54,18 +54,19 @@ agent Environment {
 		lights = graph.getTrafficLights		
 		listener.listenAndDraw(graph)
 		
-				
+		
+
 		//spawnCarAgents // function that spawns the car agents
+		
 			
-			
-		changeLight = atFixedDelay(12000) [
+		changeLight = atFixedDelay(5000) [
 			try {
 				wake(new UpdateLightStates);
 			} catch (e : Exception) {
 				e.printStackTrace
 			}
 		]
-				
+			
 		//update the environment (TimeStep)
 		var updateEnv = atFixedDelay(100) [
 			try {
@@ -74,7 +75,7 @@ agent Environment {
 				e.printStackTrace
 			}
 		]
-		
+
 		atFixedDelay(3000) [
 			try {
 				wake(new spawnCarAgents);
@@ -83,7 +84,7 @@ agent Environment {
 			}
 		]
 		
-			
+		
 	}
 	
 	on UpdateLightStates {
@@ -101,7 +102,7 @@ agent Environment {
 		percieve()
 		applyInfluences()
 	}
-	 		
+			
 	on CarDead { // Everytime a Car is dead, the Enviroment create a new one
 		numberCar--
 		var nsp = graph.spawningPoints.length
@@ -118,18 +119,18 @@ agent Environment {
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 			
 		}
-			
+		
 	}	
 	def percieve {
 		var map = new TreeMap<CarObject, ArrayList<PositionedObjects>> // returns values
 		var i : float //local variable
 		var j : float //local variable
-		var posDir : int
 		for (gn : graph.nodes) { //we have to go through the Graph
 			for (o : gn.posObj) { //and get the perception for each object in each graph node
 				var li = new ArrayList<PositionedObjects> //auxiliary variable
 				if (o instanceof CarObject) { // but we need just the objects that are actually Agents
 					//first, we look in front of the agent
+					var posDir = 0
 					for (i = o.length + 1; i < o.frustum; i++) { //from his position +1 till the end of his frustum
 						/*We have two cases: the first one is that the frustum
 						 * ends in the same graph node
@@ -137,46 +138,41 @@ agent Environment {
 						if (i + o.position.x <= gn.length) {
 							if (!gn.isEmptyAt(i + o.position.x,0,o)) {
 								li += gn.objectAt(i + o.position.x)
-								System.out.println("Something")
 							}
 						} else {
 							/*the other case is that we need to check
 							 * into neighbours nodes
 							 */
 							for (fnn : gn.frontNeighbourNodes) { //we look into each front neighbour node
-								posDir++
+								posDir = gn.frontNeighbourNodes.length
 								for(j=0;j<o.frustum-i;j++) //from 0 to the remaining frustum length
 								{
 									if (!fnn.isEmptyAt(j,0,o)) {
 										li += fnn.objectAt(j)
-										System.out.println("Something")
 									}
 								}
 							}
-							for (cfnn : gn.frontNeighbourNodes) { // we look into each front conflict node
+							/*for (cfnn : gn.frontNeighbourNodes) { // we look into each front conflict node
 								for (j = 0; j < o.frustum - i; j++) // from 0 to the remaining frustum length
 								{
 									if (!cfnn.isEmptyAt(j, 0,o)) {
 										li += cfnn.objectAt(j)
-										System.out.println("Something")
 									}
 								}
-							}
+							}*/
 						
 						}
 					}
-					for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
+					/*for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
 						if (o.position.x - i >= 0) {
 							if (!gn.isEmptyAt(o.position.x - i,0,o)) {
 								li += gn.objectAt(o.position.x - i)
-								System.out.println("Something")
 							} else {
 								for (bnn : gn.backNeighbourNodes) {
 									for(j=bnn.length;j<o.frustum-i;j++)
 									{
 										if (!bnn.isEmptyAt(j,0,o)) {
 											li += bnn.objectAt(j)
-											System.out.println("Something")
 										}
 									}
 								}
@@ -184,15 +180,14 @@ agent Environment {
 									for (j = cbnn.length; j < o.frustum - i; j++) {
 										if (!cbnn.isEmptyAt(j, 0,o)) {
 											li += cbnn.objectAt(j)
-											System.out.println("Something")
 										}
 									}
 								}
 							}
 						}
-					}
+					}*/
+					o.direction = posDir
 					map.put(o, li)
-					//o.direction = posDir
 				}
 			}
 		}
@@ -235,24 +230,24 @@ agent Environment {
 					o.setInfluenceDone(false)
 				}
 			}
-					
+			
 		}
 	/*BUG ALERT: if the agent change of graph node on an application of its influence,
 	 * its influence may be applyed twice
 	 */	
 	}
-		
+	
 	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
 		/*We are going to test if there's a collision with other objects */	
 			return !newPosition.graphNode.noCarAt(newPosition.position.x, object.length , object)
 	}
-				
+			
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
 		/*This function will take an object knowing the node where it is and then,
 		 * will give the position on the graph where it wants to go
 		 */
 		/*While the object doesn't go out of the node, his position will change but his node, not. */
-		if (posObj.position.x + posObj.influence.x + posObj.length <= currentNode.length) {
+		if (posObj.position.x + posObj.influence.x + 8 <= currentNode.length) {
 			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
 		}
 		/* Otherwise it will change to the position 0 of the next node
@@ -273,8 +268,8 @@ agent Environment {
 		if (numberCar< NUMBERCARMAX) {
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
-			spawnInContext(CarAgent, getInnerContext,car)
-					
+			var id = UUID::randomUUID
+			spawnInContextWithID(CarAgent,id, getDefaultContext,car)	
 			graph.spawningPoints.get(rnd.nextInt(graph.spawningPoints.length)).addObject(car) // select the node where it will spawn
 			numberCar++
 		}

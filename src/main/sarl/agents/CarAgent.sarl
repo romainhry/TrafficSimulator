@@ -13,6 +13,9 @@ import main.Positions
 import model.Car.CarObject
 import model.math.Point2f
 import model.math.Point2i
+import model.road.TrafficLight
+import model.road.LightColor
+import model.road.MaxSpeedSign
 
 agent CarAgent {
 	uses Lifecycle, DefaultContextInteractions, Schedules, Behaviors, Logging 
@@ -45,41 +48,31 @@ agent CarAgent {
 	}
 
 	on Perception {
-		System.out.println("recibido")
-		/*var freeDirections : int
-		freeDirections = CarBody.getDirection
-		var car : CarObject
-		for (percept : occurrence.objects) {
-			//var v = percept.myPosition - occurrence.myPosition
-			if(percept instanceof CarObject){
-				car = percept
-				break;
-				}
-		}
-		if (car !== null) {
-			var direction : int
-			if (CarBody.getTurnTo!==0){
-				if (CarBody.direction == 3){
-					var myPosdir : int[] = #[0,1,2]
-					direction =myPosdir.get(random.nextInt(myPosdir.length-1))
-					direction.memorizeAndMoveTo
-				} else if (CarBody.direction == 2) {
-					var myPosdir : int[] = #[0,2]
-					direction = myPosdir.get(random.nextInt(myPosdir.length-1))
-					direction.memorizeAndMoveTo
-				} else if (CarBody.direction == 1) {
-					var myPosdir : int[] = #[0, 1]
-					direction = myPosdir.get(random.nextInt(myPosdir.length-1))
-					direction.memorizeAndMoveTo
-				} 
-			}else {
-				freeDirections.randomMove
+		var nextSpeed = speed
+		System.out.println(CarBody.getDirection)
+		for (percept : occurrence.map.get(CarBody)) {
+			if(percept instanceof TrafficLight){
+				//if (CarBody.position.x < percept.position.x) {
+					if (percept.color == LightColor.RED) {
+						nextSpeed = 0
+						}
+				//}
 			}
-				
-		}*/
-	
+			else if(percept instanceof MaxSpeedSign){
+				speed = (percept.maxSpeed as int) / 3
+				nextSpeed = speed
+			}
+			else if(percept instanceof CarObject){
+				if(percept.position.x - CarBody.position.x < 15){
+					nextSpeed = 0
+				}
+			}
+			
+		}
+		
+	CarBody.influence = new Point2f(nextSpeed,0)
 	}
-
+	
 	/*on CarAgentMove{
 		//GetNodeInfrontofMe
 		//then getTrafficLight
@@ -104,12 +97,13 @@ agent CarAgent {
 		}else{
 			CarBody.setVitesse(0.0f)
 		}
-		* 
+		
 
 		}
 
 		
 	}*/
+	
 	def memorizeAndMoveTo(direction : int) {
 		this.previousDirection = direction
 		move(direction)

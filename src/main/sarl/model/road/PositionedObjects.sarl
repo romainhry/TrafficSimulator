@@ -7,7 +7,7 @@ class PositionedObjects extends EnvObjects implements Comparable<PositionedObjec
 	var position : Point2f // where x is the position than the graph node and y is the lateral desviation
 	var influence = new Point2f(0,0) // it's the positioned object's desire of new position
 	var turnTo = 0 //It's the desire to turn
-	var static UID : UUID  //ID
+	var UID = UUID::randomUUID  //ID
 	var direction : int // allowed directions
 	def getPosition() : Point2f {
 		return this.position
