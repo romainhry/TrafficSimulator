@@ -75,6 +75,14 @@ agent Environment {
 				e.printStackTrace
 			}
 		]
+
+		atFixedDelay(3000) [
+			try {
+				wake(new spawnCarAgents);
+			} catch (e : Exception) {
+				e.printStackTrace
+			}
+		]
 		
 		
 		System.out.println("pas la")
@@ -94,7 +102,7 @@ agent Environment {
 	
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
-		spawnCarAgents
+		//spawnCarAgents
 		//percieve()
 		applyInfluences()
 	}
@@ -233,7 +241,7 @@ agent Environment {
 		/*We are going to test if there's a collision with other objects */	
 			return !newPosition.graphNode.isEmptyAt(newPosition.position.x, object.length , object)
 	}
-		
+			
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
 		/*This function will take an object knowing the node where it is and then,
 		 * will give the position on the graph where it wants to go
@@ -256,12 +264,12 @@ agent Environment {
 			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(car.turnTo))
 		}
 	}
-	
-	def spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
-		var nsp = graph.spawningPoints.length //the number of nodes where we can spawn
+		
+	on spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
+		var nsp = graph.spawningPoints.length-1 //the number of nodes where we can spawn
 		//val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
 		//numberCar += newNumberOfCar
-		if (numberCar<= NUMBERCARMAX) {
+		if (numberCar< NUMBERCARMAX) {
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext,car)

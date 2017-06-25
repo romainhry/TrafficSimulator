@@ -18,7 +18,7 @@ class CarObject implements Serializable extends PositionedObjects {
 	var id : UUID
 	var influence = new Point2f(1f,0f)
 	transient val road : WeakReference<EnvObjects>
-	
+		
 	var influenceDone = false
 	new {
 		length = 5f

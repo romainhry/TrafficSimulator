@@ -14,6 +14,7 @@ class Graph {
 	
 	var create = false
 	
+	
 	def add(g : GraphNode) : void{
 		nodes.add(g)
 		//this function only add it to the list of nodes in the graph

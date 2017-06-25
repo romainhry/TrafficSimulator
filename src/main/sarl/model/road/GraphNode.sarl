@@ -195,7 +195,14 @@ class GraphNode {
 		return this.frontNeighbourNodes.get(n)
 	}
 	def addObject(o : PositionedObjects) {
-		posObj.add(o)
+		if (o instanceof CarObject) {
+
+			posObj.add(o as CarObject)
+		}
+		else {
+
+			posObj.add(o)
+		}
 	}
 	def getIsFinalNode: boolean {
 		isFinalNode
