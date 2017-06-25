@@ -12,7 +12,6 @@ import javafx.scene.Scene
 import javafx.scene.input.KeyEvent
 import javafx.stage.Stage
 
-//import fr.utbm.info.ia51.labwork1.environment.^agent.Environment
 /** 
  * Launcher of the simulation framework.
  * 
@@ -33,7 +32,6 @@ class TrafficSimulator extends Application {
 
 
 	def start(stage : Stage) throws Exception {
-       // StageStyle.UNDECORATED
 		var location : URL = getClass().getResource("TrafficSimulator.fxml");
 		loader = new FXMLLoader();
 		loader.setLocation(location);
@@ -48,8 +46,7 @@ class TrafficSimulator extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,kbi); 
         stage.setScene(scene);
         myStage = stage
-        //stage.setMaxHeight(800);
-        //stage.setMaxWidth(1080);
+
         stage.sizeToScene();
         
         stage.setResizable(true);
@@ -58,9 +55,6 @@ class TrafficSimulator extends Application {
   
   
 	static def main(args : String[]) : void {
-		//var ui = new Controller()
-
-		//FrameworkLauncher::launchSimulation(null, WIDTH, HEIGHT, NB_GHOSTS, PERCEPTION_DISTANCE, ui)
 		
 		launch(args)
 	 	

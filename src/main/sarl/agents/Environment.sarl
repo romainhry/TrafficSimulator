@@ -1,12 +1,16 @@
 package agents;
 
 import GUI.Controller
+import io.sarl.core.AgentTask
+import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
+import io.sarl.core.InnerContextAccess
 import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
 import io.sarl.util.OpenEventSpaceSpecification
-import java.util.Collection
-import java.util.List
+import java.util.ArrayList
+import java.util.Random
 import java.util.TreeMap
 import java.util.UUID
 import model.Car.CarObject
@@ -14,26 +18,14 @@ import model.Graph
 import model.GraphNode
 import model.PositionedObjects
 import model.math.Point2f
-import model.road.PositionOnTheGraph
-import io.sarl.core.Behaviors
-import io.sarl.core.InnerContextAccess
-import main.Positions
-import io.sarl.core.Schedules
-import model.math.Point2i
-import java.util.Random
-import io.sarl.core.Logging
-import io.sarl.core.AgentTask
-import model.road.TrafficLight
-import java.util.ArrayList
 import model.road.GraphCreator
+import model.road.PositionOnTheGraph
+import model.road.TrafficLight
 
 agent Environment {
-	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Logging, Schedules
+	uses Lifecycle, DefaultContextInteractions, Behaviors, InnerContextAccess, Schedules
 	var graph : Graph
-	var posCars : Positions = new Positions
 	val NUMBERCARMAX  = 5
-	val y = 800
-	val x = 1200
 	var numberCar =0
 	var rnd : Random
 	var lights : ArrayList<TrafficLight>
@@ -71,7 +63,7 @@ agent Environment {
 		]
 			
 		//update the environment (TimeStep)
-		var updateEnv = atFixedDelay(100) [
+		atFixedDelay(100) [
 			try {
 				wake(new TimeStep);
 			} catch (e : Exception) {
@@ -100,8 +92,6 @@ agent Environment {
 	}
 	
 	on TimeStep { // Every time step, the enviroment have to the following computations
-	// get perception
-		//spawnCarAgents
 		percieve()
 		applyInfluences()
 	}
@@ -115,9 +105,6 @@ agent Environment {
 		for(i=0;i<numberNew;i++)
 		{
 			var id = UUID::randomUUID
-			//var car = new CarObject(0, 0)
-			//spawn(typeof(CarAgent), car)
-			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
 			spawnInContextWithID(CarAgent, id,getInnerContext, car)
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
@@ -155,41 +142,9 @@ agent Environment {
 										li += fnn.objectAt(j)
 									}
 								}
-							}
-							/*for (cfnn : gn.frontNeighbourNodes) { // we look into each front conflict node
-								for (j = 0; j < o.frustum - i; j++) // from 0 to the remaining frustum length
-								{
-									if (!cfnn.isEmptyAt(j, 0,o)) {
-										li += cfnn.objectAt(j)
-									}
-								}
-							}*/
-						
+							}												
 						}
 					}
-					/*for (i = o.length + 1; i < o.frustum; i++) { // we do the same, but with backwards
-						if (o.position.x - i >= 0) {
-							if (!gn.isEmptyAt(o.position.x - i,0,o)) {
-								li += gn.objectAt(o.position.x - i)
-							} else {
-								for (bnn : gn.backNeighbourNodes) {
-									for(j=bnn.length;j<o.frustum-i;j++)
-									{
-										if (!bnn.isEmptyAt(j,0,o)) {
-											li += bnn.objectAt(j)
-										}
-									}
-								}
-								for (cbnn : gn.conflictNodesInBack) {
-									for (j = cbnn.length; j < o.frustum - i; j++) {
-										if (!cbnn.isEmptyAt(j, 0,o)) {
-											li += cbnn.objectAt(j)
-										}
-									}
-								}
-							}
-						}
-					}*/
 					o.direction = posDir
 					map.put(o, li)
 				}

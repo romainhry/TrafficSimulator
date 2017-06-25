@@ -1,12 +1,9 @@
 package agents
 
-import java.util.List
-import java.util.UUID
+import java.util.ArrayList
+import java.util.TreeMap
 import model.Car.CarObject
 import model.PositionedObjects
-import model.math.Point2i
-import java.util.TreeMap
-import java.util.ArrayList
 
 event UpdateCarPosition
 
@@ -24,21 +21,6 @@ event CarDead // event for indicate to the Enviroment that the Car is dead, so h
 event Perception {
 	var map : TreeMap<CarObject,ArrayList<PositionedObjects>>
 	}
-
-/* 
-event Action {
-
-	val time : int
-	val direction : Direction
-
-	new (time : int, direction : Direction) {
-		this.time = time
-		this.direction = direction
-	}
-
- * }
- */
-
 
 event CarAgentIsDead {
 	var ob : PositionedObjects
