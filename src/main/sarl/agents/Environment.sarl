@@ -66,9 +66,9 @@ agent Environment {
 				e.printStackTrace
 			}
 		]
-
+			
 		//update the environment (TimeStep)
-		var updateEnv = atFixedDelay(200) [
+		var updateEnv = atFixedDelay(100) [
 			try {
 				wake(new TimeStep);
 			} catch (e : Exception) {
@@ -85,13 +85,9 @@ agent Environment {
 		]
 		
 		
-		System.out.println("pas la")
-		
-		
 	}
 	
 	on UpdateLightStates {
-		info("light changed")
 		var j = 0
 		for(j=0; j <graph.trafficLights.size; j++)
 		{
@@ -216,7 +212,6 @@ agent Environment {
 							gn.remove(o)
 						} else if (!collision(o, tmp)) { // if there is not a collision,
 							o.position = new Point2f(tmp.position.getX,0)// the position of the object get update
-							
 						} 	// if there's a collision, we will ignore it
 						o.setInfluenceDone(true)
 					}
@@ -254,19 +249,15 @@ agent Environment {
 		 */
 		else {
 			var car = posObj as CarObject
-			if (currentNode.vert != currentNode.nextNode(car.turnTo).vert) {
-				System.out.println("vertic changed")
-				car.setDirectionChanged(true)
-			}
-			currentNode.nextNode(car.turnTo).addObject(car)
 			currentNode.remove(car)
+			currentNode.nextNode(car.turnTo).addObject(car)
+			
 			
 			return new PositionOnTheGraph(new Point2f(0f,0f),currentNode.nextNode(car.turnTo))
 		}
 	}
 		
 	on spawnCarAgents { //For spawn NUMBER_OF_CARS Car Agents
-		var nsp = graph.spawningPoints.length-1 //the number of nodes where we can spawn
 		//val newNumberOfCar = rnd.nextInt(NUMBERCARMAX - 5) + 5
 		//numberCar += newNumberOfCar
 		if (numberCar< NUMBERCARMAX) {
@@ -274,9 +265,7 @@ agent Environment {
 			var car = new CarObject(0) // create the agent body
 			spawnInContext(CarAgent, getInnerContext,car)
 					
-			//spawn(typeof(CarAgent),car) //and then the agent sending by parameter his body
-			System.out.println(nsp)
-			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car) //select the node where it will spawn
+			graph.spawningPoints.get(rnd.nextInt(graph.spawningPoints.length)).addObject(car) // select the node where it will spawn
 			numberCar++
 		}
 		
