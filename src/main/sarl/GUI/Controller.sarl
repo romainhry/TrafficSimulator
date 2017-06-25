@@ -32,7 +32,7 @@ import java.util.HashMap
 import model.road.MaxSpeedSign
 
 class Controller implements EventListener {
-
+	
 	private var id = UUID.randomUUID()
 
     @FXML

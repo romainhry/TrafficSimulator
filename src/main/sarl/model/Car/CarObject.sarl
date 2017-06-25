@@ -21,7 +21,6 @@ class CarObject implements Serializable extends PositionedObjects {
 	val length = 5f
 	var influenceDone = false
 	new {
-		length = 5f
 		
 		road = null
 	}
