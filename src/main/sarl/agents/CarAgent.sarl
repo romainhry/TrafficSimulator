@@ -63,13 +63,13 @@ agent CarAgent {
 				nextSpeed = speed
 			}
 			else if(percept instanceof CarObject){
-				if(percept.position.x - CarBody.position.x < 15){
+				if(percept.position.x - CarBody.position.x < 25){
 					nextSpeed = 0
 				}
 			}
 			
 		}
-		
+	CarBody.turnTo = (random.nextDouble()*CarBody.direction) as int
 	CarBody.influence = new Point2f(nextSpeed,0)
 	}
 	
