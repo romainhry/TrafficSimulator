@@ -46,6 +46,9 @@ agent Environment {
 		rnd = new Random()
 		// Initialize the graph
 		graph = GraphCreator.city2
+
+		graph.spawningPoints.get(rnd.nextInt(graph.spawningPoints.length)).addObject(
+			occurrence.parameters.get(1) as CarObject) //addPlayerCar
 		
 		listener = occurrence.parameters.get(0) as Controller
 		var ispace = defaultContext.createSpace(OpenEventSpaceSpecification, UUID.randomUUID)
@@ -137,7 +140,6 @@ agent Environment {
 						if (i + o.position.x <= gn.length) {
 							if (!gn.isEmptyAt(i + o.position.x,0,o)) {
 								li += gn.objectAt(i + o.position.x)
-								System.out.println("Something")
 							}
 						} else {
 							/*the other case is that we need to check
@@ -149,7 +151,6 @@ agent Environment {
 								{
 									if (!fnn.isEmptyAt(j,0,o)) {
 										li += fnn.objectAt(j)
-										System.out.println("Something")
 									}
 								}
 							}
@@ -158,7 +159,6 @@ agent Environment {
 								{
 									if (!cfnn.isEmptyAt(j, 0,o)) {
 										li += cfnn.objectAt(j)
-										System.out.println("Something")
 									}
 								}
 							}
@@ -169,14 +169,12 @@ agent Environment {
 						if (o.position.x - i >= 0) {
 							if (!gn.isEmptyAt(o.position.x - i,0,o)) {
 								li += gn.objectAt(o.position.x - i)
-								System.out.println("Something")
 							} else {
 								for (bnn : gn.backNeighbourNodes) {
 									for(j=bnn.length;j<o.frustum-i;j++)
 									{
 										if (!bnn.isEmptyAt(j,0,o)) {
 											li += bnn.objectAt(j)
-											System.out.println("Something")
 										}
 									}
 								}
@@ -184,7 +182,6 @@ agent Environment {
 									for (j = cbnn.length; j < o.frustum - i; j++) {
 										if (!cbnn.isEmptyAt(j, 0,o)) {
 											li += cbnn.objectAt(j)
-											System.out.println("Something")
 										}
 									}
 								}
@@ -215,13 +212,11 @@ agent Environment {
 					if (!o.getInfluenceDone) {
 						// We will see if it's already out of the graph
 						if (o.position.x + o.influence.x > gn.length && gn.isFinalNode) {
-							System.out.println("tchao")
 							var ev = new CarAgentIsDead(o)
 							emit(ev)
 							gn.remove(o)
 						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
 							o.position = new Point2f(desiredPosition(o, gn).position.getX, 0) 	// the position of the object get update
-							System.out.println(o.position.x)
 						} 	// if there's a collision, we will ignore it
 						o.setInfluenceDone(true)
 					}

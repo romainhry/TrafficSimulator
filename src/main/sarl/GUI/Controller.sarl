@@ -446,11 +446,19 @@ class Controller implements EventListener {
 								} else {
 									str = "car"
 							   }
-								imCar = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+								if (car.getIsPlayer) {
+									imCar = new Image(
+										"file:" + this.getClass().getClassLoader().getResource("").getPath() +
+										"../../Images/carPlayer.png")
+								}
+							   else {
+									imCar = new Image(
+										"file:" + this.getClass().getClassLoader().getResource("").getPath() +
 										"../../Images/" + str + ".png")
+							   }
 								carView = new ImageView(imCar)
 									carView.setPreserveRatio(true)
-								carView.setFitWidth(12)
+								carView.setFitWidth(14)
 								carList.put(car, carView)
 								carGroup.getChildren().add(carView);			
 							}
@@ -470,11 +478,11 @@ class Controller implements EventListener {
 							} else {
 								if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
 									carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX);
-									carView.setY(node.getUI().getPoints.get(1) - 4)
+									carView.setY(node.getUI().getPoints.get(1) - 5)
 									carView.setRotate(-90)
 								} else {
 									carView.setX(node.getUI().getPoints.get(0) - car.getPosition.getX);
-									carView.setY(node.getUI().getPoints.get(1) - 4)
+									carView.setY(node.getUI().getPoints.get(1) - 5)
 									carView.setRotate(90)
 								}
 								
