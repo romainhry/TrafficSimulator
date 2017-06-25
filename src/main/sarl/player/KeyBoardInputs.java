@@ -1,4 +1,4 @@
-package Controllers;
+package player;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;

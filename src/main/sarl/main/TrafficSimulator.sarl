@@ -1,6 +1,6 @@
 package main
 
-import Controllers.KeyBoardInputs
+import player.KeyBoardInputs
 import GUI.Controller
 import java.net.URL
 import java.util.ResourceBundle
@@ -52,7 +52,8 @@ class TrafficSimulator extends Application {
         stage.setResizable(true);
         stage.show();
     }
-    
+  
+  
 	static def main(args : String[]) : void {
 		//var ui = new Controller()
 

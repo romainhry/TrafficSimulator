@@ -10,6 +10,10 @@ class GraphCreator {
 	static val COEFY = 1;
 	
 	static val roadWidth = 15
+
+	//---------------------------------------------------------------------------------------- //
+	// --------------------------- You can create your own city here---------------------------//
+	//---------------------------------------------------------------------------------------- //
 	
 	static def city1 : Graph{
 		var graph = new Graph
@@ -505,16 +509,14 @@ class GraphCreator {
 	}
 	
 	static def city2 : Graph {
+
+		//---------------------------------------------------------------------------------------- //
+		//------Create your node with a length for the model, and 2 UI coordinates in an array-----//
+		//---------------------------------------------------------------------------------------- //
 		var graph = new Graph
 		var node1 = new GraphNode(400, false, #[200, 100, 600, 100])
-		var sign1 = new MaxSpeedSign(200, 50)
-		node1.addObject(sign1)
-		
 		var node2 = new GraphNode(400 + 2 * roadWidth, false,
 			#[600 + roadWidth, 100 - roadWidth, 200 - roadWidth, 100 - roadWidth])
-		var sign2 = new MaxSpeedSign(200 +roadWidth, 90)
-		node2.addObject(sign2)
-		
 		var node3 = new GraphNode(200, false,true, #[600, 100, 600, 300])
 		var node4 = new GraphNode(200+roadWidth, false,true, #[600+roadWidth, 300, 600+roadWidth, 100-roadWidth])
 		//cross
@@ -522,25 +524,13 @@ class GraphCreator {
 		var node6 = new GraphNode(200-roadWidth, false,true, #[600+roadWidth, 500, 600+roadWidth, 300+roadWidth])
 		var node7 = new GraphNode(400, false, #[600, 500+roadWidth, 1000, 500+roadWidth])
 		var node8 = new GraphNode(400-roadWidth, false, #[1000, 500, 600+roadWidth, 500])
-		var node9 = new GraphNode(200, false, true, #[1000 + roadWidth, 500, 1000 + roadWidth, 300])
-		var sign6 = new MaxSpeedSign(50, 30)
-		node9.addObject(sign6)
-		var node10 = new GraphNode(200 - roadWidth, false, true, #[1000, 300 + roadWidth, 1000, 500])
-		var sign5 = new MaxSpeedSign(150 - roadWidth, 50)
-		node10.addObject(sign5)
+		var node9 = new GraphNode(200, false, true, #[1000 + roadWidth, 500, 1000 + roadWidth, 300])	
+		var node10 = new GraphNode(200 - roadWidth, false, true, #[1000, 300 + roadWidth, 1000, 500])	
 		var node11 = new GraphNode(400, false, #[1000 + roadWidth, 300, 600 + roadWidth, 300])
-		var sign4 = new MaxSpeedSign(370, 50)
-		node11.addObject(sign4)
 		var node12 = new GraphNode(400 - roadWidth, false, #[600 + roadWidth, 300 + roadWidth, 1000, 300 + roadWidth])
-		var sign3 = new MaxSpeedSign(30, 30)
-		node12.addObject(sign3)
-		var node13 = new GraphNode(400, false, #[600, 300, 200, 300])
-		var sign8 = new MaxSpeedSign(200, 90)
-		node13.addObject(sign8)
+		var node13 = new GraphNode(400, false, #[600, 300, 200, 300])		
 		var node14 = new GraphNode(400 + roadWidth, false, #[200 - roadWidth, 300 + roadWidth, 600, 300 + roadWidth])
-		var sign7 = new MaxSpeedSign(200 + roadWidth, 50)
-		node14.addObject(sign7)
-		var node15 = new GraphNode(200, false,true, #[200, 300, 200, 100])
+		var node15 = new GraphNode(200, false, true, #[200, 300, 200, 100])
 		var node16 = new GraphNode(200+2*roadWidth, false,true, #[200-roadWidth, 100-roadWidth, 200-roadWidth, 300+roadWidth])
 		var node17 = new GraphNode(200, false, #[0, 100, 200 , 100])
 		var node18 = new GraphNode(200-roadWidth, false, #[1200, 500, 1000+roadWidth, 500])
@@ -566,7 +556,10 @@ class GraphCreator {
 		graph.add(node18)
 		graph.add(node19)
 		graph.add(node20)
-		
+
+		//---------------------------------------------------------------------------------------- //
+		// -------------------Add the connection between nodes, and the conflict nodes-------------//
+		//---------------------------------------------------------------------------------------- //
 		node1.addFrontNeighbour(node3)
 		node3.addFrontNeighbour(node5)
 		node3.addFrontNeighbour(node12)
@@ -625,6 +618,12 @@ class GraphCreator {
 		
 		graph.addSpawnPoint(node17)
 		graph.addSpawnPoint(node18)
+
+		//---------------------------------------------------------------------------------------- //
+		// ---------------Add environment object like StopSign, TrafficLight, MaxSpeedSign---------//
+		//---------------------------------------------------------------------------------------- //
+		var sign9 = new StopSign(200)
+		node15.addObject(sign9)
 		
 		var tl3 = new TrafficLight(node3.getLength)
 		graph.addTrafficLight(tl3)
@@ -632,15 +631,12 @@ class GraphCreator {
 		var tl14 = new TrafficLight(node14.getLength,tl3,false)
 		graph.addTrafficLight(tl14)
 		node14.addObject(tl14)
-		
 		var tl6 = new TrafficLight(node6.getLength, tl3, true)
 		graph.addTrafficLight(tl6)
 		node6.addObject(tl6)
-		
 		var tl11 = new TrafficLight(node11.getLength, tl3, false)
 		graph.addTrafficLight(tl11)
 		node11.addObject(tl11)
-		
 		var tl7 = new TrafficLight(node7.getLength)
 		graph.addTrafficLight(tl7)
 		node7.addObject(tl7)
@@ -650,6 +646,23 @@ class GraphCreator {
 		var tl10 = new TrafficLight(node10.getLength, tl7, false)
 		graph.addTrafficLight(tl10)
 		node10.addObject(tl10)
+
+		var sign6 = new MaxSpeedSign(50, 30)
+		node9.addObject(sign6)
+		var sign2 = new MaxSpeedSign(200 + roadWidth, 90)
+		node2.addObject(sign2)
+		var sign5 = new MaxSpeedSign(150 - roadWidth, 50)
+		node10.addObject(sign5)
+		var sign7 = new MaxSpeedSign(200 + roadWidth, 50)
+		node14.addObject(sign7)
+		var sign8 = new MaxSpeedSign(200, 90)
+		node13.addObject(sign8)
+		var sign3 = new MaxSpeedSign(30, 30)
+		node12.addObject(sign3)
+		var sign4 = new MaxSpeedSign(370, 50)
+		node11.addObject(sign4)
+		var sign1 = new MaxSpeedSign(200, 50)
+		node1.addObject(sign1)
 
 		
 		return graph
