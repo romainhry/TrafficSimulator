@@ -321,14 +321,17 @@ class Controller implements EventListener {
 
 	@FXML
 	public def Video(e : ActionEvent) {
+		TrafficSimulator.myStage.setWidth(1300);
+		TrafficSimulator.myStage.height = 1300;
 		PaneHome.setVisible(false);
     	PaneVid.setVisible(true);
-		val file = new File("vid.mp4");
-		val	media = new Media(file.toURI().toString());
+		val media = new Media(this.getClass().getResource("/main/vid.mp4").toString());
 		val mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setAutoPlay(true);
 		media_view = new MediaView(mediaPlayer);
-		media_view.x = 100
+	media_view.x=-1
+	media_view.y=-100
+
 		
 		//var media = new Media("https://www.youtube.com/watch?v=sW8CYs3Y42o");
 		PaneVid.children.add(media_view)
