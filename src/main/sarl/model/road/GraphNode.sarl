@@ -158,6 +158,8 @@ class GraphNode {
 			}
 			
 			return true
+			}
+			return false
 		}
 	}
 	def objectAt(x : float) : PositionedObjects { /*We need to know if there is an object
