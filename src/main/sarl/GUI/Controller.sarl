@@ -57,18 +57,8 @@ class Controller implements EventListener {
 
 	private var carList = new HashMap<CarObject, ImageView>()
 	
-	private val imCar = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/car.png")
-
-	private val imCarTop = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
-			"../../Images/carTop.png")
-
-	private val imCarLeft = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/carLeft.png")
-
-	private val imCarRight = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/carRight.png")
-			
+	private var imCar :Image//("file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/car.png")
+		
 	private val imStop = new Image(
 		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/stop.png")
 		
@@ -430,8 +420,7 @@ class Controller implements EventListener {
 										signView.setY(node.getUI().getPoints.get(1) - sign.getPosition.getX);
 										signView.setX(node.getUI().getPoints.get(0) + sign.getPosition.getY-5);
 																				
-									}
-									
+									}								
 								} else {
 									if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
 										signView.setX(node.getUI().getPoints.get(0) + sign.getPosition.getX);
@@ -456,8 +445,7 @@ class Controller implements EventListener {
 					var objs = node.getPosObj
 					
 					for(var j =0;j<objs.size;j++)
-					{
-						
+					{			
 						if (objs.get(j) instanceof CarObject) {
 						
 							//System.out.println("one is a car")
@@ -465,39 +453,11 @@ class Controller implements EventListener {
 							//if(car.getInfluenceDone){
 	//----------------------------------------------------------------------------------------//
 	// ---------------------------------CAR already on the GUI -------------------------------//
-	//----------------------------------------------------------------------------------------//				
+	//----------------------------------------------------------------------------------------//
+							var carView : ImageView			
 							if (carList.containsKey(car)) { // already on graph
 								//System.out.println("should not be here")
-								var carView = carList.get(car)
-								var im : Image
-								if (node.vert) {
-									if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
-										carView.setY(node.getUI().getPoints.get(1) +car.getPosition.getX - 10);
-										carView.setX(node.getUI().getPoints.get(0) - 5);
-									im = imCar
-																
-									}
-									else {
-										carView.setY(node.getUI().getPoints.get(1) - car.getPosition.getX - 8);
-										carView.setX(node.getUI().getPoints.get(0) - 5);
-									im = imCarTop
-									}
-									
-								} else {
-									if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
-										carView.setX(node.getUI().getPoints.get(0) +car.getPosition.getX);
-										carView.setY(node.getUI().getPoints.get(1) - 4)
-									im = imCarRight
-									}
-									else {
-										carView.setX(node.getUI().getPoints.get(0) - car.getPosition.getX);
-										carView.setY(node.getUI().getPoints.get(1) - 4)
-									im = imCarLeft
-									}
-										
-								}
-								carView.setImage(im)
-
+								carView = carList.get(car)
 	//---------------------------------------------------------------------------------------- //
 	// ----------------------------ELSE we should create a new Image --------------------------//
 	//---------------------------------------------------------------------------------------- //
@@ -518,67 +478,39 @@ class Controller implements EventListener {
 								} else {
 									str = "car"
 							   }
-							 
-								
-								
-								if (node.vert) {
-									if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
-										val im = new Image(
-											"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-												"../../Images/" + str + ".png")
-										var carView = new ImageView(im)
-										carView.setY(node.getUI().getPoints.get(1) + car.getPosition.getX-5)
-										carView.setX(node.getUI().getPoints.get(0)-5)
-										carView.setPreserveRatio(true)
-										carView.setFitWidth(12)
-										carList.put(car, carView)
-										carGroup.getChildren().add(carView);
-									}
-									else {
-										val im = new Image(
-											"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-												"../../Images/" + str + "Top.png")
-											var carView = new ImageView(im)
-										carView.setY(node.getUI().getPoints.get(1) + car.getPosition.getX)
-										carView.setX(node.getUI().getPoints.get(0))
-										carView.setPreserveRatio(true)
-										carView.setFitWidth(12)
-										carList.put(car, carView)
-										carGroup.getChildren().add(carView);
-									}									
+								imCar = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
+										"../../Images/" + str + ".png")
+								carView = new ImageView(imCar)
+									carView.setPreserveRatio(true)
+								carView.setFitWidth(12)
+								carList.put(car, carView)
+								carGroup.getChildren().add(carView);			
+							}
+
+							if (node.vert) {
+								if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
+									carView.setY(node.getUI().getPoints.get(1) + car.getPosition.getX - 10);
+									carView.setX(node.getUI().getPoints.get(0) - 5);
+									carView.setRotate(0)			
+								} else {
+									carView.setY(node.getUI().getPoints.get(1) - car.getPosition.getX - 8);
+									carView.setX(node.getUI().getPoints.get(0) - 5);
+									carView.setRotate(180)
+									
 								}
-								else {
-									if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
-										val im = new Image(
-											"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-												"../../Images/" + str + "Right.png")
-										var carView = new ImageView(im)
-										carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX)
-										carView.setY(node.getUI().getPoints.get(1)-4)
-										carView.setPreserveRatio(true)
-										carView.setFitHeight(12)
-										carList.put(car, carView)
-										carGroup.getChildren().add(carView);
-									}
-									else {
-										val im = new Image(
-											"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-												"../../Images/" + str + "Left.png")
-										var carView = new ImageView(im)
-										carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX)
-										carView.setY(node.getUI().getPoints.get(1))
-										carView.setPreserveRatio(true)
-										carView.setFitHeight(12)
-										carGroup.getChildren().add(carView);
-										carList.put(car,carView)
-										System.out.println("here")
-										
-									}
+
+							} else {
+								if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
+									carView.setX(node.getUI().getPoints.get(0) + car.getPosition.getX);
+									carView.setY(node.getUI().getPoints.get(1) - 4)
+									carView.setRotate(-90)
+								} else {
+									carView.setX(node.getUI().getPoints.get(0) - car.getPosition.getX);
+									carView.setY(node.getUI().getPoints.get(1) - 4)
+									carView.setRotate(90)
 								}
 								
-							
-							
-							}								
+							}							
 						}
 					//----------------------------------------------------------------------------------------//
 					// ----------------------Draw only trafficlight when the light has change-----------------//
@@ -589,52 +521,33 @@ class Controller implements EventListener {
 							var light = objs.get(j) as TrafficLight
 							if (light.getState) {
 								var lightView : ImageView
+								if (light.getColor == LightColor.RED)
+									lightView = new ImageView(imTlRed)
+								else
+									lightView = new ImageView(imTlGreen)
+								lightView.setPreserveRatio(true);
+								lightView.setFitHeight(20);
+								
 								if (node.vert) {
 									if (node.getUI().getPoints.get(1) < node.getUI().getPoints.get(3)) {
-										if (light.getColor == LightColor.RED) {
-											lightView = new ImageView(imTlRedTop);
-										} else {
-												lightView = new ImageView(imTlGreenTop);
-										}
-										lightView.setPreserveRatio(true);
-										lightView.setFitHeight(20);
-										lightView.setY(node.getUI().getPoints.get(1) + light.getPosition.getX-27);
-										lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getY - 2 );
+										lightView.setY(node.getUI().getPoints.get(1) + light.getPosition.getX-28);
+										lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getY - 5 );
+										lightView.setRotate(180)
 									}
 									else {
-										if (light.getColor == LightColor.RED) {
-											lightView = new ImageView(imTlRed);
-										} else {
-											lightView = new ImageView(imTlGreen);
-										}
-										lightView.setPreserveRatio(true);
-										lightView.setFitHeight(20);
 										lightView.setY(node.getUI().getPoints.get(1) - light.getPosition.getX+6);
 										lightView.setX(node.getUI().getPoints.get(0) + light.getPosition.getY-9);
-									}
-									
+									}				
 								}
 								else {
 									if (node.getUI().getPoints.get(0) < node.getUI().getPoints.get(2)) {
-										if (light.getColor == LightColor.RED) {
-											lightView = new ImageView(imTlRedLeft);
-										} else {
-											lightView = new ImageView(imTlGreenLeft);
-										}
-										lightView.setPreserveRatio(true);
-										lightView.setFitWidth(20);
-										lightView.setX(node.getUI().getPoints.get(0) + light.getPosition.getX -26);
-										lightView.setY(node.getUI().getPoints.get(1) + light.getPosition.getY -9);
+										lightView.setX(node.getUI().getPoints.get(0) + light.getPosition.getX -24);
+										lightView.setY(node.getUI().getPoints.get(1) + light.getPosition.getY -11);
+										lightView.setRotate(90)
 									} else {
-										if (light.getColor == LightColor.RED) {
-											lightView = new ImageView(imTlRedRight);
-										} else {
-											lightView = new ImageView(imTlGreenRight);
-										}
-										lightView.setPreserveRatio(true);
-										lightView.setFitWidth(20);
-										lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getX +7);
-										lightView.setY(node.getUI().getPoints.get(1) - light.getPosition.getY-2);
+										lightView.setX(node.getUI().getPoints.get(0) - light.getPosition.getX +11);
+										lightView.setY(node.getUI().getPoints.get(1) - light.getPosition.getY - 7);
+										lightView.setRotate(-90)
 									}
 								}
 								lightGroup.getChildren().add(lightView);
