@@ -56,7 +56,7 @@ agent Environment {
 		
 				
 		//spawnCarAgents // function that spawns the car agents
-		
+			
 			
 		changeLight = atFixedDelay(12000) [
 			try {
@@ -83,7 +83,7 @@ agent Environment {
 			}
 		]
 		
-		
+			
 	}
 	
 	on UpdateLightStates {
@@ -101,7 +101,7 @@ agent Environment {
 		//percieve()
 		applyInfluences()
 	}
-			
+	 		
 	on CarDead { // Everytime a Car is dead, the Enviroment create a new one
 		numberCar--
 		var nsp = graph.spawningPoints.length

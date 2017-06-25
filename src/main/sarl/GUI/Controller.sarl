@@ -160,7 +160,7 @@ class Controller implements EventListener {
         for(var i=0; i<35; i++)
         {
         	var tree1 : ImageView
-        	if(Math.random()>0.5){
+        	if(Math.random()>0.3){
         		tree1 = new ImageView(imTree1);
         	}
         	else {
@@ -181,6 +181,23 @@ class Controller implements EventListener {
               
             group.getChildren().add(tree1);
         }
+
+		for (var i = 0; i < 20; i++) {
+			var tree1 : ImageView
+			if (Math.random() > 0.7) {
+				tree1 = new ImageView(imTree1)
+			} else {
+				tree1 = new ImageView(imTree2)
+			}
+			tree1.setPreserveRatio(true)
+			tree1.setFitHeight(60)
+
+			tree1.setX(Math.random() * 430 - 30)
+
+			tree1.setY(Math.random() * ( 630 - 400 ) + 400)
+
+			group.getChildren().add(tree1)
+		}
           
       	          
         for(var i=0; i<12; i++)
@@ -213,7 +230,7 @@ class Controller implements EventListener {
         
         
         
-        for(var  i=0;i< 40;i++){
+        for(var  i=0;i< 30;i++){
         	var house1 : ImageView;
     		house1 = new ImageView(imHouse);
 
@@ -221,26 +238,27 @@ class Controller implements EventListener {
             house1.setFitHeight(30);
             var y = 530
             if(i>15)
-            	y = 545
-        	if(i>30)
-        		y = 570
+        		y = 565
             house1.setY(y);
             house1.setX(630 + (i % 15) * 40);
             group.getChildren().add(house1);
         }
-        
-        /* 
-        for(var i=0;i< 5;i++){
-        	var house1 : ImageView;
-    		house1 = new ImageView(imHouse);
 
-            house1.setPreserveRatio(true);
-            house1.setFitHeight(30);
-            house1.setY(180);
-            house1.setX(650+i*30);
-            group.getChildren().add(house1);
-        }
-        * */
+		for (var i = 0; i < 8; i++) {
+			var house1 : ImageView;
+			house1 = new ImageView(imHouse);
+
+			house1.setPreserveRatio(true);
+			house1.setFitHeight(30);
+			var y = 330
+			if (i >= 4)
+				y = 445
+			house1.setY(y);
+			house1.setX(675 + (i % 4) * 80);
+			group.getChildren().add(house1);
+		}
+        
+
         
         
         
@@ -249,16 +267,16 @@ class Controller implements EventListener {
         
         tennis.setPreserveRatio(true);
         tennis.setFitWidth(135);
-        tennis.setX(15);
-        tennis.setY(480);
+        tennis.setX(480);
+        tennis.setY(500);
         group.getChildren().add(tennis);
         
         var pool = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/pool.png"));
         
         pool.setPreserveRatio(true);
         pool.setFitWidth(220);
-        pool.setX(185);
-        pool.setY(540);
+        pool.setX(60);
+        pool.setY(310);
         group.getChildren().add(pool);
         
         var sm = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/supermarket.jpg"));       
@@ -285,11 +303,12 @@ class Controller implements EventListener {
         
         var fountain = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/fountain.png"));       
         fountain.setPreserveRatio(true);
-        fountain.setFitWidth(38);
-        fountain.setX(615);
-        fountain.setY(370);
+        fountain.setFitWidth(50);
+        fountain.setX(795);
+        fountain.setY(375);
         group.getChildren().add(fountain);
-        
+    
+      
         //group.getChildren().add(imageVille1);
         TrafficSimulator.myStage.setWidth(1200);
         TrafficSimulator.myStage.setX(0);
