@@ -6,6 +6,6 @@ import model.math.Point2f
 class Signs extends PositionedObjects {
 	new (x : float) {
 		position = new Point2f(x,16)
-		length = 1
+		length = 20
 	}
 }
