@@ -556,8 +556,9 @@ class GraphCreator {
 		node3.addConflictFrontNeighbour(node6)
 		node3.addConflictFrontNeighbour(node14)
 		node5.addFrontNeighbour(node7)
+		//node7.addFrontNeighbour(node20)
 		node7.addFrontNeighbour(node9)
-		node7.addFrontNeighbour(node20)
+		node7.addFrontNeighbour(node20) //wrong
 		node7.addConflictFrontNeighbour(node18)
 		node9.addFrontNeighbour(node11)
 		node11.addFrontNeighbour(node13)
@@ -571,7 +572,6 @@ class GraphCreator {
 		node15.addFrontNeighbour(node19)
 		node15.addConflictFrontNeighbour(node17)
 		
-		node2.addFrontNeighbour(node16)
 		node16.addFrontNeighbour(node14)
 		node14.addFrontNeighbour(node12)
 		node14.addFrontNeighbour(node4)
@@ -592,7 +592,9 @@ class GraphCreator {
 		node6.addConflictFrontNeighbour(node3)
 		node6.addConflictFrontNeighbour(node11)
 		node4.addFrontNeighbour(node2)
+		//node2.addFrontNeighbour(node16)
 		node2.addFrontNeighbour(node19)
+		node2.addFrontNeighbour(node16) //wrong
 		node2.addConflictFrontNeighbour(node17)
 		
 		node17.addFrontNeighbour(node1)

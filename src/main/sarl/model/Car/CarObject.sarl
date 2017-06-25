@@ -11,18 +11,18 @@ import model.math.Point2f
 
 class CarObject implements Serializable extends PositionedObjects {
 	//var position : Point2i
-	var frustum : float
+	var frustum = 50f
 	var vitesse : float
 	var CarIcon : String
 	var directionChanged = false
-	var id : UUID
+	var id = UUID::randomUUID
 	var influence = new Point2f(1f,0f)
 	transient val road : WeakReference<EnvObjects>
 		
 	var influenceDone = false
 	new {
 		length = 5f
-		id = UUID::randomUUID
+		
 		road = null
 	}
 		
@@ -88,4 +88,12 @@ class CarObject implements Serializable extends PositionedObjects {
 	def getUID : UUID {
 		return this.id
 	}
+
+	def equals(o : CarObject) : boolean {
+		if (this.id == o.id) {
+			return true
+		}
+		return false
+	}
 }
+

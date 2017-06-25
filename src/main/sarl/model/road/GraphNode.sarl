@@ -139,7 +139,7 @@ class GraphNode {
 	}
 	
 
-	def isEmptyAt(x : float, len : float, obj : PositionedObjects) : Boolean {
+	def noCarAt(x : float, len : float, obj : PositionedObjects) : Boolean {
 				/* We need to know if the node is empty at a particular coordinate (x)
 			 * and with his proximities (len)
 			 */
@@ -156,9 +156,32 @@ class GraphNode {
 					return false
 				}
 			}
-			
-			return true
 		}
+			return true
+	}
+
+	def isEmptyAt(x : float, len : float, obj : PositionedObjects) : Boolean {
+				/* We need to know if the node is empty at a particular coordinate (x)
+			 * and with his proximities (len)
+			 */
+	 	// var myCar = obj as CarObject
+		for (o : posObj) {
+			if (
+			/* o instanceof CarObject &&
+			 */
+			o != obj) {
+				if (o.position.x + o.length < x + len && o.position.x + o.length > x - len) {
+					return false
+				}
+				if (o.position.x - o.length < x + len && o.position.x - o.length > x - len) {
+					return false
+				}
+				if (o.position.x + o.length > x + len && o.position.x - o.length < x - len) {
+					return false
+				}
+			}
+		}
+		return true
 	}
 	def objectAt(x : float) : PositionedObjects { /*We need to know if there is an object
 	 * at a given position*/
