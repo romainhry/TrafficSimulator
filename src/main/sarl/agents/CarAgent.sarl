@@ -37,6 +37,7 @@ agent CarAgent {
 	}
 		
 	on CarAgentIsDead {
+		System.out.println("someone is dead")
 		/*The agent will only take account of it if it's its car body the one who's dead */
 		if (occurrence.ob === CarBody) {
 			// TODO delete the car image from the gui

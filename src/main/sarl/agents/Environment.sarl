@@ -114,11 +114,12 @@ agent Environment {
 		numberCar+=numberNew
 		for(i=0;i<numberNew;i++)
 		{
+			var id = UUID::randomUUID
 			//var car = new CarObject(0, 0)
 			//spawn(typeof(CarAgent), car)
 			//var pos = new Point2i(rnd.nextInt(x), rnd.nextInt(y))
 			var car = new CarObject(0) // create the agent body
-			spawnInContext(CarAgent, getInnerContext, car)
+			spawnInContextWithID(CarAgent, id,getInnerContext, car)
 			graph.spawningPoints.get((rnd.nextDouble() * nsp) as int).addObject(car)
 			
 		}
@@ -207,6 +208,7 @@ agent Environment {
 		 * If it's posible will change its position, if it's not, it will ignore it 
 		 */	 
 		for (gn : graph.nodes) { //for each graph node on the graph
+		var removable = new ArrayList<PositionedObjects>
 			for(var i = 0; i< gn.posObj.size ; i++){ //will take each agent on it
 				var o = gn.posObj.get(i)
 				if (o instanceof CarObject) {
@@ -215,7 +217,7 @@ agent Environment {
 						if (o.position.x + o.influence.x > gn.length && gn.isFinalNode) {
 							var ev = new CarAgentIsDead(o)
 							emit(ev)
-							gn.remove(o)
+							removable.add(o)
 						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
 							o.position = new Point2f(desiredPosition(o, gn).position.getX, 0) 	// the position of the object get update
 						} 	// if there's a collision, we will ignore it
@@ -223,6 +225,9 @@ agent Environment {
 					}
 					
 				}
+			}
+			for(r:removable){
+				gn.remove(r)
 			}
 		}
 		for (gn : graph.nodes) {
@@ -248,7 +253,7 @@ agent Environment {
 		 * will give the position on the graph where it wants to go
 		 */
 		/*While the object doesn't go out of the node, his position will change but his node, not. */
-		if (posObj.position.x + posObj.influence.x + 8 <= currentNode.length) {
+		if (posObj.position.x + posObj.influence.x /* + 8*/ <= currentNode.length) {
 			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
 		}
 		/* Otherwise it will change to the position 0 of the next node
