@@ -71,7 +71,7 @@ agent CarAgent {
 				}
 			}
 			else if(percept instanceof StopSign){
-				if(stoped <15){
+				if(stoped <30){
 					nextSpeed = 0
 					stoped ++
 				}
