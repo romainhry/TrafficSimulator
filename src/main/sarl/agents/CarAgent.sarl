@@ -32,7 +32,7 @@ agent CarAgent {
 		//speed = (random.nextDouble()*15+5) as int
 		CarBody.setInfluence(new Point2f(speed, 0))
 	}
-		
+			
 	on CarAgentIsDead {
 		/*The agent will only take account of it if it's its car body the one who's dead */
 		if (occurrence.ob === CarBody) {

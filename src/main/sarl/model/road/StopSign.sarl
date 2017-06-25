@@ -1,5 +1,7 @@
 package model.road
 
 class StopSign extends Signs {
-	
+	new (x : float) {
+		super(x)
+	}
 }

@@ -59,14 +59,14 @@ agent Environment {
 		//spawnCarAgents // function that spawns the car agents
 		
 			
-		changeLight = atFixedDelay(5000) [
+		changeLight = atFixedDelay(12000) [
 			try {
 				wake(new UpdateLightStates);
 			} catch (e : Exception) {
 				e.printStackTrace
 			}
 		]
-			
+				
 		//update the environment (TimeStep)
 		var updateEnv = atFixedDelay(100) [
 			try {
@@ -75,7 +75,7 @@ agent Environment {
 				e.printStackTrace
 			}
 		]
-
+		
 		atFixedDelay(3000) [
 			try {
 				wake(new spawnCarAgents);
@@ -225,24 +225,24 @@ agent Environment {
 					o.setInfluenceDone(false)
 				}
 			}
-			
+					
 		}
 	/*BUG ALERT: if the agent change of graph node on an application of its influence,
 	 * its influence may be applyed twice
 	 */	
 	}
-	
+		
 	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
 		/*We are going to test if there's a collision with other objects */	
 			return !newPosition.graphNode.isEmptyAt(newPosition.position.x, object.length , object)
 	}
-			
+				
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {
 		/*This function will take an object knowing the node where it is and then,
 		 * will give the position on the graph where it wants to go
 		 */
 		/*While the object doesn't go out of the node, his position will change but his node, not. */
-		if (posObj.position.x + posObj.influence.x + 8 <= currentNode.length) {
+		if (posObj.position.x + posObj.influence.x + posObj.length <= currentNode.length) {
 			return new PositionOnTheGraph(posObj.position.add(posObj.influence), currentNode)
 		}
 		/* Otherwise it will change to the position 0 of the next node
