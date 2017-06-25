@@ -2,7 +2,6 @@ package model.road
 
 import model.PositionedObjects
 import model.math.Point2f
-import java.util.TimerTask
 import java.util.Timer
 import model.math.Point2i
 
@@ -11,27 +10,21 @@ class TrafficLight extends PositionedObjects {
 	var timer = new Timer() // We utilize it for control the time of the color change
 	var stateChanged = false;
 			
-	//var guiPos : Point2i
 
 	new(x:float) {
 		this.position = new Point2f(x, 16)
 		this.color = LightColor.RED
-		//guiPos = new Point2i(x, y)
 		this.length = 20f
-		//activate
 	}
 			
 	/* we have also the possibility of create a traffic light antisynchronized with other */
 	new(x:float, neighbour : TrafficLight, sync : boolean) {
 		this.position = new Point2f(x, 16)
-		//guiPos = new Point2i(x,y)
-		//position = new Point2f()
 		this.length = 20f
 		if(!sync)
 			this.antiSynchr(neighbour)
 		else
 			this.synchr(neighbour)
-		//activate
 	}
 	
 	def setPos(p : Point2f) {

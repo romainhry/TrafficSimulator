@@ -2,8 +2,6 @@ package model
 import java.util.ArrayList
 import javafx.scene.shape.Polyline
 import model.Car.CarObject
-import model.road.TrafficLight
-import model.road.LightColor
 
 class GraphNode {
 	var neighbourNodes : ArrayList<GraphNode> // Nodes where i can move to
@@ -15,8 +13,6 @@ class GraphNode {
 	var backNeighbourNodes : ArrayList<GraphNode> //Neighbours behind this node
 	var length : float // length of the node (dah)
 	var posObj : ArrayList<PositionedObjects> // Objects in it
-	var maxDesviationRight : float // Max desviation i can have to the right
-	var maxDesviationLeft : float // Max desviation i can have to the left
 	var isFinalNode : boolean //end of the route
 	var line : Polyline
 	var vert = false
@@ -143,9 +139,8 @@ class GraphNode {
 				/* We need to know if the node is empty at a particular coordinate (x)
 			 * and with his proximities (len)
 			 */
-	 	//var myCar = obj as CarObject
 		for (o : posObj) {
-			if ( (o instanceof CarObject && o !=obj)){// || ((o instanceof TrafficLight) && (o as TrafficLight).getColor == LightColor.RED)) {
+			if ( (o instanceof CarObject && o !=obj)){
 				if (o.position.x + o.length < x + len && o.position.x + o.length > x - len) {
 					return false
 				}
@@ -164,12 +159,8 @@ class GraphNode {
 				/* We need to know if the node is empty at a particular coordinate (x)
 			 * and with his proximities (len)
 			 */
-	 	// var myCar = obj as CarObject
 		for (o : posObj) {
-			if (
-			/* o instanceof CarObject &&
-			 */
-			o != obj) {
+			if (o != obj) {
 				if (o.position.x + o.length < x + len && o.position.x + o.length > x - len) {
 					return false
 				}

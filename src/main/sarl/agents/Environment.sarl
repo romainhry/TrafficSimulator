@@ -37,7 +37,7 @@ agent Environment {
 	on Initialize {
 		rnd = new Random()
 		// Initialize the graph
-		graph = GraphCreator.city2
+		graph = GraphCreator.city1
 
 		graph.spawningPoints.get(rnd.nextInt(graph.spawningPoints.length)).addObject(
 			occurrence.parameters.get(1) as CarObject) //addPlayerCar
