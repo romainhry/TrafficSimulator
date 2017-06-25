@@ -4,9 +4,12 @@ import model.math.Point2f
 
 class MaxSpeedSign extends Signs {
 	var maxSpeed : float
-	def setMaxSpeed(f : float) {
-		maxSpeed = f
+	
+	new(x : float, f : float) {
+		super(x)
+		maxSpeed = f		
 	}
+	
 	def getMaxSpeed : float {
 		this.maxSpeed
 	}
