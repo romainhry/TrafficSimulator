@@ -467,7 +467,7 @@ class Controller implements EventListener {
 									imCar = new Image(this.getClass().getResource("/Images/carPlayer.png").toString)
 								}
 							   else {
-									imCar = new Image(this.getClass().getResource("./mages/" + str + ".png").toString)
+									imCar = new Image(this.getClass().getResource("/Images/" + str + ".png").toString)
 							   }
 
 								carView = new ImageView(imCar)
