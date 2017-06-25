@@ -10,7 +10,6 @@ import model.math.Point2i
 import model.math.Point2f
 
 class CarObject implements Serializable extends PositionedObjects {
-	//var position : Point2i
 	var frustum = 50f
 	var vitesse : float
 	var CarIcon : String
