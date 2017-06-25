@@ -31,6 +31,9 @@ import java.io.File
 import java.util.HashMap
 import model.road.MaxSpeedSign
 import model.road.StopSign
+import javafx.scene.media.MediaView
+import javafx.scene.media.Media
+import javafx.scene.media.MediaPlayer
 
 class Controller implements EventListener {
 	
@@ -41,9 +44,9 @@ class Controller implements EventListener {
 
 	@FXML
 	private var carGroup : Group
-
+	@FXML
 	private var roadGroup : Group
-
+	@FXML
 	private var lightGroup : Group
 	
 	private var nbCarUpdated : int //use to count cars
@@ -53,32 +56,34 @@ class Controller implements EventListener {
     private var PaneVid : Pane
 	@FXML
 	private var PaneDesc : Pane
+	@FXML
+	private var media_view : MediaView
     
 	private var ispace : OpenEventSpace
 
 	private var carList = new HashMap<CarObject, ImageView>()
 	
-	private var imCar :Image//("file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/car.png")
+	private var imCar :Image//("file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/car.png")
 		
 	private val imStop = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/stop.png")
+		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/stop.png")
 		
 		
 	private val im90 = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/90.png")
+		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/90.png")
 
 	private val im50 = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/50.png")
+		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/50.png")
 		
 	private val im30 = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/30.png")
+		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/30.png")
 		
 
 	private val imTlRed = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/redlight.png")
+		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/redlight.png")
 
 	private val imTlGreen = new Image(
-		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/greenlight.png")
+		"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/greenlight.png")
 	
 	
 	
@@ -111,17 +116,17 @@ class Controller implements EventListener {
 
 
 		val imVille = new Image("file:" + this.getClass().getClassLoader().getResource("").getPath() +
-					"../../Images/ville.png")
+					"../../src/main/sarl/main/Images/ville.png")
 
 		var imTree1 = new Image(
-			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/tree1.png")
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/tree1.png")
 		var imTree2 = new Image(
-			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/tree2.png")
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/tree2.png")
 
 		var imBuilding = new Image(
-			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/building.png")
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/building.png")
 		var imHouse = new Image(
-			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../Images/house.png")
+			"file:" + this.getClass().getClassLoader().getResource("").getPath() + "../../src/main/sarl/main/Images/house.png")
 					
 		var ville1 = new ImageView(imVille)
 		ville1.setPreserveRatio(true);
@@ -245,7 +250,7 @@ class Controller implements EventListener {
         
         
         
-        var tennis = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/tennis.png"));
+        var tennis = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../src/main/sarl/main/Images/tennis.png"));
         
         tennis.setPreserveRatio(true);
         tennis.setFitWidth(135);
@@ -253,7 +258,7 @@ class Controller implements EventListener {
         tennis.setY(500);
         group.getChildren().add(tennis);
         
-        var pool = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/pool.png"));
+        var pool = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../src/main/sarl/main/Images/pool.png"));
         
         pool.setPreserveRatio(true);
         pool.setFitWidth(220);
@@ -261,7 +266,7 @@ class Controller implements EventListener {
         pool.setY(310);
         group.getChildren().add(pool);
         
-        var sm = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/supermarket.jpg"));       
+        var sm = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../src/main/sarl/main/Images/supermarket.jpg"));       
         sm.setPreserveRatio(true);
         sm.setFitWidth(120);
         sm.setX(430);
@@ -269,21 +274,21 @@ class Controller implements EventListener {
 
         group.getChildren().add(sm);
         
-        var mcdo = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/mcdo.png"));       
+        var mcdo = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../src/main/sarl/main/Images/mcdo.png"));       
         mcdo.setPreserveRatio(true);
         mcdo.setFitWidth(100);
         mcdo.setX(440);
         mcdo.setY(17);
         group.getChildren().add(mcdo);
         
-        var mairie = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/town-hall.png"));       
+        var mairie = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../src/main/sarl/main/Images/town-hall.png"));       
         mairie.setPreserveRatio(true);
         mairie.setFitWidth(70);
         mairie.setX(520);
         mairie.setY(320);
         group.getChildren().add(mairie);
         
-        var fountain = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../Images/fountain.png"));       
+        var fountain = new ImageView(new Image("file:"+this.getClass().getClassLoader().getResource("").getPath()+"../../src/main/sarl/main/Images/fountain.png"));       
         fountain.setPreserveRatio(true);
         fountain.setFitWidth(50);
         fountain.setX(795);
@@ -317,13 +322,27 @@ class Controller implements EventListener {
     }
 
 	@FXML
-	public def Video (e : ActionEvent  ){
-    	PaneHome.setVisible(false);
+	public def Video(e : ActionEvent) {
+		PaneHome.setVisible(false);
     	PaneVid.setVisible(true);
+		val file = new File("src/main/sarl/main/vid.mp4");
+		val	media = new Media(file.toURI().toString());
+		val mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.setAutoPlay(true);
+		media_view = new MediaView(mediaPlayer);
+		media_view.x = 100
+		
+		//var media = new Media("https://www.youtube.com/watch?v=sW8CYs3Y42o");
+		PaneVid.children.add(media_view)
+		System.out.println(media_view.mediaPlayer.media.source);
     }
 
 	@FXML
 	public def ReturnHome ( e : ActionEvent ){
+    	if(PaneVid.children.contains(media_view)){
+    		PaneVid.children.remove(media_view)
+    		media_view.mediaPlayer.mute = true;
+    	}
     	PaneHome.setVisible(true);
     	PaneVid.setVisible(false);
     	PaneDesc.setVisible(false);
@@ -449,13 +468,14 @@ class Controller implements EventListener {
 								if (car.getIsPlayer) {
 									imCar = new Image(
 										"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-										"../../Images/carPlayer.png")
+										"/../../src/main/sarl/main/Images/carPlayer.png")
 								}
 							   else {
 									imCar = new Image(
 										"file:" + this.getClass().getClassLoader().getResource("").getPath() +
-										"../../Images/" + str + ".png")
+										"../../src/main/sarl/main/Images/" + str + ".png")
 							   }
+
 								carView = new ImageView(imCar)
 									carView.setPreserveRatio(true)
 								carView.setFitWidth(14)
