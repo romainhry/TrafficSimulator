@@ -99,7 +99,7 @@ agent Environment {
 	on TimeStep { // Every time step, the enviroment have to the following computations
 	// get perception
 		//spawnCarAgents
-		//percieve()
+		percieve()
 		applyInfluences()
 	}
 			
@@ -121,14 +121,14 @@ agent Environment {
 		}
 		
 	}	
-	def percieve : TreeMap<CarObject, List<PositionedObjects>> {
-		var map = new TreeMap<CarObject, List<PositionedObjects>> // returns values
+	def percieve {
+		var map = new TreeMap<CarObject, ArrayList<PositionedObjects>> // returns values
 		var i : float //local variable
 		var j : float //local variable
 		var posDir : int
 		for (gn : graph.nodes) { //we have to go through the Graph
 			for (o : gn.posObj) { //and get the perception for each object in each graph node
-				var li : List<PositionedObjects> //auxiliary variable
+				var li = new ArrayList<PositionedObjects> //auxiliary variable
 				if (o instanceof CarObject) { // but we need just the objects that are actually Agents
 					//first, we look in front of the agent
 					for (i = o.length + 1; i < o.frustum; i++) { //from his position +1 till the end of his frustum
@@ -138,6 +138,7 @@ agent Environment {
 						if (i + o.position.x <= gn.length) {
 							if (!gn.isEmptyAt(i + o.position.x,0,o)) {
 								li += gn.objectAt(i + o.position.x)
+								System.out.println("Something")
 							}
 						} else {
 							/*the other case is that we need to check
@@ -149,6 +150,7 @@ agent Environment {
 								{
 									if (!fnn.isEmptyAt(j,0,o)) {
 										li += fnn.objectAt(j)
+										System.out.println("Something")
 									}
 								}
 							}
@@ -157,6 +159,7 @@ agent Environment {
 								{
 									if (!cfnn.isEmptyAt(j, 0,o)) {
 										li += cfnn.objectAt(j)
+										System.out.println("Something")
 									}
 								}
 							}
@@ -167,12 +170,14 @@ agent Environment {
 						if (o.position.x - i >= 0) {
 							if (!gn.isEmptyAt(o.position.x - i,0,o)) {
 								li += gn.objectAt(o.position.x - i)
+								System.out.println("Something")
 							} else {
 								for (bnn : gn.backNeighbourNodes) {
 									for(j=bnn.length;j<o.frustum-i;j++)
 									{
 										if (!bnn.isEmptyAt(j,0,o)) {
 											li += bnn.objectAt(j)
+											System.out.println("Something")
 										}
 									}
 								}
@@ -180,6 +185,7 @@ agent Environment {
 									for (j = cbnn.length; j < o.frustum - i; j++) {
 										if (!cbnn.isEmptyAt(j, 0,o)) {
 											li += cbnn.objectAt(j)
+											System.out.println("Something")
 										}
 									}
 								}
@@ -187,11 +193,15 @@ agent Environment {
 						}
 					}
 					map.put(o, li)
-					o.direction = posDir
+					//o.direction = posDir
 				}
 			}
 		}
-		return map
+		if (map !== null) {
+			var perception = new Perception
+			perception.map = map
+			emit(perception)	
+		}
 	}
 	
 	
@@ -205,13 +215,14 @@ agent Environment {
 				if (o instanceof CarObject) {
 					if (!o.getInfluenceDone) {
 						// We will see if it's already out of the graph
-						var tmp = desiredPosition(o, gn)
 						if (o.position.x + o.influence.x > gn.length && gn.isFinalNode) {
+							System.out.println("tchao")
 							var ev = new CarAgentIsDead(o)
 							emit(ev)
 							gn.remove(o)
-						} else if (!collision(o, tmp)) { // if there is not a collision,
-							o.position = new Point2f(tmp.position.getX,0)// the position of the object get update
+						} else if (!collision(o, desiredPosition(o, gn))) { // if there is not a collision,
+							o.position = new Point2f(desiredPosition(o, gn).position.getX, 0) 	// the position of the object get update
+							System.out.println(o.position.x)
 						} 	// if there's a collision, we will ignore it
 						o.setInfluenceDone(true)
 					}
@@ -234,7 +245,7 @@ agent Environment {
 	
 	def collision(object : PositionedObjects, newPosition : PositionOnTheGraph) : boolean {
 		/*We are going to test if there's a collision with other objects */	
-			return !newPosition.graphNode.isEmptyAt(newPosition.position.x, object.length , object)
+			return !newPosition.graphNode.noCarAt(newPosition.position.x, object.length , object)
 	}
 			
 	def desiredPosition(posObj : PositionedObjects, currentNode : GraphNode) : PositionOnTheGraph {

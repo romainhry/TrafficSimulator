@@ -17,7 +17,7 @@ class TrafficLight extends PositionedObjects {
 		this.position = new Point2f(x, 16)
 		this.color = LightColor.RED
 		//guiPos = new Point2i(x, y)
-		this.length = 1f
+		this.length = 20f
 		//activate
 	}
 			
@@ -26,7 +26,7 @@ class TrafficLight extends PositionedObjects {
 		this.position = new Point2f(x, 16)
 		//guiPos = new Point2i(x,y)
 		//position = new Point2f()
-		this.length = 1f
+		this.length = 20f
 		if(!sync)
 			this.antiSynchr(neighbour)
 		else
